@@ -1,4 +1,4 @@
-#Fri Mar 31 11:34:44 MDT 2017
-base.0=/Users/bobby/wdi/RNCamera/android/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main
+#Fri May 26 16:05:24 MDT 2017
+base.0=/Users/bobby/wdi/project4/android/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main
 renamed.0=classes.dex
-file.0=/Users/bobby/wdi/RNCamera/android/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex
+file.0=/Users/bobby/wdi/project4/android/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex
