@@ -2,5 +2,9 @@
     {
         "merged": "/Users/bobby/wdi/RNCamera/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi/ic_launcher.png",
         "source": "/Users/bobby/wdi/RNCamera/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/bobby/wdi/project4/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi/ic_launcher.png",
+        "source": "/Users/bobby/wdi/project4/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
     }
 ]
