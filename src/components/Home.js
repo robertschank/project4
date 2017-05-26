@@ -12,13 +12,14 @@ import {
   View
 } from 'react-native';
 import Camera from 'react-native-camera';
+import firebase from 'firebase';
 
 import { Square } from './Square';
 import { MyCamera } from './MyCamera';
 import { containerColor } from '../constants/Colors';
 
-const STORAGE_KEY = 'ASYNC_STORAGE_KEY';
-const EXAMPLE_KEY = 'ASYNC_STORAGE_EXAMPLE'
+// const STORAGE_KEY = 'ASYNC_STORAGE_KEY';
+// const EXAMPLE_KEY = 'ASYNC_STORAGE_EXAMPLE'
 let squaresArray = [];
 
 function  SquareObject(index, description) {
@@ -32,6 +33,8 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     console.log('BEGIN CONSTRUCTOR');
+
+    this.squares = firebase.database().ref();
 
     // Hard Coded Descriptions
     let descriptionsArray = [
@@ -89,14 +92,53 @@ export default class Home extends Component {
       rowCount: [0, 0, 0, 0],
       colCount: [0, 0, 0, 0],
     };
-  }
+  } // End Constructor
 
+  componentDidMount() {
+    console.log('componentDidMount. ');
+  }
+  sendBingoNotification = () => {
+    console.log('START sendBingoNotification(). ');
+    var newPostKey = firebase.database().ref().child('pastries').push().key;
+    var updates = {};
+    updates['/pastries/redTeam' + newPostKey] = "Team blue got bingo!";
+    updates['/pastries/yellowTeam' + newPostKey] = "Team blue got bingo!";
+    firebase.database().ref().update(updates);
+  }
   // checkForWin = function {
   //   console.log('YOU DID NOT WIN YET');
   // }
 
   takePhoto = (path) => {
     console.log('takePhoto');
+    this.sendBingoNotification();
+// listenForItems(itemsRef) {
+//     itemsRef.on('value', (snap) => {
+
+//       // get children as an array
+//       var items = [];
+//       snap.forEach((child) => {
+//         items.push({
+//           title: child.val().title,
+//           _key: child.key
+//         });
+//       });
+
+//       this.setState({
+//         dataSource: this.state.dataSource.cloneWithRows(items)
+//       });
+
+//     });
+//   }
+
+
+
+
+
+
+
+
+
     const index = this.state.clickedSquareIndex;
     // Check For Win:
     const colMarked = index%4;
@@ -137,7 +179,7 @@ export default class Home extends Component {
       returnedPhotoPath: path,
       squares: newSquares,
     });
-  };
+  }; // End takePhoto()
 
   launchCamera = (index) => {
     console.log('launchCamera');
