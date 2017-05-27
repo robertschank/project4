@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import { View, } from 'react-native';
-import { Router, Scene } from 'react-native-router-flux';
+import { View, Text } from 'react-native';
 import firebase from 'firebase';
 
 import { Button, CardSection, Spinner } from './components/common';
 import LoginForm from './components/LoginForm';
 import MyCamera from './components/MyCamera';
 import Home from './components/Home';
-
+import Router from './Router';
 
 export default class App extends Component {
-  state = { loggedIn: null };
 
   componentWillMount() {
+  this.setState({ loggedIn: null });
     const config = {
       apiKey: "AIzaSyC_HvfGzLg4FDNNT6z8EyYaMFBmZwu8C8w",
       authDomain: "rncamera-11fe0.firebaseapp.com",
@@ -36,12 +35,7 @@ export default class App extends Component {
     switch (this.state.loggedIn) {
       case true:
       return (
-        <CardSection>
-          <Button onPress={() => firebase.auth().signOut()}>
-            Log Out
-          </Button>
           <Home />
-        </CardSection>
       );
       case false:
         return <LoginForm />;
@@ -55,13 +49,12 @@ export default class App extends Component {
 
   render() {
     return (
-      // <Router>
-      //  <Scene key="root">
-      //    <Scene key="home" component={Home} title="Home" initial={true} hideNavBar={true}/>
-      //    <Scene key="myCamera" component={MyCamera} title="MyCamera" hideNavBar={true}/>
-      //  </Scene>
-      //</Router>
-      <View>{this.renderContent()}</View>
+      <View style={{alignItems: 'stretch',
+                    flex: 1,
+                    backgroundColor: 'skyblue'}}>
+        {this.renderContent()}
+      </View>
+      //<Router />
     )
   }
 }

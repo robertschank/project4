@@ -22,7 +22,7 @@ import { containerColor } from '../constants/Colors';
 // const EXAMPLE_KEY = 'ASYNC_STORAGE_EXAMPLE'
 let squaresArray = [];
 
-function  SquareObject(index, description) {
+function SquareObject(index, description) {
   this.index = index;
   this.description = description;
   this.marked = 'no';
@@ -112,32 +112,6 @@ export default class Home extends Component {
   takePhoto = (path) => {
     console.log('takePhoto');
     this.sendBingoNotification();
-// listenForItems(itemsRef) {
-//     itemsRef.on('value', (snap) => {
-
-//       // get children as an array
-//       var items = [];
-//       snap.forEach((child) => {
-//         items.push({
-//           title: child.val().title,
-//           _key: child.key
-//         });
-//       });
-
-//       this.setState({
-//         dataSource: this.state.dataSource.cloneWithRows(items)
-//       });
-
-//     });
-//   }
-
-
-
-
-
-
-
-
 
     const index = this.state.clickedSquareIndex;
     // Check For Win:
@@ -223,6 +197,9 @@ export default class Home extends Component {
         ||
         <View style={styles.boardContainer}>
           <View style={styles.headerView}>
+            <Text onPress={() => firebase.auth().signOut()}>
+              Log Out
+            </Text>
             <Text style={styles.header}>Street Side Bingo               </Text>          
           </View>
           <View style={styles.row}>
