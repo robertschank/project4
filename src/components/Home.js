@@ -16,6 +16,7 @@ import firebase from 'firebase';
 
 import { Square } from './Square';
 import { MyCamera } from './MyCamera';
+import { Card, CardSection, Input } from './common';
 import { containerColor } from '../constants/Colors';
 
 // const STORAGE_KEY = 'ASYNC_STORAGE_KEY';
@@ -96,6 +97,7 @@ export default class Home extends Component {
 
   componentDidMount() {
     console.log('componentDidMount. ');
+    console.log(firebase.auth().currentUser.uid);
   }
   sendBingoNotification = () => {
     console.log('START sendBingoNotification(). ');
@@ -105,6 +107,22 @@ export default class Home extends Component {
     updates['/pastries/yellowTeam' + newPostKey] = "Team blue got bingo!";
     firebase.database().ref().update(updates);
   }
+  sendMessage = () => {
+    const { currentUser } = firebase.auth();
+    console.log('sendMessage.');
+    var newPostKey = firebase.database().ref(`users/${currentUser.uid}/dash`).key;
+    var updates = {};
+    updates[`users/${currentUser.uid}/dash` + newPostKey] = "Whatever";
+    firebase.database().ref().update(updates);
+  }
+  getFromDatabase = () => {
+    const { currentUser } = firebase.auth();
+    firebase.database().ref(`users/${currentUser.uid}/dash`)
+      .on('value', snapshot => {
+        console.log(snapshot.val());
+    });
+  }
+
   // checkForWin = function {
   //   console.log('YOU DID NOT WIN YET');
   // }
@@ -227,9 +245,23 @@ export default class Home extends Component {
             {this.renderSquare(this.state.squares[15].index, this.state.squares[15].description, this.state.squares[15].photoPath, this.state.squares[15].marked)}
           </View>
           <Image
-            style={{width: 120, height: 120}}
+            style={{width: 120, height: 90}}
             source={{uri: this.state.returnedPhotoPath}}
           />
+          <CardSection>
+              <Text style={styles.dashboardText}>
+                {this.state.message}
+              </Text>
+          </CardSection>
+          <CardSection>
+            <Input
+              placeholder="Enter trash talk here."
+              label="Message Everyone"
+              value={this.state.message}
+              onChangeText={message => this.setState({ message })}
+            />
+            <Text onPress={this.sendMessage}>Send</Text>
+          </CardSection>
         </View>
        } 
       </View>
@@ -262,5 +294,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     margin: 0,
     padding: 0,
+  },
+  dashboardText: {
+    fontSize: 20,
   }
 });
