@@ -4,10 +4,14 @@ import {
   AppRegistry,
   AsyncStorage,
   Button,
+  FlatList,
   Image,
+  KeyboardAvoidingView,
+  ListView,
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View
 } from 'react-native';
@@ -16,12 +20,15 @@ import firebase from 'firebase';
 
 import { Square } from './Square';
 import { MyCamera } from './MyCamera';
+import { DashList } from './DashList';
 import { Card, CardSection, Input } from './common';
 import { containerColor } from '../constants/Colors';
 
 // const STORAGE_KEY = 'ASYNC_STORAGE_KEY';
 // const EXAMPLE_KEY = 'ASYNC_STORAGE_EXAMPLE'
 let squaresArray = [];
+
+    const extractKey = ({id}) => id
 
 function SquareObject(index, description) {
   this.index = index;
@@ -111,11 +118,12 @@ export default class Home extends Component {
   sendMessage = () => {
     const { currentUser } = firebase.auth();
     console.log('sendMessage.');
-    var newPostKey = firebase.database().ref(`users/${currentUser.uid}/dash`).push().key;
+    var newPostKey = firebase.database().ref(`users/${currentUser.uid}/dash/`).push().key;
     console.log(newPostKey)
     var updates = {};
-    updates[`users/${currentUser.uid}/dash` + newPostKey] = "Whatever";
+    updates[`users/${currentUser.uid}/dash` + newPostKey] = this.state.message;
     firebase.database().ref().update(updates);
+    this.setState({ message: '' })
   }
   getFromDatabase = () => {
     console.log('getFromDatabase.');
@@ -186,6 +194,14 @@ export default class Home extends Component {
     });
   };
 
+  renderItem = ({item}) => {
+    return (
+      <Text style={styles.row}>
+        {item.text}
+      </Text>
+    )
+  }
+
   renderSquare(i, description, photoPath, marked) {
     return <Square index={i}
       description={description}
@@ -198,13 +214,26 @@ export default class Home extends Component {
   // TODO
   // renderBoard() {
   //   return <Board 
-
   //   />
   // }
+  renderItem = ({item}) => {
+    return (
+      <Text style={styles.row}>
+        {item.text}
+      </Text>
+    )
+  }
 
   render() {
     console.log('HOME.js this.state.photoUri: ' + this.state.photoUri);
     // console.log(JSON.stringify(this.state));
+    const rows = [
+      { text: 'View'},
+      { text: 'Text'},
+      { text: 'Image'},
+      { text: 'ScrollView'},
+      { text: 'ListView'},
+    ]
     return (
       <View style={styles.container}>
       {this.state.showCamera &&
@@ -222,7 +251,7 @@ export default class Home extends Component {
             <Text onPress={() => firebase.auth().signOut()}>
               Log Out
             </Text>
-            <Text style={styles.header}>Street Side Bingo               </Text>          
+            <Text style={styles.header}>Street Side Bingo                </Text>          
           </View>
           <View style={styles.row}>
             {this.renderSquare(this.state.squares[0].index, this.state.squares[0].description, this.state.squares[0].photoPath, this.state.squares[0].marked)} 
@@ -249,23 +278,30 @@ export default class Home extends Component {
             {this.renderSquare(this.state.squares[15].index, this.state.squares[15].description, this.state.squares[15].photoPath, this.state.squares[15].marked)}
           </View>
           <Image
-            style={{width: 120, height: 90}}
+            style={{width: 120, height: 0}}
             source={{uri: this.state.returnedPhotoPath}}
           />
+          <FlatList
+            data={rows}
+            renderItem={this.renderItem}
+          ></FlatList>
           <CardSection>
-              <Text style={styles.dashboardText}>
-                {this.state.dashMessage}
-              </Text>
+            <Text style={styles.dashboardText}>
+              {this.state.dashMessage}
+            </Text>
           </CardSection>
           <CardSection>
             <Input
               placeholder="Enter trash talk here."
-              label="Message Everyone"
+              label="Group Message"
               value={this.state.message}
               onChangeText={message => this.setState({ message })}
             />
             <Text onPress={this.sendMessage}>Send</Text>
           </CardSection>
+          <KeyboardAvoidingView behavior="padding" >
+            <TextInput placeholder="pretty pleeease" />
+          </KeyboardAvoidingView>
         </View>
        } 
       </View>

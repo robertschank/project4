@@ -219,21 +219,21 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/bobby/wdi/project4/android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.4.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
-        <dex dex="/Users/bobby/wdi/project4/android/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-23.4.0_4947035db9d5f8ff14dbd332968978507a7beff4.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/Users/bobby/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-tasks/1.4.0/d85884acf6810a3bbbecb587f239005cbc846dc4/bolts-tasks-1.4.0.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
         sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
         <dex dex="/Users/bobby/wdi/RNCamera/android/app/build/intermediates/pre-dexed/debug/bolts-tasks-1.4.0_4ccc31f51946a3a61830e90add0db5e0d3f04cbd.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bobby/wdi/project4/android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.4.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
+        <dex dex="/Users/bobby/wdi/project4/android/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-23.4.0_4947035db9d5f8ff14dbd332968978507a7beff4.jar" />
     </item>
     <item
         is-multidex="false"

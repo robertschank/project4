@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri May 26 16:05:25 MDT 2017
+#Sat May 27 22:26:41 MDT 2017
 210.set=ANDROID_RESOURCE
 282.file=/Users/bobby/wdi/project4/android/app/build/intermediates/res/resources-debug.ap_/res/color/switch_thumb_material_light.xml
 14.set=ANDROID_RESOURCE

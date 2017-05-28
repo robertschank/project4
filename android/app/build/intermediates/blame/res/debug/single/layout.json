@@ -92,6 +92,10 @@
         "source": "/Users/bobby/wdi/RNCamera/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/abc_action_bar_title_item.xml"
     },
     {
+        "merged": "/Users/bobby/wdi/project4/android/app/build/intermediates/res/merged/debug/layout/dev_loading_view.xml",
+        "source": "/Users/bobby/wdi/project4/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.44.2/res/layout/dev_loading_view.xml"
+    },
+    {
         "merged": "/Users/bobby/wdi/project4/android/app/build/intermediates/res/merged/debug/layout/notification_template_big_media_narrow.xml",
         "source": "/Users/bobby/wdi/project4/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/notification_template_big_media_narrow.xml"
     },
