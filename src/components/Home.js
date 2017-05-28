@@ -8,6 +8,7 @@ import {
   Image,
   KeyboardAvoidingView,
   ListView,
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -28,7 +29,19 @@ import { containerColor } from '../constants/Colors';
 // const EXAMPLE_KEY = 'ASYNC_STORAGE_EXAMPLE'
 let squaresArray = [];
 
-    const extractKey = ({id}) => id
+const myRows = [
+  {text: 'Border Collie'},
+  {text: 'Text'},
+  {text: 'Image'},
+  {text: 'ScrollView'},
+  {text: 'Golden'},
+];
+
+// Row comparison function
+const rowHasChanged = (r1, r2) => r1.id !== r2.id
+
+// DataSource template object
+const ds = new ListView.DataSource({rowHasChanged})
 
 function SquareObject(index, description) {
   this.index = index;
@@ -99,13 +112,19 @@ export default class Home extends Component {
       returnedPhotoPath: 'no photo path',
       rowCount: [0, 0, 0, 0],
       colCount: [0, 0, 0, 0],
+      rows: myRows,
+      dataSource: ds.cloneWithRows(myRows)
     };
+    myRows.push({text: 'Juniper'})
   } // End Constructor
 
   componentDidMount() {
     console.log('componentDidMount. ');
+ myRows.push({text: 'Holt molies'})
+    console.log(this.state.rows);
     console.log(firebase.auth().currentUser.uid);
     this.getFromDatabase();
+    this.setState({dataSource: ds.cloneWithRows(this.state.rows)});
   }
   sendBingoNotification = () => {
     console.log('START sendBingoNotification(). ');
@@ -116,6 +135,7 @@ export default class Home extends Component {
     firebase.database().ref().update(updates);
   }
   sendMessage = () => {
+     myRows.push({text: 'Hol'})
     const { currentUser } = firebase.auth();
     console.log('sendMessage.');
     var newPostKey = firebase.database().ref(`users/${currentUser.uid}/dash/`).push().key;
@@ -124,6 +144,7 @@ export default class Home extends Component {
     updates[`users/${currentUser.uid}/dash` + newPostKey] = this.state.message;
     firebase.database().ref().update(updates);
     this.setState({ message: '' })
+        myRows.push({text: 'Elderflower'})
   }
   getFromDatabase = () => {
     console.log('getFromDatabase.');
@@ -132,6 +153,8 @@ export default class Home extends Component {
       .on('value', snapshot => {
         console.log(snapshot.val());
         console.log('getFromDatabase.');
+        myRows.push(snapshot.val())
+              this.setState(dataSource: ds.cloneWithRows(snapshot.val()));
     });
   }
 
@@ -211,29 +234,35 @@ export default class Home extends Component {
     />
   }
 
-  // TODO
-  // renderBoard() {
-  //   return <Board 
-  //   />
-  // }
-  renderItem = ({item}) => {
+
+
+  renderRow = (rowData) => {
     return (
       <Text style={styles.row}>
-        {item.text}
+        {rowData.text}
       </Text>
     )
   }
 
+
+
+
+
+
+
+
+
+
+  // TODO
+  // renderBoard() {
+  //   return <Board 
+  //   />
+  
+
   render() {
     console.log('HOME.js this.state.photoUri: ' + this.state.photoUri);
     // console.log(JSON.stringify(this.state));
-    const rows = [
-      { text: 'View'},
-      { text: 'Text'},
-      { text: 'Image'},
-      { text: 'ScrollView'},
-      { text: 'ListView'},
-    ]
+
     return (
       <View style={styles.container}>
       {this.state.showCamera &&
@@ -281,7 +310,10 @@ export default class Home extends Component {
             style={{width: 120, height: 0}}
             source={{uri: this.state.returnedPhotoPath}}
           />
-
+          <ListView style={{height: 90}}
+            dataSource={this.state.dataSource}
+            renderRow={this.renderRow}
+          />
           <CardSection>
             <Text style={styles.dashboardText}>
               {this.state.dashMessage}
