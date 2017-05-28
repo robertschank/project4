@@ -281,10 +281,7 @@ export default class Home extends Component {
             style={{width: 120, height: 0}}
             source={{uri: this.state.returnedPhotoPath}}
           />
-          <FlatList
-            data={rows}
-            renderItem={this.renderItem}
-          ></FlatList>
+
           <CardSection>
             <Text style={styles.dashboardText}>
               {this.state.dashMessage}
