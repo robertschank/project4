@@ -98,6 +98,7 @@ export default class Home extends Component {
   componentDidMount() {
     console.log('componentDidMount. ');
     console.log(firebase.auth().currentUser.uid);
+    this.getFromDatabase();
   }
   sendBingoNotification = () => {
     console.log('START sendBingoNotification(). ');
@@ -110,16 +111,19 @@ export default class Home extends Component {
   sendMessage = () => {
     const { currentUser } = firebase.auth();
     console.log('sendMessage.');
-    var newPostKey = firebase.database().ref(`users/${currentUser.uid}/dash`).key;
+    var newPostKey = firebase.database().ref(`users/${currentUser.uid}/dash`).push().key;
+    console.log(newPostKey)
     var updates = {};
     updates[`users/${currentUser.uid}/dash` + newPostKey] = "Whatever";
     firebase.database().ref().update(updates);
   }
   getFromDatabase = () => {
+    console.log('getFromDatabase.');
     const { currentUser } = firebase.auth();
-    firebase.database().ref(`users/${currentUser.uid}/dash`)
+    firebase.database().ref(`users/${currentUser.uid}`)
       .on('value', snapshot => {
         console.log(snapshot.val());
+        console.log('getFromDatabase.');
     });
   }
 
@@ -250,7 +254,7 @@ export default class Home extends Component {
           />
           <CardSection>
               <Text style={styles.dashboardText}>
-                {this.state.message}
+                {this.state.dashMessage}
               </Text>
           </CardSection>
           <CardSection>
