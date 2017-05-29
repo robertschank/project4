@@ -3,12 +3,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   AppRegistry,
-  AsyncStorage,
   Button,
   Image,
   KeyboardAvoidingView,
   ListView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -23,26 +21,11 @@ import _ from 'lodash';
 import { messagesGet } from '../actions';
 import { Square } from './Square';
 import { MyCamera } from './MyCamera';
-import { DashList } from './DashList';
+import MessageItem from './MessageItem';
 import { Card, CardSection, Input } from './common';
 import { containerColor } from '../constants/Colors';
 
-// const STORAGE_KEY = 'ASYNC_STORAGE_KEY';
-// const EXAMPLE_KEY = 'ASYNC_STORAGE_EXAMPLE'
 let squaresArray = [];
-// const myRows = [
-//   {text: 'Border Collie'},
-//   {text: 'Text'},
-//   {text: 'Image'},
-//   {text: 'ScrollView'},
-//   {text: 'Golden'},
-// ];
-
-// Row comparison function
-const rowHasChanged = (r1, r2) => r1.id !== r2.id
-
-// DataSource template object
-const ds = new ListView.DataSource({rowHasChanged})
 
 function SquareObject(index, description) {
   this.index = index;
@@ -113,10 +96,7 @@ class Home extends Component {
       returnedPhotoPath: 'no photo path',
       rowCount: [0, 0, 0, 0],
       colCount: [0, 0, 0, 0],
-      // rows: myRows,
-      //dataSource: ds.cloneWithRows(messages)
     };
-    // myRows.push({text: 'Juniper'})
   } // End Constructor
 
   componentWillMount() {
@@ -139,7 +119,6 @@ class Home extends Component {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
-    console.log('createDataSource');
     console.log(this.state.messages);
 
     this.dataSource = ds.cloneWithRows(messages);
@@ -147,12 +126,8 @@ class Home extends Component {
 
   componentDidMount() {
     console.log('componentDidMount. ');
-    // myRows.push({text: 'Holt molies'})
-    console.log(this.state.rows);
-    console.log(firebase.auth().currentUser.uid);
-
-    //this.setState({dataSource: ds.cloneWithRows(this.state.rows)});
   }
+
   sendBingoNotification = () => {
     console.log('START sendBingoNotification(). ');
     var newPostKey = firebase.database().ref().child('pastries').push().key;
@@ -163,27 +138,27 @@ class Home extends Component {
   }
 
   sendMessage = () => {
-    const { currentUser } = firebase.auth();
     console.log('sendMessage.');
+    const { currentUser } = firebase.auth();
     var newPostKey = firebase.database().ref(`users/${currentUser.uid}/`).push().key;
-    console.log(newPostKey)
     var updates = {};
-    // updates[`users/${currentUser.uid}/` + newPostKey] = this.state.newMessage;
-    updates[`users/${currentUser.uid}/` + newPostKey] = {text: this.state.newMessage, author:"Blue Team"};
+    const now = new Date();
+    const hours =  now.getHours();
+    let mins = now.getMinutes();
+    // if m is one digit, add a zero in front of it:
+    mins = mins < 10 ? "0" + mins : mins;
+    const time = `${hours}:${mins}`;
+    console.log(time);
+    updates[`users/${currentUser.uid}/` + newPostKey] = 
+      {
+        text: this.state.newMessage, 
+        author:"Blue Team",
+        time: time,
+        color: '#f6ceff',
+      };
     firebase.database().ref().update(updates);
     this.setState({ newMessage: '' });
   }
-  // getFromDatabase = () => {
-  //   console.log('getFromDatabase.');
-  //   const { currentUser } = firebase.auth();
-  //   firebase.database().ref(`users/${currentUser.uid}`)
-  //     .on('value', snapshot => {
-  //       console.log(snapshot.val());
-  //       console.log('getFromDatabase. XX');
-  //       return snapshot.val();
-  //   });
-  // }
-
 
   takePhoto = (path) => {
     console.log('takePhoto');
@@ -239,14 +214,6 @@ class Home extends Component {
     });
   };
 
-  // renderItem = ({item}) => {
-  //   return (
-  //     <Text style={styles.row}>
-  //       {item.text}
-  //     </Text>
-  //   )
-  // }
-
   renderSquare(i, description, photoPath, marked) {
     return <Square index={i}
       description={description}
@@ -257,11 +224,7 @@ class Home extends Component {
   }
 
   renderRow = (mess) => {
-    return (
-      <Text>
-        {mess.text}
-      </Text>
-    )
+    return (<MessageItem message={mess} />)
   }
 
   // TODO
@@ -320,7 +283,7 @@ class Home extends Component {
             style={{width: 120, height: 0}}
             source={{uri: this.state.returnedPhotoPath}}
           />
-          <ListView style={{height: 90}}
+          <ListView style={{height: 120}}
             enableEmptySections
             dataSource={this.dataSource}
             renderRow={this.renderRow}
@@ -367,9 +330,6 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
   },
-  dashboardText: {
-    fontSize: 20,
-  }
 });
 
 const mapStateToProps = state => {
