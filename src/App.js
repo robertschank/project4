@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
 import firebase from 'firebase';
+import ReduxThunk from 'redux-thunk';
 
 import { Button, CardSection, Spinner } from './components/common';
 import LoginForm from './components/LoginForm';
 import MyCamera from './components/MyCamera';
 import Home from './components/Home';
+import reducers from './reducers';
 import Router from './Router';
 
 export default class App extends Component {
@@ -22,14 +26,14 @@ export default class App extends Component {
     };
   firebase.initializeApp(config);
 
-    firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          this.setState({ loggedIn: true });
-        } else {
-          this.setState({ loggedIn: false });
-        }
-      });
-    }
+  firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ loggedIn: true });
+      } else {
+        this.setState({ loggedIn: false });
+      }
+    });
+  }
 
   renderContent() {
     switch (this.state.loggedIn) {
@@ -48,12 +52,15 @@ export default class App extends Component {
   }
 
   render() {
+    const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     return (
-      <View style={{alignItems: 'stretch',
-                    flex: 1,
-                    backgroundColor: 'skyblue'}}>
-        {this.renderContent()}
-      </View>
+      <Provider store={store}>
+        <View style={{alignItems: 'stretch',
+                      flex: 1,
+                      backgroundColor: 'skyblue'}}>
+          {this.renderContent()}
+        </View>
+      </Provider>
       //<Router />
     )
   }

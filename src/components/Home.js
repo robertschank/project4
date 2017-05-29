@@ -1,10 +1,10 @@
 'use strict'
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   AppRegistry,
   AsyncStorage,
   Button,
-  FlatList,
   Image,
   KeyboardAvoidingView,
   ListView,
@@ -18,7 +18,9 @@ import {
 } from 'react-native';
 import Camera from 'react-native-camera';
 import firebase from 'firebase';
+import _ from 'lodash';
 
+import { messagesGet } from '../actions';
 import { Square } from './Square';
 import { MyCamera } from './MyCamera';
 import { DashList } from './DashList';
@@ -28,14 +30,13 @@ import { containerColor } from '../constants/Colors';
 // const STORAGE_KEY = 'ASYNC_STORAGE_KEY';
 // const EXAMPLE_KEY = 'ASYNC_STORAGE_EXAMPLE'
 let squaresArray = [];
-
-const myRows = [
-  {text: 'Border Collie'},
-  {text: 'Text'},
-  {text: 'Image'},
-  {text: 'ScrollView'},
-  {text: 'Golden'},
-];
+// const myRows = [
+//   {text: 'Border Collie'},
+//   {text: 'Text'},
+//   {text: 'Image'},
+//   {text: 'ScrollView'},
+//   {text: 'Golden'},
+// ];
 
 // Row comparison function
 const rowHasChanged = (r1, r2) => r1.id !== r2.id
@@ -50,7 +51,7 @@ function SquareObject(index, description) {
   this.photoPath = '../assets/ic_camera_rear_white.png';
 }
 
-export default class Home extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     console.log('BEGIN CONSTRUCTOR');
@@ -112,19 +113,45 @@ export default class Home extends Component {
       returnedPhotoPath: 'no photo path',
       rowCount: [0, 0, 0, 0],
       colCount: [0, 0, 0, 0],
-      rows: myRows,
-      dataSource: ds.cloneWithRows(myRows)
+      // rows: myRows,
+      //dataSource: ds.cloneWithRows(messages)
     };
-    myRows.push({text: 'Juniper'})
+    // myRows.push({text: 'Juniper'})
   } // End Constructor
+
+  componentWillMount() {
+    console.log('componentWillMount.');
+    // Get the list of messages from db
+    this.props.messagesGet();
+
+    this.createDataSource(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // nextProps are the next set of props that this component will be rendered with
+    // this.props is still the old set of props
+
+    this.createDataSource(nextProps);
+    console.log('HITTING COMPONENT WILL RECEIVE PROPS');
+  }
+
+  createDataSource({ messages }) {
+    const ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
+    console.log('createDataSource');
+    console.log(this.state.messages);
+
+    this.dataSource = ds.cloneWithRows(messages);
+  }
 
   componentDidMount() {
     console.log('componentDidMount. ');
- myRows.push({text: 'Holt molies'})
+    // myRows.push({text: 'Holt molies'})
     console.log(this.state.rows);
     console.log(firebase.auth().currentUser.uid);
-    this.getFromDatabase();
-    this.setState({dataSource: ds.cloneWithRows(this.state.rows)});
+
+    //this.setState({dataSource: ds.cloneWithRows(this.state.rows)});
   }
   sendBingoNotification = () => {
     console.log('START sendBingoNotification(). ');
@@ -134,33 +161,29 @@ export default class Home extends Component {
     updates['/pastries/yellowTeam' + newPostKey] = "Team blue got bingo!";
     firebase.database().ref().update(updates);
   }
+
   sendMessage = () => {
-     myRows.push({text: 'Hol'})
     const { currentUser } = firebase.auth();
     console.log('sendMessage.');
-    var newPostKey = firebase.database().ref(`users/${currentUser.uid}/dash/`).push().key;
+    var newPostKey = firebase.database().ref(`users/${currentUser.uid}/`).push().key;
     console.log(newPostKey)
     var updates = {};
-    updates[`users/${currentUser.uid}/dash` + newPostKey] = this.state.message;
+    // updates[`users/${currentUser.uid}/` + newPostKey] = this.state.newMessage;
+    updates[`users/${currentUser.uid}/` + newPostKey] = {text: this.state.newMessage, author:"Blue Team"};
     firebase.database().ref().update(updates);
-    this.setState({ message: '' })
-        myRows.push({text: 'Elderflower'})
+    this.setState({ newMessage: '' });
   }
-  getFromDatabase = () => {
-    console.log('getFromDatabase.');
-    const { currentUser } = firebase.auth();
-    firebase.database().ref(`users/${currentUser.uid}`)
-      .on('value', snapshot => {
-        console.log(snapshot.val());
-        console.log('getFromDatabase.');
-        myRows.push(snapshot.val())
-              this.setState(dataSource: ds.cloneWithRows(snapshot.val()));
-    });
-  }
-
-  // checkForWin = function {
-  //   console.log('YOU DID NOT WIN YET');
+  // getFromDatabase = () => {
+  //   console.log('getFromDatabase.');
+  //   const { currentUser } = firebase.auth();
+  //   firebase.database().ref(`users/${currentUser.uid}`)
+  //     .on('value', snapshot => {
+  //       console.log(snapshot.val());
+  //       console.log('getFromDatabase. XX');
+  //       return snapshot.val();
+  //   });
   // }
+
 
   takePhoto = (path) => {
     console.log('takePhoto');
@@ -193,7 +216,6 @@ export default class Home extends Component {
     }
     console.log('CURRENTColCount: ' + currentRowCount);
 
-
     // Couldn't get spread operator ... working
     let newSquares = this.state.squares.slice();
     let newSquare = newSquares[index];
@@ -217,13 +239,13 @@ export default class Home extends Component {
     });
   };
 
-  renderItem = ({item}) => {
-    return (
-      <Text style={styles.row}>
-        {item.text}
-      </Text>
-    )
-  }
+  // renderItem = ({item}) => {
+  //   return (
+  //     <Text style={styles.row}>
+  //       {item.text}
+  //     </Text>
+  //   )
+  // }
 
   renderSquare(i, description, photoPath, marked) {
     return <Square index={i}
@@ -234,31 +256,19 @@ export default class Home extends Component {
     />
   }
 
-
-
-  renderRow = (rowData) => {
+  renderRow = (mess) => {
     return (
-      <Text style={styles.row}>
-        {rowData.text}
+      <Text>
+        {mess.text}
       </Text>
     )
   }
-
-
-
-
-
-
-
-
-
 
   // TODO
   // renderBoard() {
   //   return <Board 
   //   />
   
-
   render() {
     console.log('HOME.js this.state.photoUri: ' + this.state.photoUri);
     // console.log(JSON.stringify(this.state));
@@ -311,26 +321,19 @@ export default class Home extends Component {
             source={{uri: this.state.returnedPhotoPath}}
           />
           <ListView style={{height: 90}}
-            dataSource={this.state.dataSource}
+            enableEmptySections
+            dataSource={this.dataSource}
             renderRow={this.renderRow}
           />
-          <CardSection>
-            <Text style={styles.dashboardText}>
-              {this.state.dashMessage}
-            </Text>
-          </CardSection>
           <CardSection>
             <Input
               placeholder="Enter trash talk here."
               label="Group Message"
-              value={this.state.message}
-              onChangeText={message => this.setState({ message })}
+              value={this.state.newMessage}
+              onChangeText={newMessage => this.setState({ newMessage })}
             />
-            <Text onPress={this.sendMessage}>Send</Text>
+            <Text onPress={this.sendMessage}>SEND</Text>
           </CardSection>
-          <KeyboardAvoidingView behavior="padding" >
-            <TextInput placeholder="pretty pleeease" />
-          </KeyboardAvoidingView>
         </View>
        } 
       </View>
@@ -368,3 +371,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
   }
 });
+
+const mapStateToProps = state => {
+  const messages = _.map(state.messages, (val, uid) => {
+    return { ...val, uid };
+  });
+  return { messages };
+};
+
+export default connect(mapStateToProps, { messagesGet })(Home);

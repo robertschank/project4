@@ -1,0 +1,1 @@
+export const MESSAGES_GET_SUCCESS = 'messages_get_success';
