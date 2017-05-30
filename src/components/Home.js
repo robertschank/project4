@@ -140,8 +140,10 @@ class Home extends Component {
   sendMessage = () => {
     console.log('sendMessage.');
     const { currentUser } = firebase.auth();
+
     var newPostKey = firebase.database().ref(`users/${currentUser.uid}/`).push().key;
     var updates = {};
+
     const now = new Date();
     const hours =  now.getHours();
     let mins = now.getMinutes();
@@ -149,6 +151,7 @@ class Home extends Component {
     mins = mins < 10 ? "0" + mins : mins;
     const time = `${hours}:${mins}`;
     console.log(time);
+
     updates[`users/${currentUser.uid}/` + newPostKey] = 
       {
         text: this.state.newMessage, 
@@ -156,6 +159,7 @@ class Home extends Component {
         time: time,
         color: '#f6ceff',
       };
+
     firebase.database().ref().update(updates);
     this.setState({ newMessage: '' });
   }
@@ -298,7 +302,7 @@ class Home extends Component {
             <Text onPress={this.sendMessage}>SEND</Text>
           </CardSection>
         </View>
-       } 
+      } 
       </View>
     );
   }

@@ -7,7 +7,8 @@ import ReduxThunk from 'redux-thunk';
 
 import { Button, CardSection, Spinner } from './components/common';
 import LoginForm from './components/LoginForm';
-import MyCamera from './components/MyCamera';
+//import MyCamera from './components/MyCamera';
+import StartGame from './components/StartGame'
 import Home from './components/Home';
 import reducers from './reducers';
 import Router from './Router';
@@ -15,6 +16,7 @@ import Router from './Router';
 export default class App extends Component {
 
   componentWillMount() {
+  console.log('XXXXXXX APP.JS COMPONENT WILL MOUNT XXXXXXX')
   this.setState({ loggedIn: null });
     const config = {
       apiKey: "AIzaSyC_HvfGzLg4FDNNT6z8EyYaMFBmZwu8C8w",
@@ -38,9 +40,10 @@ export default class App extends Component {
   renderContent() {
     switch (this.state.loggedIn) {
       case true:
-      return (
+      if (this.state.gameReady) {return (
           <Home />
-      );
+      );}
+      else { return ( <StartGame />); }
       case false:
         return <LoginForm />;
       default:
