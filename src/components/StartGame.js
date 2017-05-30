@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import firebase from 'firebase';
 import Communications from 'react-native-communications';
 
@@ -44,6 +44,7 @@ class StartGame extends Component {
 
   render() {
     return (
+      <View>
       <Card>
 
         <CardSection>
@@ -63,15 +64,14 @@ class StartGame extends Component {
           </Button>          
         </CardSection>
 
-
         <Text style={styles.errorTextStyle}>
           {this.state.error}
         </Text>
 
-        <CardSection>
-          {this.renderForm()}
-        </CardSection>
+
       </Card>
+        {this.renderForm()}
+      </View>
     );
   }
 }
