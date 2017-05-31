@@ -80,7 +80,6 @@ class NewGameForm extends Component {
             Open My Text Machine
           </Button>          
         </CardSection>
-
       </Card>
     );
   }

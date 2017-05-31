@@ -55,14 +55,14 @@ class ExistingGameForm extends Component {
         <CardSection>
           <Input
             placeholder="Good Guys"
-            label="Team  nName"
+            label="Team Name"
             value={this.state.teamName}
             onChangeText={teamName => this.setState({ teamName })}
           />
         </CardSection>
         <CardSection>
           <Input
-            placeholder="KlPGisZQZ3JN0KpeXn4"
+            placeholder="Go ahead, paste it"
             label="Enter Game Id"
             value={this.state.gameId}
             onChangeText={gameId => this.setState({ gameId })}

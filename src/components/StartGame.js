@@ -11,21 +11,6 @@ class StartGame extends Component {
     super();
     this.state={}
   }
-  onButtonPress() {
-    this.setState({ gameReady: true });
-  }
-
-  renderButton() {
-    if (this.state.gameReady) {
-      return <Text>Finish the paperwork</Text>;
-    }
-
-    return (
-      <Button onPress={this.onButtonPress.bind(this)}>
-        Start Game
-      </Button>
-    );
-  }
 
   renderForm() {
     if(this.state.newGame) {
@@ -34,8 +19,6 @@ class StartGame extends Component {
       return <ExistingGameForm />
     }
   }
-
-
 
   render() {
     return (
@@ -51,20 +34,19 @@ class StartGame extends Component {
               Join Existing
             </Button>          
           </CardSection>
+          <Text style={styles.errorTextStyle}>
+            {this.state.error}
+          </Text>
 
-        <Text style={styles.errorTextStyle}>
-          {this.state.error}
-        </Text>
-
-      </Card>
-        {this.renderForm()}
-      <Card>
-        <CardSection>
-          <Button onPress={() => {this.setState({ gameReady: true })}}>
-            Start New Game
-          </Button>
-        </CardSection>
-      </Card>
+          </Card>
+            {this.renderForm()}
+          <Card>
+          <CardSection>
+            <Button onPress={ () => {this.props.onPressStart()}} >
+              Start New Game
+            </Button>
+          </CardSection>
+        </Card>
       </View>
     );
   }

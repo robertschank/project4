@@ -37,8 +37,8 @@ export default class App extends Component {
     });
   }
 
-  onPressGo() {
-
+  startTheGame() {
+    this.setState({ gameReady: true });
   }
 
   renderContent() {
@@ -62,7 +62,7 @@ export default class App extends Component {
       if (this.state.gameReady) {return (
           <Home />
       );}
-      else { return ( <StartGame />); }
+      else { return ( <StartGame onPressStart={this.startTheGame.bind(this)}/>); }
       case false:
         return <LoginForm />;
       default:
