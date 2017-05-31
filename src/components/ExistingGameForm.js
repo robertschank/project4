@@ -10,6 +10,33 @@ class ExistingGameForm extends Component {
     this.state={}
   }
 
+  sayHello() {
+    console.log('sayHello');
+    console.log(this.state.gameId);
+    const { currentUser } = firebase.auth();
+
+    newPostKey = firebase.database().ref(`games/${this.state.gameId}/`).push().key;
+    var updates = {};
+
+    const now = new Date();
+    const hours =  now.getHours();
+    let mins = now.getMinutes();
+    // if m is one digit, add a zero in front of it:
+    mins = mins < 10 ? "0" + mins : mins;
+    const time = `${hours}:${mins}`;
+
+    updates[`games/${this.state.gameId}/` + newPostKey] = 
+      {
+        text: "Come on Troy!", 
+        author:"Troy",
+        time: time,
+        color: '#f6ceff',
+      };
+
+    firebase.database().ref().update(updates);
+    this.setState({ newMessage: '' });
+  }
+
   renderButton() {
     if (this.state.gameReady) {
       return <Text>Finish the paperwork</Text>;
@@ -25,16 +52,14 @@ class ExistingGameForm extends Component {
   render() {
     return (
       <Card>
-
         <CardSection>
           <Input
             placeholder="Good Guys"
-            label="Team Name"
+            label="Team  nName"
             value={this.state.teamName}
             onChangeText={teamName => this.setState({ teamName })}
           />
         </CardSection>
-
         <CardSection>
           <Input
             placeholder="KlPGisZQZ3JN0KpeXn4"
@@ -43,11 +68,14 @@ class ExistingGameForm extends Component {
             onChangeText={gameId => this.setState({ gameId })}
           />
         </CardSection>
-
+        <CardSection>
+          <Button onPress={()=> this.sayHello()}>
+            Join
+          </Button>
+        </CardSection>
         <Text style={styles.errorTextStyle}>
           {this.state.error}
         </Text>
-
         <CardSection>
           {this.renderButton()}
         </CardSection>

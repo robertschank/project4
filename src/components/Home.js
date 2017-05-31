@@ -238,7 +238,6 @@ class Home extends Component {
   
   render() {
     console.log('HOME.js this.state.photoUri: ' + this.state.photoUri);
-    // console.log(JSON.stringify(this.state));
 
     return (
       <View style={styles.container}>

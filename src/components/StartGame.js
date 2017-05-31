@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import firebase from 'firebase';
-import Communications from 'react-native-communications';
 
 import { Button, Card, CardSection, Input, Spinner } from './common';
 import NewGameForm from './NewGameForm';
@@ -30,47 +29,42 @@ class StartGame extends Component {
 
   renderForm() {
     if(this.state.newGame) {
-      return <ExistingGameForm />
-    } else if (this.state.existingGame) {
       return <NewGameForm />
+    } else if (this.state.existingGame) {
+      return <ExistingGameForm />
     }
   }
 
-  sendText() {
-    //const { phone, shift } = this.props;
-    console.log("SENDTEXT" + this.state.teamName)
-    Communications.text('5085421038', "Would you like to play a game with " +  this.state.teamName + "?");
-  }
+
 
   render() {
     return (
       <View>
-      <Card>
+        <Card>
 
-        <CardSection>
-          <Button onPress={() => {this.setState({ newGame: true, existingGame: false })}}>
-            Start New Game
-          </Button>          
+          <CardSection>
+            <Button onPress={() => {this.setState({ newGame: true, existingGame: false })}}>
+              Start New Game
+            </Button>          
 
-          <Button onPress={() => {this.setState({ newGame: false, existingGame: true })}}>
-            Join Existing
-          </Button>          
-        </CardSection>
-
-
-        <CardSection>
-          <Button onPress={this.sendText.bind(this)}>
-            Open SMS
-          </Button>          
-        </CardSection>
+            <Button onPress={() => {this.setState({ newGame: false, existingGame: true })}}>
+              Join Existing
+            </Button>          
+          </CardSection>
 
         <Text style={styles.errorTextStyle}>
           {this.state.error}
         </Text>
 
-
       </Card>
         {this.renderForm()}
+      <Card>
+        <CardSection>
+          <Button onPress={() => {this.setState({ gameReady: true })}}>
+            Start New Game
+          </Button>
+        </CardSection>
+      </Card>
       </View>
     );
   }
