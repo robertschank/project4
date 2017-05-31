@@ -253,10 +253,9 @@ class Home extends Component {
         ||
         <View style={styles.boardContainer}>
           <View style={styles.headerView}>
-            <Text onPress={() => firebase.auth().signOut()}>
+            <Text style={styles.header}>Fun with Strangers Bingo </Text><Text onPress={() => firebase.auth().signOut()}>
               Log Out
-            </Text>
-            <Text style={styles.header}>Street Side Bingo                </Text>          
+            </Text>        
           </View>
           <View style={styles.row}>
             {this.renderSquare(this.state.squares[0].index, this.state.squares[0].description, this.state.squares[0].photoPath, this.state.squares[0].marked)} 
@@ -282,17 +281,14 @@ class Home extends Component {
             {this.renderSquare(this.state.squares[14].index, this.state.squares[14].description, this.state.squares[14].photoPath, this.state.squares[14].marked)}
             {this.renderSquare(this.state.squares[15].index, this.state.squares[15].description, this.state.squares[15].photoPath, this.state.squares[15].marked)}
           </View>
-          <Image
-            style={{width: 120, height: 0}}
-            source={{uri: this.state.returnedPhotoPath}}
-          />
-          <ListView style={{height: 120}}
+          <ListView style={styles.ListView}
             enableEmptySections
             dataSource={this.dataSource}
             renderRow={this.renderRow}
           />
-          <CardSection>
+          <CardSection >
             <Input
+              style={styles.messageInput}
               placeholder="Enter trash talk here."
               label="Group Message"
               value={this.state.newMessage}
@@ -320,18 +316,32 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     flex: 1,
   },
+  boardContainer: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
   headerView: {
     backgroundColor: '#51C8FF',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   header: {
-    fontSize: 40,
-    padding: 8,
+    fontSize: 30,
+    padding: 4,
     color: 'white'
   },
   row: {
     flexDirection: 'row',
     margin: 0,
     padding: 0,
+  },
+  ListView: {
+    flexGrow:1, // Not sure if this is doing anything
+  },  
+  messageInput: {
+    // backgroundColor: 'skyblue',
+    color: 'white',
   },
 });
 

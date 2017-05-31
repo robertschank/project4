@@ -5,6 +5,7 @@ import {
   StatusBar,
   StyleSheet,
   TouchableOpacity,
+  Text,
   View,
 } from 'react-native';
 import Camera from 'react-native-camera';
@@ -197,25 +198,22 @@ export default class MyCamera extends React.Component {
             />
           </TouchableOpacity>
         </View>
-        <View style={[styles.overlay, styles.bottomOverlay]}>
-          {
-            !this.state.isRecording
-            &&
+        <View>
+          <View style={[styles.overlay, styles.bottomOverlay]}>
             <TouchableOpacity
                 style={styles.captureButton}
-                onPress={this.takePicture}
-            >
+                onPress={this.takePicture}>
               <Image
                   source={require('../assets/ic_photo_camera_36pt.png')}
               />
             </TouchableOpacity>
-            ||
-            null
-          }
-
+          </View>
+          <View style={{paddingTop: 90}}>         
+            <Text>VVVV</Text>
+          </View>
         </View>
       </View>
-    );
+    )
   }
 }
 

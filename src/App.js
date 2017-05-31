@@ -42,21 +42,6 @@ export default class App extends Component {
   }
 
   renderContent() {
-    if (this.state.loggedIn && this.state.gameReady) { return <Home /> ;}
-    else if (this.state.loggedIn) {return <StartGame /> ; }
-    else if (this.state.loggedIn == null ) {        
-     return (
-      <View alignSelf='center'>
-        <Spinner size="large" />
-      </View>); 
-    }
-    else { return <LoginForm />; }
-  }
-
-
-
-
-  renderContent() {
     switch (this.state.loggedIn) {
       case true:
       if (this.state.gameReady) {return (

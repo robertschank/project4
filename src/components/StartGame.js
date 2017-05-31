@@ -42,7 +42,7 @@ class StartGame extends Component {
             {this.renderForm()}
           <Card>
           <CardSection>
-            <Button onPress={ () => {this.props.onPressStart()}} >
+            <Button onPress={ () => {this.props.onPressStart() }} >
               Start New Game
             </Button>
           </CardSection>
