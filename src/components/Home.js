@@ -27,6 +27,7 @@ import { containerColor } from '../constants/Colors';
 
 let squaresArray = [];
 const gameId = '';
+const teamName = '';
 
 // const teamName = this.props.teamName;
 
@@ -45,6 +46,8 @@ class Home extends Component {
     // const gameId = this.props.gameId;
     console.log(this.props.gameId);
     gameId = this.props.gameId;
+    teamName = this.props.teamName;
+
 
     // Hard Coded Descriptions
     let descriptionsArray = [
@@ -70,14 +73,20 @@ class Home extends Component {
     for (let i=0; i < 16; i++) {
       squaresArray.push(new SquareObject(i, descriptionsArray[i]));
     }
-    // Construct clicked square
-    const x = this.props.clickedSquareIndex;
-    let clickedSquare = new SquareObject(x, descriptionsArray[x]);
-    clickedSquare.photoPath = this.props.photoUri;
-    clickedSquare.marked = 'yes';
 
-    // Insert constructed square into squaresArray
-    squaresArray[x] = clickedSquare;
+
+
+    // // Construct clicked square
+    // const x = this.props.clickedSquareIndex;
+    // let clickedSquare = new SquareObject(x, descriptionsArray[x]);
+    // clickedSquare.photoPath = this.props.photoUri;
+    // clickedSquare.marked = 'yes';
+
+    // // Insert constructed square into squaresArray
+    // squaresArray[x] = clickedSquare;
+
+
+
 
     // Construct a dog square and insert into squaresArray
     const y = 5;
@@ -97,8 +106,8 @@ class Home extends Component {
       squares: squaresArray,
       indexForUrl: -1,
       returnedPhotoPath: 'no photo path',
-      rowCount: [0, 0, 0, 0],
-      colCount: [0, 0, 0, 0],
+      rowCount: [0, 1, 1, 0],
+      colCount: [0, 1, 0, 1],
     };
   } // End Constructor
 
@@ -129,19 +138,10 @@ class Home extends Component {
   componentDidMount() {
     console.log('HOME.JS componentDidMount. ');
     // console.log(this.state.gameId);
-
+    this.sendMessage("bing man", `${teamName} has joined the game.`);
   }
 
-  sendBingoNotification = () => {
-    console.log('START sendBingoNotification(). ');
-    var newPostKey = firebase.database().ref().child('pastries').push().key;
-    var updates = {};
-    updates['/pastries/redTeam' + newPostKey] = "Team blue got bingo!";
-    updates['/pastries/yellowTeam' + newPostKey] = "Team blue got bingo!";
-    firebase.database().ref().update(updates);
-  }
-
-  sendMessage = () => {
+  sendMessage = (author, insertMessage) => {
     console.log('sendMessage.');
 
     var newMessageKey = firebase.database().ref(`games/${gameId}/`).push().key;
@@ -157,8 +157,8 @@ class Home extends Component {
 
     updates[`games/${gameId}/` + newMessageKey] = 
       {
-        text: this.state.newMessage, 
-        author: 'Good Guys',
+        text: insertMessage, 
+        author: author + ':',
         time: time,
         color: '#f6ceff',
       };
@@ -169,8 +169,8 @@ class Home extends Component {
 
   takePhoto = (path) => {
     console.log('takePhoto');
-    this.sendBingoNotification();
 
+    this.sendMessage("bing man", `Whoa, ${teamName} completed a square!`)
     const index = this.state.clickedSquareIndex;
     // Check For Win:
     const colMarked = index%4;
@@ -182,6 +182,7 @@ class Home extends Component {
     currentColCount[colMarked]++;
     if (currentColCount[colMarked] >= 4) {
       console.log('YOU WIN!!!');
+      this.sendMessage("bing man", `Holy moly, ${teamName} got bingo!!`)
     }
     console.log('CURRENTColCount: ' + currentColCount);
 
@@ -195,10 +196,13 @@ class Home extends Component {
     currentRowCount[rowMarked]++;
     if (currentRowCount[rowMarked] >= 4) {
       console.log('YOU WIN!!!');
+      this.sendMessage("bing man", `Look Out, ${teamName} got bingo!!`)
     }
     console.log('CURRENTColCount: ' + currentRowCount);
 
     // Couldn't get spread operator ... working
+
+    // This where the completed square is added
     let newSquares = this.state.squares.slice();
     let newSquare = newSquares[index];
     let replaceSquare = newSquare;
@@ -289,15 +293,14 @@ class Home extends Component {
             dataSource={this.dataSource}
             renderRow={this.renderRow}
           />
-          <CardSection >
+          <CardSection style={styles.messageInput} >
             <Input
-              style={styles.messageInput}
               placeholder="Enter trash talk here."
               label="Group Message"
               value={this.state.newMessage}
               onChangeText={newMessage => this.setState({ newMessage })}
             />
-            <Text onPress={this.sendMessage}>SEND</Text>
+            <Text onPress={()=>{this.sendMessage(teamName, this.state.newMessage)}}>SEND</Text>
           </CardSection>
         </View>
       } 
@@ -343,8 +346,7 @@ const styles = StyleSheet.create({
     flexGrow:1, // Not sure if this is doing anything
   },  
   messageInput: {
-    // backgroundColor: 'skyblue',
-    color: 'white',
+    backgroundColor: 'skyblue',
   },
 });
 

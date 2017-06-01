@@ -8,7 +8,6 @@ import Communications from 'react-native-communications';
 
 import { Button, CardSection, Spinner } from './components/common';
 import LoginForm from './components/LoginForm';
-//import MyCamera from './components/MyCamera';
 import StartGame from './components/StartGame'
 import Home from './components/Home';
 import reducers from './reducers';
@@ -38,10 +37,6 @@ export default class App extends Component {
     });
   }
 
-  handlePressStart() {
-    this.setState({ gameReady: true });
-  }
-
   handlePressNewGame() {
     console.log('handlePressNewGame');
 
@@ -66,10 +61,8 @@ export default class App extends Component {
     reallyNewPostKey = firebase.database().ref(`games/${gameKey}/`).push().key;
     updates[`games/${gameKey}/${reallyNewPostKey}`] = 
       {
-        text: `Hey people, welcome to Stranger Danger bingo! This is a group message area for all teams. 
-        We'll also send game updates in here as teams progress through the game.  Remember,
-        this is a game of integrity and honor. It's up to you to match your photos to the given description. Good luck!`, 
-        author:"Bing Bot",
+        text: `Hey people, welcome to Stranger Danger bingo! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`, 
+        author:"Bing Man:",
         time: time,
         color: '#f6ceff',
       };
@@ -77,30 +70,46 @@ export default class App extends Component {
     firebase.database().ref().update(updates);
   }
 
-  handlePressJoinGame(gameKey) {
-    console.log('handlePressJoinGame');
-    this.setState({ gameId: gameKey });
+  handlePressSubmit(teamName) {
+    console.log('handlePressSubmit');
 
+    this.setState({ teamName: teamName });
+
+  }
+
+  handlePressJoinGame(gameKey, teamName) {
+    console.log('handlePressJoinGame');
+    console.log(teamName);
+    this.setState({ gameId: gameKey });
+    this.setState({ teamName: teamName});
   }
 
   handlePressSendText() {
     console.log('onHandleSendText');
 
-    Communications.textWithoutEncoding(null, "Would you like to play Kowabunga Bingo? If so, you'll need this game id:\n\n" + this.state.gameId + "\n\nCopy, paste, do what ya do.");
+    Communications.textWithoutEncoding(null, "" + this.state.gameId);
     // this.sendInitMessageToDatabase();
+  }
+
+  handlePressStart() {
+    this.setState({ gameReady: true });
   }
 
   renderContent() {
     switch (this.state.loggedIn) {
       case true:
       if (this.state.gameReady) {return (
-          <Home gameId={this.state.gameId}/>
+          <Home 
+            gameId={this.state.gameId}
+            teamName={this.state.teamName}
+          />
       );}
       else { return ( <StartGame 
           onPressStart={this.handlePressStart.bind(this)}
           onPressNewGame={this.handlePressNewGame.bind(this)}
           onPressSendText={this.handlePressSendText.bind(this)}
           onPressJoinGame={this.handlePressJoinGame.bind(this)}
+          onPressSubmit={this.handlePressSubmit.bind(this)}
         />); }
       case false:
         return <LoginForm />;

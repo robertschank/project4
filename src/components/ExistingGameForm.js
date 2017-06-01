@@ -57,7 +57,7 @@ class ExistingGameForm extends Component {
           />
         </CardSection>
         <CardSection>
-          <Button onPress={()=>{ this.props.onPressJoinGame(this.state.gameId)} }>
+          <Button onPress={()=>{ this.props.onPressJoinGame(this.state.gameId, this.state.teamName)} }>
             Join
           </Button>
         </CardSection>

@@ -16,6 +16,7 @@ class StartGame extends Component {
     if(this.state.newGame) {
       return  <NewGameForm 
                 onPressSendText={this.props.onPressSendText}
+                onPressSubmit={this.props.onPressSubmit}
               />
     } else if (this.state.existingGame) {
       return  <ExistingGameForm

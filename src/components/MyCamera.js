@@ -55,6 +55,9 @@ const styles = StyleSheet.create({
   buttonsSpace: {
     width: 10,
   },
+  photobombs: {
+    backgroundColor: 'skyblue',
+  }
 });
 
 export default class MyCamera extends React.Component {
@@ -69,7 +72,7 @@ export default class MyCamera extends React.Component {
       camera: {
         aspect: Camera.constants.Aspect.fill,
         captureTarget: Camera.constants.CaptureTarget.disk,
-        type: Camera.constants.Type.front,
+        type: Camera.constants.Type.back,
         orientation: Camera.constants.Orientation.auto,
         flashMode: Camera.constants.FlashMode.off
       },
@@ -208,9 +211,9 @@ export default class MyCamera extends React.Component {
               />
             </TouchableOpacity>
           </View>
-          <View style={{paddingTop: 90}}>         
-            <Text>VVVV</Text>
-          </View>
+        </View>
+        <View style={styles.photobombs}>
+          <Text style={{ fontSize: 20, color: 'white', textAlign: 'center'}}>Teammate photobombs are encouraged.</Text>
         </View>
       </View>
     )

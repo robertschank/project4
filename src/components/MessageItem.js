@@ -23,13 +23,16 @@ const styles = {
   container: {
     // backgroundColor: 'skyBlue',
     justifyContent: 'space-between',
+    flex: 1,
   },
   author: {
-
+    // paddingRight: '5',
   },
   text: {
     fontSize: 18,
-    paddingLeft: 15,
+    paddingLeft: 5,
+    flexGrow: 1,
+    width: 60,
   },
   time: {
   },

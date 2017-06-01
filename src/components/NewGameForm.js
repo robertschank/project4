@@ -30,13 +30,20 @@ class NewGameForm extends Component {
             onChangeText={custom => this.setState({ custom })}
           />
         </CardSection>
+
+        <CardSection>
+          <Button onPress={()=>{ this.props.onPressSubmit( this.state.teamName)} }>
+            Submit Name
+          </Button>
+        </CardSection>
+
         <CardSection>
           <Text>For multiple team play, as the commissioner (that's you) you need to share this game's id number with the other teams. Click the button below to send an editable text to your opposing teams.  You'll have to select the recipients.</Text>
         </CardSection>
         <CardSection>
           <Button onPress={()=>{ this.props.onPressSendText()} }>
             Open My Text Machine
-          </Button>          
+          </Button>
         </CardSection>
       </Card>
     );
