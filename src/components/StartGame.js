@@ -14,36 +14,49 @@ class StartGame extends Component {
 
   renderForm() {
     if(this.state.newGame) {
-      return <NewGameForm />
+      return  <NewGameForm 
+                onPressSendText={this.props.onPressSendText}
+              />
     } else if (this.state.existingGame) {
-      return <ExistingGameForm />
+      return  <ExistingGameForm
+                onPressJoinGame={this.props.onPressJoinGame}
+              />
     }
+  }
+
+  pressedNew() {
+    console.log('pressedNew');
+    this.setState({ newGame: true, existingGame: false });
+    this.props.onPressNewGame();
+  }
+
+  pressedJoin() {
+    console.log('pressedJoin');
+    this.setState({ newGame: false, existingGame: true  });
+    this.props.onPressJoinGame();
   }
 
   render() {
     return (
       <View>
         <Card>
-
           <CardSection>
-            <Button onPress={() => {this.setState({ newGame: true, existingGame: false })}}>
-              Start New Game
+            <Button onPress={this.pressedNew.bind(this)}>
+              New Game
             </Button>          
-
-            <Button onPress={() => {this.setState({ newGame: false, existingGame: true })}}>
+            <Button onPress={this.pressedJoin.bind(this)}>
               Join Existing
             </Button>          
           </CardSection>
           <Text style={styles.errorTextStyle}>
             {this.state.error}
           </Text>
-
           </Card>
             {this.renderForm()}
           <Card>
           <CardSection>
             <Button onPress={ () => {this.props.onPressStart() }} >
-              Start New Game
+              Start!
             </Button>
           </CardSection>
         </Card>
@@ -59,12 +72,5 @@ const styles = {
     color: 'red'
   }
 };
-        // <CardSection>
-        //   <Input
-        //     placeholder="Jorts (optional)"
-        //     label="Enter Custom Squares"
-        //     value={this.state.custom}
-        //     onChangeText={custom => this.setState({ custom })}
-        //   />
-        // </CardSection>
+
 export default StartGame;

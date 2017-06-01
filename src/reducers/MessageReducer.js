@@ -3,6 +3,7 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {};
+console.log('Start messageReducer')
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {

@@ -1,16 +1,19 @@
 import firebase from 'firebase';
+
 import { MESSAGES_GET_SUCCESS } from './types';
 
-export const messagesGet = () => {
-	console.log('messagesGet.');
-	const { currentUser } = firebase.auth();
+
+
+export const messagesGet = (gameId) => {
 
 	return (dispatch) => {
-
-    firebase.database().ref(`users/${currentUser.uid}`)
+		console.log(gameId);
+		console.log('GAME ID ^^^');
+    firebase.database().ref(`games/${gameId}`)
       .on('value', snapshot => {
       	dispatch({ type: MESSAGES_GET_SUCCESS, payload: snapshot.val() });
-        console.log('in dispatch of messagesGet.');
     });
   };
 };
+
+

@@ -26,6 +26,9 @@ import { Card, CardSection, Input } from './common';
 import { containerColor } from '../constants/Colors';
 
 let squaresArray = [];
+const gameId = '';
+
+// const teamName = this.props.teamName;
 
 function SquareObject(index, description) {
   this.index = index;
@@ -39,13 +42,15 @@ class Home extends Component {
     super(props);
     console.log('BEGIN CONSTRUCTOR');
 
-    this.squares = firebase.database().ref();
+    // const gameId = this.props.gameId;
+    console.log(this.props.gameId);
+    gameId = this.props.gameId;
 
     // Hard Coded Descriptions
     let descriptionsArray = [
           'Tie Dye',
           'Leather Jacket',
-          'Man Bun',
+          'Red Shirt',
           'Hands Full',
           'Balloon',
           'Dog',
@@ -55,10 +60,10 @@ class Home extends Component {
           'Eating on the Run',
           'Jersey',
           'Basic',
-          'Pizza',
-          'Free Space!',
+          'Pizza!',
+          'Free Space',
           'Suit',
-          'Too Casual',
+          'Sweatpants',
     ];
 
     // Set up some empty squares
@@ -70,11 +75,9 @@ class Home extends Component {
     let clickedSquare = new SquareObject(x, descriptionsArray[x]);
     clickedSquare.photoPath = this.props.photoUri;
     clickedSquare.marked = 'yes';
-    console.log('2 END OF CONSTRUCTOR squaresArray[0].marked: ' + squaresArray[0].marked);
 
     // Insert constructed square into squaresArray
     squaresArray[x] = clickedSquare;
-    console.log('3 END OF CONSTRUCTOR squaresArray[0].marked: ' + squaresArray[0].marked);
 
     // Construct a dog square and insert into squaresArray
     const y = 5;
@@ -100,10 +103,9 @@ class Home extends Component {
   } // End Constructor
 
   componentWillMount() {
-    console.log('componentWillMount.');
+    console.log('HOME.JS componentWillMount.');
     // Get the list of messages from db
-    this.props.messagesGet();
-
+    this.props.messagesGet(gameId);
     this.createDataSource(this.props);
   }
 
@@ -125,7 +127,9 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount. ');
+    console.log('HOME.JS componentDidMount. ');
+    // console.log(this.state.gameId);
+
   }
 
   sendBingoNotification = () => {
@@ -139,9 +143,8 @@ class Home extends Component {
 
   sendMessage = () => {
     console.log('sendMessage.');
-    const { currentUser } = firebase.auth();
 
-    var newPostKey = firebase.database().ref(`users/${currentUser.uid}/`).push().key;
+    var newMessageKey = firebase.database().ref(`games/${gameId}/`).push().key;
     var updates = {};
 
     const now = new Date();
@@ -152,10 +155,10 @@ class Home extends Component {
     const time = `${hours}:${mins}`;
     console.log(time);
 
-    updates[`users/${currentUser.uid}/` + newPostKey] = 
+    updates[`games/${gameId}/` + newMessageKey] = 
       {
         text: this.state.newMessage, 
-        author:"Blue Team",
+        author: 'Good Guys',
         time: time,
         color: '#f6ceff',
       };
@@ -345,10 +348,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const messages = _.map(state.messages, (val, uid) => {
     return { ...val, uid };
   });
+
   return { messages };
 };
 

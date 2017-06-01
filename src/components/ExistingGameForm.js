@@ -7,7 +7,7 @@ import { Button, Card, CardSection, Input, Spinner } from './common';
 class ExistingGameForm extends Component {
     constructor() {
     super();
-    this.state={}
+    this.state = {};
   }
 
   sayHello() {
@@ -37,18 +37,6 @@ class ExistingGameForm extends Component {
     this.setState({ newMessage: '' });
   }
 
-  renderButton() {
-    if (this.state.gameReady) {
-      return <Text>Finish the paperwork</Text>;
-    }
-
-    return (
-      <Button onPress={console.log('Gimme a game here')}>
-        Start Game
-      </Button>
-    );
-  }
-
   render() {
     return (
       <Card>
@@ -62,23 +50,20 @@ class ExistingGameForm extends Component {
         </CardSection>
         <CardSection>
           <Input
-            placeholder="Go ahead, paste it"
+            placeholder="paste here"
             label="Enter Game Id"
             value={this.state.gameId}
             onChangeText={gameId => this.setState({ gameId })}
           />
         </CardSection>
         <CardSection>
-          <Button onPress={()=> this.sayHello()}>
+          <Button onPress={()=>{ this.props.onPressJoinGame(this.state.gameId)} }>
             Join
           </Button>
         </CardSection>
         <Text style={styles.errorTextStyle}>
           {this.state.error}
         </Text>
-        <CardSection>
-          {this.renderButton()}
-        </CardSection>
       </Card>
     );
   }
