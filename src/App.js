@@ -16,7 +16,8 @@ import Router from './Router';
 export default class App extends Component {
 
   componentWillMount() {
-    console.log('XXXXXXX APP.JS COMPONENT WILL MOUNT XXXXXXX')
+    console.log('XXXXXXX APP.JS COMPONENT WILL MOUNT XXXXXXX');
+    // I am here for real?
     this.setState({ loggedIn: null });
     const config = {
       apiKey: "AIzaSyC_HvfGzLg4FDNNT6z8EyYaMFBmZwu8C8w",
