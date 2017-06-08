@@ -80,13 +80,13 @@ class NewGameForm extends Component {
 
         <CardSection>
           <Button onPress={this.onText.bind(this)}>
-            Send Text
+            Send Texts
           </Button>
         </CardSection>
 
         <CardSection>
           <Button onPress={this.props.onPressStart}>
-            Let's Text
+            Start!
           </Button>
         </CardSection>
 
