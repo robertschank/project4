@@ -12,6 +12,23 @@ class NewGameForm extends Component {
     this.state={}
   }
 
+  onSubmit() {
+    console.log('onSubmit');
+    const { teamName, custom1 } = this.props;
+
+    let gameKey = firebase.database().ref(`games/`).push().key;
+
+    this.props.gameUpdate({ prop: gameId, gameKey });
+    console.log()
+    this.props.gameCreate({ teamName, custom1}); //custom1: custom1 || null }); //custom will probably be an array of custom traits
+  }
+
+  createAndSetGameId() {
+    let gameKey = firebase.database().ref(`games/`).push().key;
+    this.props.gameUpdate({ prop: gameId, gameKey });
+
+  }
+
   render() {
     return (
       <Card>
@@ -27,11 +44,17 @@ class NewGameForm extends Component {
           <Input
             placeholder="Rockies Jersey"
             label="Custom Square"
-            value={this.state.custom}
-            onChangeText={custom => this.setState({ custom })}
+            value={this.props.custom1}
+            onChangeText={value => this.props.gameUpdate({ prop: 'custom1', value })}
           />
         </CardSection>
 
+        <CardSection>
+          <Button onPress={this.onSubmit.bind(this)}>
+            Submit
+          </Button>
+        </CardSection>
+{/*}
         <CardSection>
           <Button onPress={()=>{ this.props.onPressSubmit( this.state.teamName)} }>
             Submit Name
@@ -43,9 +66,10 @@ class NewGameForm extends Component {
         </CardSection>
         <CardSection>
           <Button onPress={()=>{ this.props.onPressSendText()} }>
-            Open My Text
+            Let's Text
           </Button>
         </CardSection>
+      */}
       </Card>
     );
   }
@@ -61,6 +85,8 @@ const styles = {
 
 const mapStateToProps = (state) => {
   const { teamName } = state.gameForm;
+  console.log("NEWGAMEFORM TEAMNAME");
+  console.log(teamName);
   return { teamName };
 };
 

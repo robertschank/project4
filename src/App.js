@@ -61,7 +61,7 @@ export default class App extends Component {
     reallyNewPostKey = firebase.database().ref(`games/${gameKey}/`).push().key;
     updates[`games/${gameKey}/${reallyNewPostKey}`] = 
       {
-        text: `Hey people, welcome to Stranger Danger bingo! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`, 
+        text: `Hey people, welcome to Squares Out There! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`, 
         author:"Bing Man:",
         time: time,
         color: '#f6ceff',
