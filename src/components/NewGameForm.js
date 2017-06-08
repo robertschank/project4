@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
+import { connect } from 'react-redux';
 import firebase from 'firebase';
 
-
+import { gameUpdate } from '../actions';
 import { Button, Card, CardSection, Input } from './common';
 
 class NewGameForm extends Component {
@@ -18,8 +19,8 @@ class NewGameForm extends Component {
           <Input
             placeholder="Good Guys"
             label="Team Name"
-            value={this.state.teamName}
-            onChangeText={teamName => this.setState({ teamName })}
+            value={this.props.teamName}
+            onChangeText={value => this.props.gameUpdate({ prop: 'teamName', value })}
           />
         </CardSection>
         <CardSection>
@@ -42,7 +43,7 @@ class NewGameForm extends Component {
         </CardSection>
         <CardSection>
           <Button onPress={()=>{ this.props.onPressSendText()} }>
-            Open My Text Machine
+            Open My Text
           </Button>
         </CardSection>
       </Card>
@@ -58,4 +59,9 @@ const styles = {
   }
 };
 
-export default NewGameForm;
+const mapStateToProps = (state) => {
+  const { teamName } = state.gameForm;
+  return { teamName };
+};
+
+export default connect(mapStateToProps, { gameUpdate })(NewGameForm);
