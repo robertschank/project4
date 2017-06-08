@@ -10,23 +10,28 @@ class NewGameForm extends Component {
   constructor() {
     super();
     this.state={}
+    let x = 'Tokyo';
   }
 
   onSubmit() {
     console.log('onSubmit');
-    const { teamName, custom1 } = this.props;
+    this.createAndSetGameId();
+    // const { teamName, custom1 } = this.props;
 
-    let gameKey = firebase.database().ref(`games/`).push().key;
+    // let gameKey = firebase.database().ref(`games/`).push().key;
 
-    this.props.gameUpdate({ prop: gameId, gameKey });
+    // this.props.gameUpdate({ prop: gameId, gameKey });
     console.log()
-    this.props.gameCreate({ teamName, custom1}); //custom1: custom1 || null }); //custom will probably be an array of custom traits
+    // this.props.gameCreate({ teamName, custom}); //custom1: custom1 || null }); //custom will probably be an array of custom traits
   }
 
   createAndSetGameId() {
     let gameKey = firebase.database().ref(`games/`).push().key;
-    this.props.gameUpdate({ prop: gameId, gameKey });
+    console.log('createAndSetGameId gameKey: ' + gameKey);
 
+    this.props.gameUpdate({ prop: 'gameId', value: gameKey });
+
+    console.log('createAndSetGameId gameKey: ' + gameKey);
   }
 
   render() {
@@ -44,8 +49,8 @@ class NewGameForm extends Component {
           <Input
             placeholder="Rockies Jersey"
             label="Custom Square"
-            value={this.props.custom1}
-            onChangeText={value => this.props.gameUpdate({ prop: 'custom1', value })}
+            value={this.props.custom}
+            onChangeText={value => this.props.gameUpdate({ prop: 'custom', value})}
           />
         </CardSection>
 
@@ -84,10 +89,12 @@ const styles = {
 };
 
 const mapStateToProps = (state) => {
-  const { teamName } = state.gameForm;
+  const { teamName, gameId, custom } = state.gameForm;
   console.log("NEWGAMEFORM TEAMNAME");
   console.log(teamName);
-  return { teamName };
+  console.log(custom);
+  console.log(gameId);
+  return { teamName, gameId, custom };
 };
 
 export default connect(mapStateToProps, { gameUpdate })(NewGameForm);
