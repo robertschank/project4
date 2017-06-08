@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
+import Communications from 'react-native-communications';
 
 import { gameUpdate } from '../actions';
 import { Button, Card, CardSection, Input } from './common';
@@ -10,7 +11,6 @@ class NewGameForm extends Component {
   constructor() {
     super();
     this.state={}
-    let x = 'Tokyo';
   }
 
   onSubmit() {
@@ -34,9 +34,17 @@ class NewGameForm extends Component {
     console.log('createAndSetGameId gameKey: ' + gameKey);
   }
 
+  onText() {
+    console.log('onText')
+    // console.log(this.state.gameForm.gameId);
+    console.log(this.props.gameId);
+    // console.log(state.getState())
+    Communications.textWithoutEncoding(null, "" + this.props.gameId);
+  }
+
   render() {
     return (
-      <Card>
+      <View>
         <CardSection>
           <Input
             placeholder="Good Guys"
@@ -55,11 +63,39 @@ class NewGameForm extends Component {
         </CardSection>
 
         <CardSection>
+          <Text style={styles.errorTextStyle}>
+            {this.state.error}
+          </Text>
+        </CardSection>
+
+        <CardSection>
           <Button onPress={this.onSubmit.bind(this)}>
             Submit
           </Button>
         </CardSection>
-{/*}
+
+        <CardSection>
+          <Text>For multiple team play, as the commissioner (that's you) you need to share this game's id number with the other teams. Click the button below to send an editable text to your opposing teams.  You'll have to select the recipients.</Text>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.onText.bind(this)}>
+            Send Text
+          </Button>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={this.props.onPressStart}>
+            Let's Text
+          </Button>
+        </CardSection>
+
+      </View>
+    );
+  }
+}
+
+/*}
         <CardSection>
           <Button onPress={()=>{ this.props.onPressSubmit( this.state.teamName)} }>
             Submit Name
@@ -68,17 +104,11 @@ class NewGameForm extends Component {
 
         <CardSection>
           <Text>For multiple team play, as the commissioner (that's you) you need to share this game's id number with the other teams. Click the button below to send an editable text to your opposing teams.  You'll have to select the recipients.</Text>
-        </CardSection>
-        <CardSection>
           <Button onPress={()=>{ this.props.onPressSendText()} }>
             Let's Text
           </Button>
         </CardSection>
-      */}
-      </Card>
-    );
-  }
-}
+      */
 
 const styles = {
   errorTextStyle: {

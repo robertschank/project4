@@ -17,10 +17,12 @@ class StartGame extends Component {
       return  <NewGameForm 
                 onPressSendText={this.props.onPressSendText}
                 onPressSubmit={this.props.onPressSubmit}
+                onPressStart={this.props.onPressStart}
               />
     } else if (this.state.existingGame) {
       return  <ExistingGameForm
                 onPressJoinGame={this.props.onPressJoinGame}
+                onPressStart={this.props.onPressStart}
               />
     }
   }
@@ -49,12 +51,7 @@ class StartGame extends Component {
               Join Existing
             </Button>          
           </CardSection>
-          <Text style={styles.errorTextStyle}>
-            {this.state.error}
-          </Text>
-          </Card>
             {this.renderForm()}
-          <Card>
           <CardSection>
             <Button onPress={ () => {this.props.onPressStart() }} >
               Start!

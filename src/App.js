@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import firebase from 'firebase';
 import ReduxThunk from 'redux-thunk';
-import Communications from 'react-native-communications';
 
 import { Button, CardSection, Spinner } from './components/common';
 import LoginForm from './components/LoginForm';
@@ -87,7 +86,7 @@ export default class App extends Component {
   handlePressSendText() {
     console.log('onHandleSendText');
 
-    Communications.textWithoutEncoding(null, "" + this.state.gameId);
+    // Communications.textWithoutEncoding(null, "" + this.state.gameId);
     // this.sendInitMessageToDatabase();
   }
 

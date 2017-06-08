@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
+import { connect } from 'react-redux';
 import firebase from 'firebase';
 
+import { gameUpdate } from '../actions';
 import { Button, Card, CardSection, Input, Spinner } from './common';
 
 class ExistingGameForm extends Component {
@@ -39,13 +41,13 @@ class ExistingGameForm extends Component {
 
   render() {
     return (
-      <Card>
+      <View>
         <CardSection>
           <Input
             placeholder="Good Guys"
             label="Team Name"
-            value={this.state.teamName}
-            onChangeText={teamName => this.setState({ teamName })}
+            value={this.props.teamName}
+            onChangeText={value => this.props.gameUpdate({ prop: 'teamName', value })}
           />
         </CardSection>
         <CardSection>
@@ -56,15 +58,26 @@ class ExistingGameForm extends Component {
             onChangeText={gameId => this.setState({ gameId })}
           />
         </CardSection>
+
+        <CardSection>
+          <Text style={styles.errorTextStyle}>
+            {this.state.error}
+          </Text>
+        </CardSection>
+
         <CardSection>
           <Button onPress={()=>{ this.props.onPressJoinGame(this.state.gameId, this.state.teamName)} }>
             Join
           </Button>
         </CardSection>
-        <Text style={styles.errorTextStyle}>
-          {this.state.error}
-        </Text>
-      </Card>
+
+        <CardSection>
+          <Button onPress={ () => {this.props.onPressStart() }} >
+            Start!
+          </Button>
+        </CardSection>
+
+      </View>
     );
   }
 }
@@ -77,4 +90,10 @@ const styles = {
   }
 };
 
-export default ExistingGameForm;
+  const mapStateToProps = (state) => {
+    const { teamName } = state.gameForm;
+    console.log(teamName);
+    return { teamName };
+  };
+
+export default connect(mapStateToProps, { gameUpdate })(ExistingGameForm);
