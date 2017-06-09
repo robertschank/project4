@@ -1,8 +1,8 @@
 import { GAME_UPDATE } from '../actions/types';
 
 const INITIAL_STATE = {
-	teamName: '',
-	gameId: 'XX',
+	teamName: undefined,
+	gameId: undefined,
 
 };
 

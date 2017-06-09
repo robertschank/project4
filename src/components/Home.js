@@ -27,8 +27,8 @@ import { Card, CardSection, Input } from './common';
 import { containerColor } from '../constants/Colors';
 
 let squaresArray = [];
-const teamName = '';
-const gameId = '';
+// const teamName = '';
+// const gameId = '';
 // const teamName = this.props.teamName;
 
 function SquareObject(index, description) {
@@ -43,10 +43,10 @@ class Home extends Component {
     super(props);
     console.log('BEGIN CONSTRUCTOR');
 
-    const gameId = this.props.gameId;
+    // const gameId = this.props.gameId;
     console.log(this.props.gameId);
     // gameId = this.props.gameId;
-    teamName = this.props.teamName;
+    // teamName = this.props.teamName;
 
 
     // Hard Coded Descriptions
@@ -123,16 +123,17 @@ class Home extends Component {
 
   componentDidMount() {
     console.log('HOME.JS componentDidMount. ');
-        this.props.messagesGet(gameId);
-    // console.log(this.state.gameId);
+        this.props.messagesGet(this.props.gameId);
     this.sendMessage('TSBot', `Hey people, welcome to Townie Squares! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`);
-    this.sendMessage('TSBot', `${teamName} has joined the game.`);
+    this.sendMessage('TSBot', `${this.props.teamName} has joined the game.`);
   }
 
   sendMessage = (author, insertMessage) => {
     console.log('sendMessage.');
-
-    var newMessageKey = firebase.database().ref(`games/${gameId}/`).push().key;
+    console.log('gameId: ');
+        console.log(this.props.gameId);
+            console.log('gameId');
+    var newMessageKey = firebase.database().ref(`games/${this.props.gameId}/`).push().key;
     var updates = {};
 
     const now = new Date();
@@ -143,7 +144,7 @@ class Home extends Component {
     const time = `${hours}:${mins}`;
     console.log(time);
 
-    updates[`games/${gameId}/` + newMessageKey] = 
+    updates[`games/${this.props.gameId}/` + newMessageKey] = 
       {
         text: insertMessage, 
         author: author + ':',
@@ -159,7 +160,7 @@ class Home extends Component {
   takePhoto = (path) => {
     console.log('takePhoto');
 
-    this.sendMessage("bing man", `Whoa, ${teamName} completed a square!`)
+    this.sendMessage("bing man", `Whoa, ${this.props.teamName} completed a square!`)
     const index = this.state.clickedSquareIndex;
     // Check For Win:
     const colMarked = index%4;
@@ -171,7 +172,7 @@ class Home extends Component {
     currentColCount[colMarked]++;
     if (currentColCount[colMarked] >= 4) {
       console.log('YOU WIN!!!');
-      this.sendMessage("bing man", `Holy moly, ${teamName} got bingo!!`)
+      this.sendMessage("bing man", `Holy moly, ${this.props.teamName} got bingo!!`)
     }
     console.log('CURRENTColCount: ' + currentColCount);
 
@@ -185,7 +186,7 @@ class Home extends Component {
     currentRowCount[rowMarked]++;
     if (currentRowCount[rowMarked] >= 4) {
       console.log('YOU WIN!!!');
-      this.sendMessage("bing man", `Look Out, ${teamName} got bingo!!`)
+      this.sendMessage("bing man", `Look Out, ${this.props.teamName} got bingo!!`)
     }
     console.log('CURRENTColCount: ' + currentRowCount);
 
@@ -289,7 +290,7 @@ class Home extends Component {
               value={this.state.newMessage}
               onChangeText={newMessage => this.setState({ newMessage })}
             />
-            <Text onPress={()=>{this.sendMessage(teamName, this.state.newMessage)}}>SEND</Text>
+            <Text onPress={()=>{this.sendMessage(this.props.teamName, this.state.newMessage)}}>SEND</Text>
           </CardSection>
         </View>
       } 
@@ -346,9 +347,9 @@ const mapStateToProps = (state) => {
   const { teamName, gameId, custom } = state.gameForm;
   console.log('Home mapStateToProps');
   console.log(gameId);
-  console.log(custom);
+  console.log(teamName);
     console.log('Home mapStateToProps');
-  return { messages, gameId, custom };
+  return { messages, teamName, gameId, custom };
 };
 
 export default connect(mapStateToProps, { messagesGet, gameUpdate })(Home);
