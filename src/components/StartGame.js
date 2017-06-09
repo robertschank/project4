@@ -30,7 +30,7 @@ class StartGame extends Component {
   pressedNew() {
     console.log('pressedNew');
     this.setState({ newGame: true, existingGame: false });
-    this.props.onPressNewGame();
+   // this.props.onPressNewGame();
   }
 
   pressedJoin() {

@@ -19,6 +19,7 @@ import firebase from 'firebase';
 import _ from 'lodash';
 
 import { messagesGet } from '../actions';
+import { gameUpdate } from '../actions';
 import { Square } from './Square';
 import { MyCamera } from './MyCamera';
 import MessageItem from './MessageItem';
@@ -26,9 +27,8 @@ import { Card, CardSection, Input } from './common';
 import { containerColor } from '../constants/Colors';
 
 let squaresArray = [];
-const gameId = '';
 const teamName = '';
-
+const gameId = '';
 // const teamName = this.props.teamName;
 
 function SquareObject(index, description) {
@@ -43,9 +43,9 @@ class Home extends Component {
     super(props);
     console.log('BEGIN CONSTRUCTOR');
 
-    // const gameId = this.props.gameId;
+    const gameId = this.props.gameId;
     console.log(this.props.gameId);
-    gameId = this.props.gameId;
+    // gameId = this.props.gameId;
     teamName = this.props.teamName;
 
 
@@ -74,20 +74,6 @@ class Home extends Component {
       squaresArray.push(new SquareObject(i, descriptionsArray[i]));
     }
 
-
-
-    // // Construct clicked square
-    // const x = this.props.clickedSquareIndex;
-    // let clickedSquare = new SquareObject(x, descriptionsArray[x]);
-    // clickedSquare.photoPath = this.props.photoUri;
-    // clickedSquare.marked = 'yes';
-
-    // // Insert constructed square into squaresArray
-    // squaresArray[x] = clickedSquare;
-
-
-
-
     // Construct a dog square and insert into squaresArray
     const y = 5;
     let dogSquare = new SquareObject(y, descriptionsArray[y]);
@@ -114,7 +100,7 @@ class Home extends Component {
   componentWillMount() {
     console.log('HOME.JS componentWillMount.');
     // Get the list of messages from db
-    this.props.messagesGet(gameId);
+
     this.createDataSource(this.props);
   }
 
@@ -137,8 +123,10 @@ class Home extends Component {
 
   componentDidMount() {
     console.log('HOME.JS componentDidMount. ');
+        this.props.messagesGet(gameId);
     // console.log(this.state.gameId);
-    this.sendMessage("bing man", `${teamName} has joined the game.`);
+    this.sendMessage('TSBot', `Hey people, welcome to Townie Squares! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`);
+    this.sendMessage('TSBot', `${teamName} has joined the game.`);
   }
 
   sendMessage = (author, insertMessage) => {
@@ -165,6 +153,7 @@ class Home extends Component {
 
     firebase.database().ref().update(updates);
     this.setState({ newMessage: '' });
+
   }
 
   takePhoto = (path) => {
@@ -260,7 +249,7 @@ class Home extends Component {
         ||
         <View style={styles.boardContainer}>
           <View style={styles.headerView}>
-            <Text style={styles.header}>Fun with Strangers Bingo </Text><Text onPress={() => firebase.auth().signOut()}>
+            <Text style={styles.header}> Townie Squares </Text><Text onPress={() => firebase.auth().signOut()}>
               Log Out
             </Text>        
           </View>
@@ -354,8 +343,12 @@ const mapStateToProps = (state) => {
   const messages = _.map(state.messages, (val, uid) => {
     return { ...val, uid };
   });
-
-  return { messages };
+  const { teamName, gameId, custom } = state.gameForm;
+  console.log('Home mapStateToProps');
+  console.log(gameId);
+  console.log(custom);
+    console.log('Home mapStateToProps');
+  return { messages, gameId, custom };
 };
 
-export default connect(mapStateToProps, { messagesGet })(Home);
+export default connect(mapStateToProps, { messagesGet, gameUpdate })(Home);
