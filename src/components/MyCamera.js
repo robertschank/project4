@@ -73,8 +73,10 @@ export default class MyCamera extends React.Component {
         aspect: Camera.constants.Aspect.fill,
         captureTarget: Camera.constants.CaptureTarget.disk,
         type: Camera.constants.Type.back,
-        orientation: Camera.constants.Orientation.auto,
-        flashMode: Camera.constants.FlashMode.off
+        orientation: Camera.constants.Orientation.portrait,
+        flashMode: Camera.constants.FlashMode.off,
+        // Capture Quality:
+        captureQuality: Camera.constants.CaptureQuality.low,
       },
       isRecording: false
     };
@@ -92,6 +94,7 @@ export default class MyCamera extends React.Component {
   takePicture = () => {
         console.log('takePicture this.state.clickedSquareIndex: ' + this.props.clickedSquareIndex);
     if (this.camera) {
+      console.log('takePicure CaptureQuality: ' + this.state.camera.captureQuality);
       this.camera.capture()
         .then((data) => this.props.takePhoto(data.path))
         .then((data) =>console.log('MyCamera takePicture() Promise'))
@@ -182,6 +185,7 @@ export default class MyCamera extends React.Component {
           flashMode={this.state.camera.flashMode}
           defaultTouchToFocus
           mirrorImage={false}
+          captureQuality={this.state.camera.captureQuality}
         />
         <View style={[styles.overlay, styles.topOverlay]}>
           <TouchableOpacity

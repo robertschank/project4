@@ -21,7 +21,7 @@ class NewGameForm extends Component {
     // let gameKey = firebase.database().ref(`games/`).push().key;
 
     // this.props.gameUpdate({ prop: gameId, gameKey });
-    console.log()
+    
     // this.props.gameCreate({ teamName, custom}); //custom1: custom1 || null }); //custom will probably be an array of custom traits
   }
 
@@ -31,6 +31,8 @@ class NewGameForm extends Component {
 
     this.props.gameUpdate({ prop: 'gameId', value: gameKey });
 
+    
+    
     console.log('createAndSetGameId gameKey: ' + gameKey);
   }
 
