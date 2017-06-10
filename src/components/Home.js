@@ -15,6 +15,7 @@ import {
   View
 } from 'react-native';
 import Camera from 'react-native-camera';
+import { takeSnapshot, dirs } from "react-native-view-shot";
 import firebase from 'firebase';
 import _ from 'lodash';
 
@@ -30,6 +31,9 @@ let squaresArray = [];
 // const teamName = '';
 // const gameId = '';
 // const teamName = this.props.teamName;
+
+const { CacheDir, DocumentDir, MainBundleDir, MovieDir, MusicDir, PictureDir } = dirs;
+
 
 function SquareObject(index, description) {
   this.index = index;
@@ -94,8 +98,29 @@ class Home extends Component {
       returnedPhotoPath: 'no photo path',
       rowCount: [0, 1, 1, 0],
       colCount: [0, 1, 0, 1],
+          // previewSource: catsSource,
+    error: null,
+    res: null,
+    value: {
+      format: "png",
+      quality: 0.9,
+      result: "file",
+      snapshotContentContainer: false,
+    },
     };
   } // End Constructor
+
+  //   state = {
+  //   previewSource: catsSource,
+  //   error: null,
+  //   res: null,
+  //   value: {
+  //     format: "png",
+  //     quality: 0.9,
+  //     result: "file",
+  //     snapshotContentContainer: false,
+  //   },
+  // };
 
   componentWillMount() {
     console.log('HOME.JS componentWillMount.');
@@ -127,6 +152,27 @@ class Home extends Component {
     this.sendMessage('TSBot', `Hey people, welcome to Townie Squares! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`);
     this.sendMessage('TSBot', `${this.props.teamName} has joined the game.`);
   }
+
+
+
+
+// Take Spapshot of board
+  // snapshot = refname => () =>
+  // takeSnapshot("board", { path: PictureDir+"/foo.png" })
+  // .then(
+  //   uri => console.log("Image saved to", uri),
+  //   error => console.error("Oops, snapshot failed", error)
+  // );
+
+  snapshot = () =>
+  takeSnapshot(this.refs["board"], { path: PictureDir+"/foo.png" })
+  .then(
+    uri => console.log("Image saved to", uri),
+    error => console.error("Oops, snapshot failed", error)
+  );
+
+
+
 
   sendMessage = (author, insertMessage) => {
     console.log('sendMessage.');
@@ -254,7 +300,7 @@ class Home extends Component {
               Log Out
             </Text>        
           </View>
-          <View style={styles.row}>
+          <View style={styles.row} ref="board">
             {this.renderSquare(this.state.squares[0].index, this.state.squares[0].description, this.state.squares[0].photoPath, this.state.squares[0].marked)} 
             {this.renderSquare(this.state.squares[1].index, this.state.squares[1].description, this.state.squares[1].photoPath, this.state.squares[1].marked)}
             {this.renderSquare(this.state.squares[2].index, this.state.squares[2].description, this.state.squares[2].photoPath, this.state.squares[2].marked)}
@@ -283,6 +329,7 @@ class Home extends Component {
             dataSource={this.dataSource}
             renderRow={this.renderRow}
           />
+          <Text onPress={this.snapshot}>SNAPSHOT!</Text>
           <CardSection style={styles.messageInput} >
             <Input
               placeholder="Enter trash talk here."
@@ -331,6 +378,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     margin: 0,
     padding: 0,
+    backgroundColor: 'yellow',
   },
   ListView: {
     flexGrow:1, // Not sure if this is doing anything

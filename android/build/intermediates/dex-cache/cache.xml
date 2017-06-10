@@ -444,6 +444,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bobby/wdi/project5/project4/android/app/build/intermediates/exploded-aar/RNCamera/react-native-view-shot/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="fd83e7bddc4a098775efa2383ed751e548cfee4e">
+        <dex dex="/Users/bobby/wdi/project5/project4/android/app/build/intermediates/pre-dexed/debug/RNCamera-react-native-view-shot-unspecified_bb59491d41fa6e192208301a0407c72e49787908.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bobby/wdi/project4/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fbcore/0.11.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
