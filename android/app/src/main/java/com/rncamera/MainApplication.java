@@ -3,6 +3,7 @@ package com.rncamera;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.facebook.react.ReactNativeHost;
@@ -25,8 +26,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNViewShotPackage(),
-            new RCTCameraPackage()
+          new RNFirebasePackage(),
+          new RNViewShotPackage(),
+          new RCTCameraPackage()
       );
     }
   };

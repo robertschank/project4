@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "234490296356",
+    "firebase_url": "https://rncamera-11fe0.firebaseio.com",
+    "project_id": "rncamera-11fe0",
+    "storage_bucket": "rncamera-11fe0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234490296356:android:7816f662c2a8e7f4",
+        "android_client_info": {
+          "package_name": "com.RNCamera.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "234490296356-hapk0c79sk938amncnmnkfigd234eh1g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAedZ45YRBbHtneYDXzqJNqGSzRcOe_pcY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234490296356:android:1ca618a770d5bd72",
+        "android_client_info": {
+          "package_name": "com.rncamera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "234490296356-hapk0c79sk938amncnmnkfigd234eh1g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAedZ45YRBbHtneYDXzqJNqGSzRcOe_pcY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

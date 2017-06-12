@@ -40,12 +40,12 @@
         "source": "/Users/bobby/wdi/RNCamera/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/notification_media_action.xml"
     },
     {
-        "merged": "/Users/bobby/wdi/project4/android/app/build/intermediates/res/merged/debug/layout/notification_media_action.xml",
-        "source": "/Users/bobby/wdi/project4/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/notification_media_action.xml"
-    },
-    {
         "merged": "/Users/bobby/wdi/RNCamera/android/app/build/intermediates/res/merged/debug/layout/fps_view.xml",
         "source": "/Users/bobby/wdi/RNCamera/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/res/layout/fps_view.xml"
+    },
+    {
+        "merged": "/Users/bobby/wdi/project4/android/app/build/intermediates/res/merged/debug/layout/notification_media_action.xml",
+        "source": "/Users/bobby/wdi/project4/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/notification_media_action.xml"
     },
     {
         "merged": "/Users/bobby/wdi/project4/android/app/build/intermediates/res/merged/debug/layout/abc_list_menu_item_layout.xml",
@@ -124,12 +124,12 @@
         "source": "/Users/bobby/wdi/project4/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/notification_template_part_time.xml"
     },
     {
-        "merged": "/Users/bobby/wdi/project5/project4/android/app/build/intermediates/res/merged/debug/layout/abc_screen_toolbar.xml",
-        "source": "/Users/bobby/wdi/project5/project4/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/abc_screen_toolbar.xml"
-    },
-    {
         "merged": "/Users/bobby/wdi/project5/project4/android/app/build/intermediates/res/merged/debug/layout/abc_action_menu_layout.xml",
         "source": "/Users/bobby/wdi/project5/project4/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/abc_action_menu_layout.xml"
+    },
+    {
+        "merged": "/Users/bobby/wdi/project5/project4/android/app/build/intermediates/res/merged/debug/layout/abc_screen_toolbar.xml",
+        "source": "/Users/bobby/wdi/project5/project4/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/abc_screen_toolbar.xml"
     },
     {
         "merged": "/Users/bobby/wdi/RNCamera/android/app/build/intermediates/res/merged/debug/layout/abc_action_mode_close_item_material.xml",
@@ -144,12 +144,12 @@
         "source": "/Users/bobby/wdi/RNCamera/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/notification_template_media.xml"
     },
     {
-        "merged": "/Users/bobby/wdi/project4/android/app/build/intermediates/res/merged/debug/layout/abc_action_menu_item_layout.xml",
-        "source": "/Users/bobby/wdi/project4/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/abc_action_menu_item_layout.xml"
-    },
-    {
         "merged": "/Users/bobby/wdi/RNCamera/android/app/build/intermediates/res/merged/debug/layout/abc_action_bar_view_list_nav_layout.xml",
         "source": "/Users/bobby/wdi/RNCamera/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/abc_action_bar_view_list_nav_layout.xml"
+    },
+    {
+        "merged": "/Users/bobby/wdi/project4/android/app/build/intermediates/res/merged/debug/layout/abc_action_menu_item_layout.xml",
+        "source": "/Users/bobby/wdi/project4/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/abc_action_menu_item_layout.xml"
     },
     {
         "merged": "/Users/bobby/wdi/project5/project4/android/app/build/intermediates/res/merged/debug/layout/notification_template_part_chronometer.xml",

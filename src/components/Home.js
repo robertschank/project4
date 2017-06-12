@@ -55,7 +55,7 @@ class Home extends Component {
 
     // Hard Coded Descriptions
     let descriptionsArray = [
-          'Tie Dye',
+          'Construction Worker',
           'Leather Jacket',
           'Red Shirt',
           'Hands Full',
@@ -64,13 +64,13 @@ class Home extends Component {
           'Tattoo',
           'Out of Place',
           'Flatbrim',
-          'Eating on the Run',
-          'Jersey',
+          'Eating On the Go',
+          'College Sweatshirt',
           'Basic',
           'Pizza!',
           'Free Space',
           'Suit',
-          'Sweatpants',
+          'Moustache',
     ];
 
     // Set up some empty squares
@@ -166,22 +166,48 @@ class Home extends Component {
 
   uploadSnapshot = () => {
   console.log('SNAPSHOT');
-  takeSnapshot(this.refs["board"], { path: PictureDir+"/foo.png" })
-  .then(
-    uri => this.uploadToStorage(uri), //console.log("Image saved to", uri),
-    error => console.error("Oops, snapshot failed", error),
-  ); // end .then
+    takeSnapshot(this.refs["board"], this.state.value)
+    .then(res =>
+      this.state.value.result !== "file"
+      ? res
+      : new Promise((success, failure) =>
+      // just a test to ensure res can be used in Image.getSize
+      Image.getSize(
+        res,
+        (width, height) => (console.log(res,width,height), success(res)),
+        failure)))
+    .then(res => this.uploadToStorage(res))
+    .catch(error => (console.warn(error), this.setState({ error, res: null, previewSource: null })));
+
+
+  // OLD WAY
+
+  // takeSnapshot(this.refs["board"], { path: PictureDir+"/foo.png" })
+  // .then(
+  //   uri => this.uploadToStorage(uri), //console.log("Image saved to", uri),
+  //   error => console.error("Oops, snapshot failed", error),
+  // ); // end .then
+
   }
 
-  uploadToStorage(x){
-    console.log('uploadToStorage');
-    console.log(x);
-
-    // mediaFile = new File(x + "IMG_" + timeStamp + ".jpg");
 
 
+  uploadToStorage(res){
+    console.log('uploadToStorage!!!!!');
+    console.log(res);
 
-    var file = x;
+    // this.setState({
+    //       error: null,
+    //       res,
+    //       // Disabled preview for now
+    //       // previewSource: { uri:
+    //       //  this.state.value.result === "base64"
+    //       //   ? "data:image/"+this.state.value.format+";base64,"+res
+    //       //   : res }
+    //     })
+
+
+    file = new File(res);
 
     // Create the file metadata
     var metadata = {
