@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import RNFirebase from 'react-native-firebase';
 import Camera from 'react-native-camera';
 import { takeSnapshot, dirs } from "react-native-view-shot";
 import firebase from 'firebase';
@@ -32,6 +33,12 @@ let squaresArray = [];
 // Snapshot built in directories for phone storage
 const { CacheDir, DocumentDir, MainBundleDir, MovieDir, MusicDir, PictureDir } = dirs;
 
+const configurationOptions = {
+  debug: true
+};
+
+const rnfirebase = RNFirebase.initializeApp(configurationOptions);
+
 function SquareObject(index, description) {
   this.index = index;
   this.description = description;
@@ -48,9 +55,6 @@ class Home extends Component {
     console.log(this.props.gameId);
     // gameId = this.props.gameId;
     // teamName = this.props.teamName;
-
-
-
 
 
     // Hard Coded Descriptions
@@ -149,14 +153,14 @@ class Home extends Component {
   componentDidMount() {
     console.log('HOME.JS componentDidMount. ');
         this.props.messagesGet(this.props.gameId);
-    this.sendMessage('TSBot', `Hey people, welcome to Townie Squares! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`);
-    this.sendMessage('TSBot', `${this.props.teamName} joined the game.`);
+    this.sendMessage('Bot', `Hey people, welcome to Townie Squares! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`);
+    this.sendMessage('Bot', `${this.props.teamName} joined the game.`);
   }
 
 
 
 
-// Take Spapshot of board
+  // Take Spapshot of board
   // snapshot = refname => () =>
   // takeSnapshot("board", { path: PictureDir+"/foo.png" })
   // .then(
@@ -166,111 +170,55 @@ class Home extends Component {
 
   uploadSnapshot = () => {
   console.log('SNAPSHOT');
-    takeSnapshot(this.refs["board"], this.state.value)
-    .then(res =>
-      this.state.value.result !== "file"
-      ? res
-      : new Promise((success, failure) =>
-      // just a test to ensure res can be used in Image.getSize
-      Image.getSize(
-        res,
-        (width, height) => (console.log(res,width,height), success(res)),
-        failure)))
-    .then(res => this.uploadToStorage(res))
-    .catch(error => (console.warn(error), this.setState({ error, res: null, previewSource: null })));
-
-
-  // OLD WAY
-
-  // takeSnapshot(this.refs["board"], { path: PictureDir+"/foo.png" })
-  // .then(
-  //   uri => this.uploadToStorage(uri), //console.log("Image saved to", uri),
-  //   error => console.error("Oops, snapshot failed", error),
-  // ); // end .then
+  takeSnapshot(this.refs["board"], { path: PictureDir+"/foo.png" })
+  .then(
+    uri => this.uploadToStorage(uri), //console.log("Image saved to", uri),
+    error => console.error("Oops, snapshot failed", error),
+  ); // end .then
 
   }
 
-
+  uploadHard() {
+    console.log('uploadHard');
+    rnfirebase.storage()
+      .ref('/images')
+      .putFile('file:///storage/emulated/0/Pictures/foo.png')
+      .then(uploadedFile => {
+          //success
+          console.log('FILE UPLOAD SUCCESS!!')
+      })
+      .catch(err => {
+          //Error
+          console.log('FILE UPLOAD ERROR :(')
+          console.log(err)
+      });
+  }
 
   uploadToStorage(res){
     console.log('uploadToStorage!!!!!');
     console.log(res);
 
-    // this.setState({
-    //       error: null,
-    //       res,
-    //       // Disabled preview for now
-    //       // previewSource: { uri:
-    //       //  this.state.value.result === "base64"
-    //       //   ? "data:image/"+this.state.value.format+";base64,"+res
-    //       //   : res }
-    //     })
+    rnfirebase.storage()
+      .ref('/files/1234')
+      .putFile('res')
+      .then(uploadedFile => {
+          //success
+          console.log('FILE UPLOAD SUCCESS!!')
+      })
+      .catch(err => {
+          //Error
+          console.log('FILE UPLOAD ERROR :(')
+          console.log(err)
+      });
 
 
-    file = new File(res);
-
-    // Create the file metadata
-    var metadata = {
-      contentType: 'image/jpeg'
-    };
-
-    // Firebase Storage Stuff
+    // Firebase Storage Stuff (Not used with react-native-firebase)
     // Get a reference to the storage service, which is used to create references in your storage bucket
-    const storage = firebase.storage();
+    // const storage = firebase.storage();
 
     // Create a storage reference from our storage service
-    const storageRef = storage.ref();
-    const gameStorageRef = storageRef.child(`games/${this.props.gameId}`);
-
-
-
-    // Upload file and metadata to the object 'images/mountains.jpg'
-    var uploadTask = gameStorageRef.child('snapshotview/' + file.name).put(file, metadata);
-
-    // Listen for state changes, errors, and completion of the upload.
-    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-      function(snapshot) {
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
-        switch (snapshot.state) {
-          case firebase.storage.TaskState.PAUSED: // or 'paused'
-            console.log('Upload is paused');
-            break;
-          case firebase.storage.TaskState.RUNNING: // or 'running'
-            console.log('Upload is running');
-            break;
-        }
-      }, function(error) {
-
-      // A full list of error codes is available at
-      // https://firebase.google.com/docs/storage/web/handle-errors
-      switch (error.code) {
-        case 'storage/unauthorized':
-          // User doesn't have permission to access the object
-          break;
-
-        case 'storage/canceled':
-          // User canceled the upload
-          break;
-
-
-        case 'storage/unknown':
-          // Unknown error occurred, inspect error.serverResponse
-          break;
-      }
-    }, function() {
-      // Upload completed successfully, now we can get the download URL
-      var downloadURL = uploadTask.snapshot.downloadURL;
-    });
-
-
-
-
-
-
-
-
+    // const storageRef = storage.ref();
+    // const gameStorageRef = storageRef.child(`games/${this.props.gameId}`);
 
 
 
@@ -298,17 +246,17 @@ class Home extends Component {
         author: author + ':',
         time: time,
         color: '#f6ceff',
+        url: null,
       };
 
     firebase.database().ref().update(updates);
     this.setState({ newMessage: '' });
-
   }
 
   takePhoto = (path) => {
     console.log('takePhoto');
 
-    this.sendMessage("bing man", `Whoa, ${this.props.teamName} completed a square!`)
+    this.sendMessage("Bot", `Whoa, ${this.props.teamName} completed a square!`)
     const index = this.state.clickedSquareIndex;
 
     // Couldn't get spread operator ... working
@@ -335,7 +283,7 @@ class Home extends Component {
     currentColCount[colMarked]++;
     if (currentColCount[colMarked] >= 4) {
       console.log('YOU WIN!!!');
-      this.sendMessage("bing man", `Lookout! ${this.props.teamName} got bingo!!`)
+      this.sendMessage("Bot", `Lookout! ${this.props.teamName} got bingo!!`)
 
       // Take a snapshot of the board to send to firebase storage
       // console.log('SNAPSHOT')
@@ -358,7 +306,7 @@ class Home extends Component {
     currentRowCount[rowMarked]++;
     if (currentRowCount[rowMarked] >= 4) {
       console.log('YOU WIN!!!');
-      this.sendMessage("bing man", `Look Out, ${this.props.teamName} got bingo!!`)
+      this.sendMessage("Bot", `Look Out, ${this.props.teamName} got bingo!!`)
     } // end row win if
     console.log('CURRENTColCount: ' + currentRowCount);
 
@@ -450,6 +398,7 @@ class Home extends Component {
           />
           
           <CardSection style={styles.messageInput} >
+            <Text onPress={this.uploadHard}>MM</Text>
             <Text onPress={this.uploadSnapshot}>XO!</Text>
             <Input
               placeholder="Enter trash talk here."

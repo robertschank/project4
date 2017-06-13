@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
-import { CardSection } from './common';
+import { Button, CardSection } from './common';
 
 class MessageItem extends Component {
 
@@ -14,6 +14,7 @@ class MessageItem extends Component {
             <Text style={styles.text}>{text}</Text>
             <Text style={styles.time}>{time}</Text>
           </CardSection>
+          { if (this.props.snapshot) {<Button> Have a look</Button>}}
         </View>
     );
   }
