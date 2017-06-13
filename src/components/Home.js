@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   AppRegistry,
-  Button,
   Image,
   KeyboardAvoidingView,
   ListView,
@@ -28,7 +27,7 @@ import { BoardShotModal } from './BoardShotModal';
 import { Square } from './Square';
 import { MyCamera } from './MyCamera';
 import MessageItem from './MessageItem';
-import { Card, CardSection, Confirm, Input } from './common';
+import { Button, Card, CardSection, Confirm, Input } from './common';
 import { containerColor } from '../constants/Colors';
 
 let squaresArray = [];
@@ -154,30 +153,28 @@ class Home extends Component {
   console.log('SNAPSHOT');
   takeSnapshot(this.refs["board"], { path: PictureDir+"/foo.png" })
   .then(
-    uri => this.uploadToStorage(uri), //console.log("Image saved to", uri),
+    uri => this.uploadHard(), //console.log("Image saved to", uri),
     error => console.error("Oops, snapshot failed", error),
   ); // end .then
 
   }
 
-
-
   uploadToStorage(res){
-    console.log('uploadToStorage!!!!!');
-    console.log(res);
+    // console.log('uploadToStorage!!!!!');
+    // console.log(res);
 
-    rnfirebase.storage()
-      .ref('/files/1234')
-      .putFile('res')
-      .then(uploadedFile => {
-          //success
-          console.log('FILE UPLOAD SUCCESS!!')
-      })
-      .catch(err => {
-          //Error
-          console.log('FILE UPLOAD ERROR :(')
-          console.log(err)
-      });
+    // rnfirebase.storage()
+    //   .ref('/files/1234')
+    //   .putFile('res')
+    //   .then(uploadedFile => {
+    //       //success
+    //       console.log('FILE UPLOAD SUCCESS!!')
+    //   })
+    //   .catch(err => {
+    //       //Error
+    //       console.log('FILE UPLOAD ERROR :(')
+    //       console.log(err)
+    //   });
 
   }
 
@@ -309,6 +306,7 @@ class Home extends Component {
     console.log(url);
     console.log('handlePressLook');
     this.setState({ modalUrl: url });
+    this.setModalVisible(true);
   }
 
   renderSquare(i, description, photoPath, marked) {
@@ -354,30 +352,23 @@ class Home extends Component {
             </Text>        
           </View>
 
-          <View style={{marginTop: 22}}>
+          <View >
             <Modal
               animationType={"slide"}
-              transparent={true}
+              transparent={false}
               visible={this.state.modalVisible}
               onRequestClose={() => {alert("Modal has been closed.")}}
               >
              <View style={{marginTop: 22}}>
               <View>
-                <Text>Hello World!</Text>
-                <Image style={{width: 400, height: 400}} source={{uri: this.state.modalUrl}} />
-                <TouchableHighlight onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible)
-                }}>
-                  <Text>Hide Modal</Text>
-                </TouchableHighlight>
+                <Image style={{width: 375, height: 375}} source={{uri: this.state.modalUrl}} />
+                <CardSection>
+                  <Button onPress={() => {this.setModalVisible(!this.state.modalVisible)}} >Looks Good</Button>
+                  <Button onPress={() => {this.setModalVisible(!this.state.modalVisible)}} >Something's Fishy</Button>
+                </CardSection>
               </View>
              </View>
             </Modal>
-            <TouchableHighlight onPress={() => {
-              this.setModalVisible(true)
-            }}>
-              <Text>Show Modal</Text>
-            </TouchableHighlight>
           </View>
 
           <View ref="board" style={styles.boardView}>
@@ -413,11 +404,11 @@ class Home extends Component {
           />
           
           <CardSection style={styles.messageInput} >
-            <Text onPress={this.uploadHard}>MM</Text>
-            <Text onPress={this.uploadSnapshot}>XO!</Text>
+            <Text onPress={this.uploadSnapshot}>Snapshot</Text>
             <Input
               placeholder="Enter trash talk here."
-              label="Group Message"
+              label=""
+              style={{width: 300}}
               value={this.state.newMessage}
               onChangeText={newMessage => this.setState({ newMessage })}
             />
