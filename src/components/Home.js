@@ -404,10 +404,10 @@ class Home extends Component {
           />
           
           <CardSection style={styles.messageInput} >
+          
             <Text onPress={this.uploadSnapshot}>Snapshot</Text>
             <Input
               placeholder="Enter trash talk here."
-              label=""
               style={{width: 300}}
               value={this.state.newMessage}
               onChangeText={newMessage => this.setState({ newMessage })}
