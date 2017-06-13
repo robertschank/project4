@@ -5,7 +5,13 @@ import { Button, CardSection, Modal } from './common';
 class MessageItem extends Component {
 
   renderButton(){
-    if (this.props.message.url) {return(<Button > Have a look </Button>)} else return;
+
+    if (this.props.message.url) {
+      const x = this.props.message.url;
+      console.log('renderButton')
+      console.log(x);
+      return(<Button onPress={ (url) => this.props.onPressLook(x)} > Have a look </Button>)
+    } else return;
   }
 
   render() {
@@ -23,6 +29,8 @@ class MessageItem extends Component {
     );
   }
 }
+
+
 
 const styles = {
   container: {

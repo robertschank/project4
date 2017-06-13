@@ -115,6 +115,7 @@ class Home extends Component {
         snapshotContentContainer: false,
       },
       modalVisible: false,
+      modalUrl: 'http://thumbs.ifood.tv/files/styles/180x200/public/image/b7/19/544212-swiss-cheese-with-the-holes.jpg?itok=r1i4q65G',
     };
   } // End Constructor
 
@@ -222,8 +223,9 @@ class Home extends Component {
           console.log('FILE UPLOAD SUCCESS!!')
                     console.log(uploadedFile.downloadUrl)
           console.log('FILE UPLOAD SUCCESS!!')
+          this.setState({ modalUrl: uploadedFile.downloadUrl })
 
-          this.sendMessage('Bot', `Lookout Nerds!`, 'hokeypokey');
+          this.sendMessage('Bot', `Lookout people, Here comes a snapshot!`, uploadedFile.downloadUrl);
       })
       .catch(err => {
           //Error
@@ -302,6 +304,13 @@ class Home extends Component {
     });
   };
 
+  handlePressLook = (url) => {
+    console.log('handlePressLook');
+    console.log(url);
+    console.log('handlePressLook');
+    this.setState({ modalUrl: url });
+  }
+
   renderSquare(i, description, photoPath, marked) {
     return <Square index={i}
       description={description}
@@ -311,8 +320,8 @@ class Home extends Component {
     />
   }
 
-  renderRow = (mess) => {
-    return (<MessageItem message={mess} />)
+  renderRow = (mess, url) => {
+    return (<MessageItem message={mess} onPressLook={this.handlePressLook.bind(this)}/>)
   }
 
   renderModal() {
@@ -355,7 +364,7 @@ class Home extends Component {
              <View style={{marginTop: 22}}>
               <View>
                 <Text>Hello World!</Text>
-                <Image style={{width: 400, height: 400}} source={{uri: 'http://thumbs.ifood.tv/files/styles/180x200/public/image/b7/19/544212-swiss-cheese-with-the-holes.jpg?itok=r1i4q65G'}} />
+                <Image style={{width: 400, height: 400}} source={{uri: this.state.modalUrl}} />
                 <TouchableHighlight onPress={() => {
                   this.setModalVisible(!this.state.modalVisible)
                 }}>
