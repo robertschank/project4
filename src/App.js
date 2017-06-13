@@ -36,39 +36,6 @@ export default class App extends Component {
     });
   }
 
-  // handlePressNewGame() {
-  //   console.log('handlePressNewGame');
-
-  //   const { currentUser } = firebase.auth();
-
-  //   // Create new Game ID:
-  //   let gameKey = firebase.database().ref(`games/`).push().key;
-  //   this.setState({ gameId: gameKey });
-  //   console.log(this.state.gameId);
-
-  //   var updates = {};
-
-  //   // Get the current Time:
-  //   const now = new Date();
-  //   const hours =  now.getHours();
-  //   let mins = now.getMinutes();
-  //   // if m is one digit, add a zero in front of it:
-  //   mins = mins < 10 ? "0" + mins : mins;
-  //   const time = `${hours}:${mins}`;
-
-  //   // Create New Post Key
-  //   reallyNewPostKey = firebase.database().ref(`games/${gameKey}/`).push().key;
-  //   updates[`games/${gameKey}/${reallyNewPostKey}`] = 
-  //     {
-  //       text: `Hey people, welcome to Squares Out There! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`, 
-  //       author:"Bing Man:",
-  //       time: time,
-  //       color: '#f6ceff',
-  //     };
-
-  //   firebase.database().ref().update(updates);
-  // }
-
   handlePressSubmit(teamName) {
     console.log('handlePressSubmit');
 
@@ -126,7 +93,7 @@ export default class App extends Component {
       <Provider store={store}>
         <View style={{alignItems: 'stretch',
                       flex: 1,
-                      backgroundColor: 'skyblue'}}>
+                      backgroundColor: '#edf1ff'}}>
           {this.renderContent()}
         </View>
       </Provider>

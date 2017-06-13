@@ -52,9 +52,6 @@ class StartGame extends Component {
             </Button>          
           </CardSection>
             {this.renderForm()}
-
-
-
         </Card>
       </View>
     );

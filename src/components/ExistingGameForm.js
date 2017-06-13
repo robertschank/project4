@@ -54,16 +54,16 @@ class ExistingGameForm extends Component {
           <Input
             placeholder="paste here"
             label="Enter Game Id"
-            value={this.state.gameId}
-            onChangeText={gameId => this.setState({ gameId })}
+            value={this.props.gameId}
+            onChangeText={value => this.props.gameUpdate({ prop: 'gameId', value })}
           />
         </CardSection>
 
-        <CardSection>
+        {/*<CardSection>
           <Text style={styles.errorTextStyle}>
             {this.state.error}
           </Text>
-        </CardSection>
+        </CardSection>*/}
 
         <CardSection>
           <Button onPress={()=>{ this.props.onPressJoinGame(this.state.gameId, this.state.teamName)} }>
@@ -91,9 +91,9 @@ const styles = {
 };
 
   const mapStateToProps = (state) => {
-    const { teamName } = state.gameForm;
+    const { teamName, gameId } = state.gameForm;
     console.log(teamName);
-    return { teamName };
+    return { teamName, gameId };
   };
 
 export default connect(mapStateToProps, { gameUpdate })(ExistingGameForm);

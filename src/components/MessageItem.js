@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
-import { Button, CardSection } from './common';
+import { Button, CardSection, Modal } from './common';
 
 class MessageItem extends Component {
 
+  renderButton(){
+    if (this.props.message.url) {return(<Button > Have a look </Button>)} else return;
+  }
+
   render() {
-    const { text, author, time, color } = this.props.message;
+    const { text, author, time, color, url } = this.props.message;
 
     return (
         <View >
@@ -14,7 +18,7 @@ class MessageItem extends Component {
             <Text style={styles.text}>{text}</Text>
             <Text style={styles.time}>{time}</Text>
           </CardSection>
-          { if (this.props.snapshot) {<Button> Have a look</Button>}}
+          { this.renderButton() }
         </View>
     );
   }
@@ -22,7 +26,6 @@ class MessageItem extends Component {
 
 const styles = {
   container: {
-    // backgroundColor: 'skyBlue',
     justifyContent: 'space-between',
     flex: 1,
   },

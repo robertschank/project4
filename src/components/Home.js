@@ -7,10 +7,12 @@ import {
   Image,
   KeyboardAvoidingView,
   ListView,
+  Modal,
   StatusBar,
   StyleSheet,
   Text,
   TextInput,
+  TouchableHighlight,
   TouchableOpacity,
   View
 } from 'react-native';
@@ -22,6 +24,7 @@ import _ from 'lodash';
 
 import { messagesGet } from '../actions';
 import { gameUpdate } from '../actions';
+import { BoardShotModal } from './BoardShotModal';
 import { Square } from './Square';
 import { MyCamera } from './MyCamera';
 import MessageItem from './MessageItem';
@@ -111,20 +114,9 @@ class Home extends Component {
         result: "file",
         snapshotContentContainer: false,
       },
+      modalVisible: false,
     };
   } // End Constructor
-
-  //   state = {
-  //   previewSource: catsSource,
-  //   error: null,
-  //   res: null,
-  //   value: {
-  //     format: "png",
-  //     quality: 0.9,
-  //     result: "file",
-  //     snapshotContentContainer: false,
-  //   },
-  // };
 
   componentWillMount() {
     console.log('HOME.JS componentWillMount.');
@@ -153,20 +145,9 @@ class Home extends Component {
   componentDidMount() {
     console.log('HOME.JS componentDidMount. ');
         this.props.messagesGet(this.props.gameId);
-    this.sendMessage('Bot', `Hey people, welcome to Townie Squares! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`);
-    this.sendMessage('Bot', `${this.props.teamName} joined the game.`);
+    this.sendMessage('Bot', `Hey people, welcome to Townie Squares! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`, null);
+    this.sendMessage('Bot', `${this.props.teamName} joined the game.`, null);
   }
-
-
-
-
-  // Take Spapshot of board
-  // snapshot = refname => () =>
-  // takeSnapshot("board", { path: PictureDir+"/foo.png" })
-  // .then(
-  //   uri => console.log("Image saved to", uri),
-  //   error => console.error("Oops, snapshot failed", error)
-  // );
 
   uploadSnapshot = () => {
   console.log('SNAPSHOT');
@@ -178,21 +159,7 @@ class Home extends Component {
 
   }
 
-  uploadHard() {
-    console.log('uploadHard');
-    rnfirebase.storage()
-      .ref('/images')
-      .putFile('file:///storage/emulated/0/Pictures/foo.png')
-      .then(uploadedFile => {
-          //success
-          console.log('FILE UPLOAD SUCCESS!!')
-      })
-      .catch(err => {
-          //Error
-          console.log('FILE UPLOAD ERROR :(')
-          console.log(err)
-      });
-  }
+
 
   uploadToStorage(res){
     console.log('uploadToStorage!!!!!');
@@ -211,20 +178,9 @@ class Home extends Component {
           console.log(err)
       });
 
-
-    // Firebase Storage Stuff (Not used with react-native-firebase)
-    // Get a reference to the storage service, which is used to create references in your storage bucket
-    // const storage = firebase.storage();
-
-    // Create a storage reference from our storage service
-    // const storageRef = storage.ref();
-    // const gameStorageRef = storageRef.child(`games/${this.props.gameId}`);
-
-
-
   }
 
-  sendMessage = (author, insertMessage) => {
+  sendMessage = (author, insertMessage, url) => {
     console.log('sendMessage.');
     console.log('gameId: ');
         console.log(this.props.gameId);
@@ -246,17 +202,41 @@ class Home extends Component {
         author: author + ':',
         time: time,
         color: '#f6ceff',
-        url: null,
+        url: url,
       };
 
     firebase.database().ref().update(updates);
     this.setState({ newMessage: '' });
   }
 
+  uploadHard = () => {
+    console.log('uploadHard');
+    // this.sendMessage('Bot', `UPLOAD!  got bingo!!`, 'hokeypokey');
+    rnfirebase.storage()
+      .ref('/images')
+      .putFile('file:///storage/emulated/0/Pictures/foo.png')
+      .then(uploadedFile => {
+          //success
+          console.log('FILE UPLOAD SUCCESS!!')
+          console.log(uploadedFile)
+          console.log('FILE UPLOAD SUCCESS!!')
+                    console.log(uploadedFile.downloadUrl)
+          console.log('FILE UPLOAD SUCCESS!!')
+
+          this.sendMessage('Bot', `Lookout Nerds!`, 'hokeypokey');
+      })
+      .catch(err => {
+          //Error
+          console.log('FILE UPLOAD ERROR :(')
+          console.log(err)
+      });
+  }
+
+
   takePhoto = (path) => {
     console.log('takePhoto');
 
-    this.sendMessage("Bot", `Whoa, ${this.props.teamName} completed a square!`)
+    this.sendMessage("Bot", `Whoa, ${this.props.teamName} completed a square!`, null)
     const index = this.state.clickedSquareIndex;
 
     // Couldn't get spread operator ... working
@@ -283,7 +263,7 @@ class Home extends Component {
     currentColCount[colMarked]++;
     if (currentColCount[colMarked] >= 4) {
       console.log('YOU WIN!!!');
-      this.sendMessage("Bot", `Lookout! ${this.props.teamName} got bingo!!`)
+      this.sendMessage("Bot", `Lookout! ${this.props.teamName} got bingo!!`, null)
 
       // Take a snapshot of the board to send to firebase storage
       // console.log('SNAPSHOT')
@@ -306,7 +286,7 @@ class Home extends Component {
     currentRowCount[rowMarked]++;
     if (currentRowCount[rowMarked] >= 4) {
       console.log('YOU WIN!!!');
-      this.sendMessage("Bot", `Look Out, ${this.props.teamName} got bingo!!`)
+      this.sendMessage("Bot", `Look Out, ${this.props.teamName} got bingo!!`, null)
     } // end row win if
     console.log('CURRENTColCount: ' + currentRowCount);
 
@@ -339,10 +319,9 @@ class Home extends Component {
     return (<Confirm />)
   }
 
-  // TODO
-  // renderBoard() {
-  //   return <Board 
-  //   />
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
   
   render() {
     console.log('HOME.js this.state.photoUri: ' + this.state.photoUri);
@@ -365,6 +344,33 @@ class Home extends Component {
               Log Out
             </Text>        
           </View>
+
+          <View style={{marginTop: 22}}>
+            <Modal
+              animationType={"slide"}
+              transparent={true}
+              visible={this.state.modalVisible}
+              onRequestClose={() => {alert("Modal has been closed.")}}
+              >
+             <View style={{marginTop: 22}}>
+              <View>
+                <Text>Hello World!</Text>
+                <Image style={{width: 400, height: 400}} source={{uri: 'http://thumbs.ifood.tv/files/styles/180x200/public/image/b7/19/544212-swiss-cheese-with-the-holes.jpg?itok=r1i4q65G'}} />
+                <TouchableHighlight onPress={() => {
+                  this.setModalVisible(!this.state.modalVisible)
+                }}>
+                  <Text>Hide Modal</Text>
+                </TouchableHighlight>
+              </View>
+             </View>
+            </Modal>
+            <TouchableHighlight onPress={() => {
+              this.setModalVisible(true)
+            }}>
+              <Text>Show Modal</Text>
+            </TouchableHighlight>
+          </View>
+
           <View ref="board" style={styles.boardView}>
             <View style={styles.row}>
               {this.renderSquare(this.state.squares[0].index, this.state.squares[0].description, this.state.squares[0].photoPath, this.state.squares[0].marked)} 
@@ -406,18 +412,9 @@ class Home extends Component {
               value={this.state.newMessage}
               onChangeText={newMessage => this.setState({ newMessage })}
             />
-            <Text onPress={()=>{this.sendMessage(this.props.teamName, this.state.newMessage)}}>SEND</Text>
+            <Text onPress={()=>{this.sendMessage(this.props.teamName, this.state.newMessage, null)}}>SEND</Text>
           </CardSection>
      
-
-         {/*} {this.renderModal()} 
-                  <Confirm
-          visible={true}
-        >
-          Are you sure you want to delete this?
-        </Confirm>
-
-       */}
         </View>
       } 
       </View>
@@ -429,7 +426,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'stretch',
     flex: 1,
-    backgroundColor: 'skyblue',
+    backgroundColor: '#dbe8ff',
   },
   camera: {
     flex: 1,
@@ -444,7 +441,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerView: {
-    backgroundColor: '#51C8FF',
+    backgroundColor: '#4e5d91',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -465,7 +462,7 @@ const styles = StyleSheet.create({
     flexGrow:1, // Not sure if this is doing anything
   },  
   messageInput: {
-    backgroundColor: 'skyblue',
+    backgroundColor: '#edf1ff'
   },
 });
 
