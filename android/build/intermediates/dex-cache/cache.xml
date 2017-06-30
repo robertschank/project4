@@ -39,6 +39,24 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.facebook.fbui.textlayoutbuilder/textlayoutbuilder/1.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="f90b593491e4044903f0bbf68dc3fa2790b151b9">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/com.facebook.fbui.textlayoutbuilder-textlayoutbuilder-1.0.0_77f21b44222cf6d42ed01f8722d767a460479d79.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/0.11.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="ca63c521b5745ae9a09629d7ca67ff6bc2a967fe">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-base-0.11.0_d885f38aeaf297903f80a1d9bc6d161d9a84c833.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bobby/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-urlconnection/3.4.1/63994437f62bc861bc20c605d12962f7246116d1/okhttp-urlconnection-3.4.1.jar"
         jumboMode="false"
         optimize="true"
@@ -48,12 +66,30 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.4.0_f5b3ad1c55587dec2dae2b961f68b0b339fbf084.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bobby/wdi/project4/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-okhttp3/0.11.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
         sha1="2b8a01ad9da5d26d0067894c22e87597bca2c500">
         <dex dex="/Users/bobby/wdi/project4/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-okhttp3-0.11.0_1ad9acf06b0a4c88688c8ffa50e7115d9ecce4a0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/RNCamera/react-native-camera/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="7a87c56120239645df898421e95f25fbed8ac560">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/RNCamera-react-native-camera-unspecified_fcf9e4c7ae47e9daca06ee230abab41fa7f89c09.jar" />
     </item>
     <item
         is-multidex="false"
@@ -72,15 +108,6 @@
         revision="23.0.1"
         sha1="98786c1770b531b9194fb6448b2a2692c64074b6">
         <dex dex="/Users/bobby/wdi/project5/project4/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fbcore-0.11.0_881f85542bc61675076fde647559fac378917d9e.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bobby/wdi/project5/project4/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/libs/internal_impl-23.4.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
-        <dex dex="/Users/bobby/wdi/project5/project4/android/app/build/intermediates/pre-dexed/debug/internal_impl-23.4.0_ec6b9a894ed5407467d2d0393e18740a7bd3ccc4.jar" />
     </item>
     <item
         is-multidex="false"
@@ -174,6 +201,24 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/libs/internal_impl-23.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/internal_impl-23.4.0_1429a4bc066588de970a89566880900634f9718e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="962b06c207e808c0557ffd6163ac584025a96021">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/com.facebook.react-react-native-0.42.3_9c63696a984af73e09450a3fd0f4e34a6698111e.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bobby/wdi/project4/android/app/build/intermediates/exploded-aar/RNCamera/react-native-camera/unspecified/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -216,6 +261,15 @@
         revision="23.0.1"
         sha1="1137942adeb03984c1311b662363dd38fc238fd3">
         <dex dex="/Users/bobby/wdi/RNCamera/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-drawee-0.11.0_1da3c895d742402a90d3c104683decb3b75cb98a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.facebook.soloader/soloader/0.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="8f615bca00639150c9eb6175d4b5471193f70794">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/com.facebook.soloader-soloader-0.1.0_bbbedb9c4632c756a6cc0a683c81345c0cc339c3.jar" />
     </item>
     <item
         is-multidex="false"
@@ -264,6 +318,33 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline/0.11.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="3341b66c54367e777a0647e2db96c045329bfeab">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-0.11.0_e463d6822ea3652a0ee8f990239e08aaefc4c038.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/RNCamera/react-native-view-shot/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="fd83e7bddc4a098775efa2383ed751e548cfee4e">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/RNCamera-react-native-view-shot-unspecified_df8d0f2bc157470cf2d89253c839a7ee45f7f96e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.facebook.fresco/drawee/0.11.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="1137942adeb03984c1311b662363dd38fc238fd3">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-drawee-0.11.0_9ed4c1452afaad1992cf940d4d3c90be4a6565fa.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bobby/wdi/project5/project4/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline/0.11.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -300,6 +381,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/jars/libs/infer-annotations-1.5.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="dcac634e137395f79693ec760f081a86eb2bd84e">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/infer-annotations-1.5_f46ce6b452d28fe22b65613517f3f20d97e366c0.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bobby/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-tasks/1.4.0/d85884acf6810a3bbbecb587f239005cbc846dc4/bolts-tasks-1.4.0.jar"
         jumboMode="false"
         optimize="true"
@@ -324,6 +414,15 @@
         revision="23.0.1"
         sha1="d31aadf33187c37a7cd63dc1b769f8c6e33f78c3">
         <dex dex="/Users/bobby/wdi/RNCamera/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fresco-0.11.0_e360d30c5fd852b772cdc11360c697f23ac51718.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.4.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-23.4.0_5dfc30143a43f0429c32894a7a593015ebe1086e.jar" />
     </item>
     <item
         is-multidex="false"
@@ -354,6 +453,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.0.1_4bdb61f3bf47482e4ee339fe605e9fedd85c6c41.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bobby/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
         jumboMode="false"
         optimize="true"
@@ -369,6 +477,24 @@
         revision="23.0.1"
         sha1="962b06c207e808c0557ffd6163ac584025a96021">
         <dex dex="/Users/bobby/wdi/project4/android/app/build/intermediates/pre-dexed/debug/com.facebook.react-react-native-0.42.3_424ab2a4a36ba111008da0a6d66a7ab33b366aad.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fresco/0.11.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="d31aadf33187c37a7cd63dc1b769f8c6e33f78c3">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fresco-0.11.0_bd25c193629b99d0dcccf44d72e157ee5b4e3d99.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fbcore/0.11.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="98786c1770b531b9194fb6448b2a2692c64074b6">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fbcore-0.11.0_12a304231f6ff4ab19114b00b0c79cb38fce1080.jar" />
     </item>
     <item
         is-multidex="false"
@@ -507,21 +633,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/bobby/wdi/project5/project4/android/app/build/intermediates/exploded-aar/RNCamera/react-native-camera/unspecified/jars/classes.jar"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-okhttp3/0.11.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
-        sha1="7a87c56120239645df898421e95f25fbed8ac560">
-        <dex dex="/Users/bobby/wdi/project5/project4/android/app/build/intermediates/pre-dexed/debug/RNCamera-react-native-camera-unspecified_20db78c55b1d171f3e4e93581d473c77ec64068a.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/bobby/wdi/project5/project4/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
-        <dex dex="/Users/bobby/wdi/project5/project4/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.4.0_1f6146f4ee2c9d587bb4043361cd386b958c993c.jar" />
+        sha1="2b8a01ad9da5d26d0067894c22e87597bca2c500">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-okhttp3-0.11.0_5e24a8b8e455f0f109c17fa3daf9115ac5db6702.jar" />
     </item>
     <item
         is-multidex="false"
@@ -531,6 +648,15 @@
         revision="23.0.1"
         sha1="2287494d4f5f9f3a9a2bb6980e3f32053721b315">
         <dex dex="/Users/bobby/wdi/RNCamera/android/app/build/intermediates/pre-dexed/debug/core-3.2.1_5747a0bcf791fa2ef1e7f766b1cefd35e68220d6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/bobby/wdi/project5/project4/android/app/build/intermediates/exploded-aar/RNCamera/react-native-camera/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="7a87c56120239645df898421e95f25fbed8ac560">
+        <dex dex="/Users/bobby/wdi/project5/project4/android/app/build/intermediates/pre-dexed/debug/RNCamera-react-native-camera-unspecified_20db78c55b1d171f3e4e93581d473c77ec64068a.jar" />
     </item>
 
 </items>

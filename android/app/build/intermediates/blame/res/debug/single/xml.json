@@ -4,6 +4,10 @@
         "source": "/Users/bobby/wdi/project5/project4/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/res/xml/preferences.xml"
     },
     {
+        "merged": "/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/res/merged/debug/xml/preferences.xml",
+        "source": "/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/res/xml/preferences.xml"
+    },
+    {
         "merged": "/Users/bobby/wdi/RNCamera/android/app/build/intermediates/res/merged/debug/xml/preferences.xml",
         "source": "/Users/bobby/wdi/RNCamera/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/res/xml/preferences.xml"
     },
