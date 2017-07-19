@@ -238,16 +238,6 @@ class Home extends Component {
       var downloadURL = uploadTask.snapshot.downloadURL;
     });
 
-
-
-
-
-
-
-
-
-
-
   }
 
   sendMessage = (author, insertMessage) => {
@@ -469,7 +459,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerView: {
-    backgroundColor: '#51C8FF',
+    backgroundColor: '#817ecc',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

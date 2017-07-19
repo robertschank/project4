@@ -126,7 +126,7 @@ export default class App extends Component {
       <Provider store={store}>
         <View style={{alignItems: 'stretch',
                       flex: 1,
-                      backgroundColor: 'skyblue'}}>
+                      backgroundColor: '#faf9ff'}}>
           {this.renderContent()}
         </View>
       </Provider>

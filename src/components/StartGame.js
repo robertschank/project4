@@ -42,6 +42,11 @@ class StartGame extends Component {
   render() {
     return (
       <View>
+        <View style={styles.headerView}>
+          <Text style={styles.header}> Townie Squares </Text><Text onPress={() => firebase.auth().signOut()}>
+            Log Out
+          </Text>        
+        </View>
         <Card>
           <CardSection>
             <Button onPress={this.pressedNew.bind(this)}>
@@ -66,7 +71,17 @@ const styles = {
     fontSize: 20,
     alignSelf: 'center',
     color: 'red'
-  }
+  },
+    headerView: {
+    backgroundColor: '#817ecc',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  header: {
+    fontSize: 30,
+    padding: 4,
+    color: 'white'
+  },
 };
 
 export default StartGame;
