@@ -27,6 +27,8 @@ import MessageItem from './MessageItem';
 import { Card, CardSection, Confirm, Input } from './common';
 import { containerColor } from '../constants/Colors';
 
+const styles = require('../styles/dist/sass/main.js')
+
 let squaresArray = [];
 
 // Snapshot built in directories for phone storage
@@ -439,50 +441,6 @@ class Home extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'stretch',
-    flex: 1,
-    backgroundColor: 'skyblue',
-  },
-  camera: {
-    flex: 1,
-  },
-  cameraContainer: {
-    alignItems: 'stretch',
-    flex: 1,
-  },
-  boardContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    flex: 1,
-  },
-  headerView: {
-    backgroundColor: '#817ecc',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  header: {
-    fontSize: 30,
-    padding: 4,
-    color: 'white'
-  },
-  boardView: {
-    backgroundColor: 'white',
-  },
-  row: {
-    flexDirection: 'row',
-    margin: 0,
-    padding: 0,
-  },
-  ListView: {
-    flexGrow:1, // Not sure if this is doing anything
-  },  
-  messageInput: {
-    backgroundColor: 'skyblue',
-  },
-});
 
 const mapStateToProps = (state) => {
   const messages = _.map(state.messages, (val, uid) => {

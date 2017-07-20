@@ -3,6 +3,8 @@ import { Text } from 'react-native';
 import firebase from 'firebase';
 import { Button, Card, CardSection, Input, Spinner } from './common';
 
+const styles = require('../styles/dist/sass/main.js');
+
 class LoginForm extends Component {
   state = { email: '', password: '', error: '', loading: false };
 
@@ -78,13 +80,5 @@ class LoginForm extends Component {
     );
   }
 }
-
-const styles = {
-  errorTextStyle: {
-    fontSize: 20,
-    alignSelf: 'center',
-    color: 'red'
-  }
-};
 
 export default LoginForm;

@@ -6,6 +6,8 @@ import { Button, Card, CardSection, Input, Spinner } from './common';
 import NewGameForm from './NewGameForm';
 import ExistingGameForm from './ExistingGameForm';
 
+const styles = require('../styles/dist/sass/main.js');
+
 class StartGame extends Component {
   constructor() {
     super();
@@ -65,23 +67,5 @@ class StartGame extends Component {
     );
   }
 }
-
-const styles = {
-  errorTextStyle: {
-    fontSize: 20,
-    alignSelf: 'center',
-    color: 'red'
-  },
-    headerView: {
-    backgroundColor: '#817ecc',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  header: {
-    fontSize: 30,
-    padding: 4,
-    color: 'white'
-  },
-};
 
 export default StartGame;

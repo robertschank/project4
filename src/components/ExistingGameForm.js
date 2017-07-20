@@ -6,6 +6,8 @@ import firebase from 'firebase';
 import { gameUpdate } from '../actions';
 import { Button, Card, CardSection, Input, Spinner } from './common';
 
+const styles = require('../styles/dist/sass/main.js');
+
 class ExistingGameForm extends Component {
     constructor() {
     super();
@@ -81,14 +83,6 @@ class ExistingGameForm extends Component {
     );
   }
 }
-
-const styles = {
-  errorTextStyle: {
-    fontSize: 20,
-    alignSelf: 'center',
-    color: 'red'
-  }
-};
 
   const mapStateToProps = (state) => {
     const { teamName } = state.gameForm;

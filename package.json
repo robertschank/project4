@@ -22,9 +22,10 @@
   "devDependencies": {
     "babel-jest": "19.0.0",
     "babel-preset-react-native": "1.9.1",
+    "gulp-react-native-stylesheet-css": "^1.4.4",
     "jest": "19.0.2",
-    "react-test-renderer": "~15.4.1",
-    "react-native-view-shot": "*"
+    "react-native-view-shot": "*",
+    "react-test-renderer": "~15.4.1"
   },
   "jest": {
     "preset": "react-native"
