@@ -75,6 +75,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/RNCamera/react-native-fetch-blob/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="5aca1188aec5f45a7580589b8537e9a8a4d9a86f">
+        <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/RNCamera-react-native-fetch-blob-unspecified_bdf4349929302ae9d98a2402aebe070f945826ac.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/bobby/wdi/project4/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-okhttp3/0.11.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -88,7 +97,7 @@
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
-        sha1="37053beffd56b600ffb729a3e270e50b0a52aa6a">
+        sha1="7a87c56120239645df898421e95f25fbed8ac560">
         <dex dex="/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/pre-dexed/debug/RNCamera-react-native-camera-unspecified_fcf9e4c7ae47e9daca06ee230abab41fa7f89c09.jar" />
     </item>
     <item
