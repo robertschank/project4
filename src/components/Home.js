@@ -3,19 +3,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   AppRegistry,
+  Button,
   Image,
   KeyboardAvoidingView,
   ListView,
-  Modal,
   StatusBar,
   StyleSheet,
   Text,
   TextInput,
-  TouchableHighlight,
   TouchableOpacity,
   View
 } from 'react-native';
-import RNFirebase from 'react-native-firebase';
 import Camera from 'react-native-camera';
 import { takeSnapshot, dirs } from "react-native-view-shot";
 import firebase from 'firebase';
@@ -23,23 +21,18 @@ import _ from 'lodash';
 
 import { messagesGet } from '../actions';
 import { gameUpdate } from '../actions';
-import { BoardShotModal } from './BoardShotModal';
 import { Square } from './Square';
 import { MyCamera } from './MyCamera';
 import MessageItem from './MessageItem';
-import { Button, Card, CardSection, Confirm, Input } from './common';
+import { Card, CardSection, Confirm, Input } from './common';
 import { containerColor } from '../constants/Colors';
+
+const styles = require('../styles/dist/sass/main.js')
 
 let squaresArray = [];
 
 // Snapshot built in directories for phone storage
 const { CacheDir, DocumentDir, MainBundleDir, MovieDir, MusicDir, PictureDir } = dirs;
-
-const configurationOptions = {
-  debug: true
-};
-
-const rnfirebase = RNFirebase.initializeApp(configurationOptions);
 
 function SquareObject(index, description) {
   this.index = index;
@@ -59,9 +52,12 @@ class Home extends Component {
     // teamName = this.props.teamName;
 
 
+
+
+
     // Hard Coded Descriptions
     let descriptionsArray = [
-          'Construction Worker',
+          'Tie Dye',
           'Leather Jacket',
           'Red Shirt',
           'Hands Full',
@@ -70,13 +66,13 @@ class Home extends Component {
           'Tattoo',
           'Out of Place',
           'Flatbrim',
-          'Eating On the Go',
-          'College Sweatshirt',
+          'Eating on the Run',
+          'Jersey',
           'Basic',
           'Pizza!',
           'Free Space',
           'Suit',
-          'Moustache',
+          'Sweatpants',
     ];
 
     // Set up some empty squares
@@ -113,10 +109,20 @@ class Home extends Component {
         result: "file",
         snapshotContentContainer: false,
       },
-      modalVisible: false,
-      modalUrl: 'http://thumbs.ifood.tv/files/styles/180x200/public/image/b7/19/544212-swiss-cheese-with-the-holes.jpg?itok=r1i4q65G',
     };
   } // End Constructor
+
+  //   state = {
+  //   previewSource: catsSource,
+  //   error: null,
+  //   res: null,
+  //   value: {
+  //     format: "png",
+  //     quality: 0.9,
+  //     result: "file",
+  //     snapshotContentContainer: false,
+  //   },
+  // };
 
   componentWillMount() {
     console.log('HOME.JS componentWillMount.');
@@ -145,40 +151,98 @@ class Home extends Component {
   componentDidMount() {
     console.log('HOME.JS componentDidMount. ');
         this.props.messagesGet(this.props.gameId);
-    this.sendMessage('Bot', `Hey people, welcome to Townie Squares! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`, null);
-    this.sendMessage('Bot', `${this.props.teamName} joined the game.`, null);
+    this.sendMessage('TSBot', `Hey people, welcome to Townie Squares! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`);
+    this.sendMessage('TSBot', `${this.props.teamName} joined the game.`);
   }
+
+
+
+
+// Take Spapshot of board
+  // snapshot = refname => () =>
+  // takeSnapshot("board", { path: PictureDir+"/foo.png" })
+  // .then(
+  //   uri => console.log("Image saved to", uri),
+  //   error => console.error("Oops, snapshot failed", error)
+  // );
 
   uploadSnapshot = () => {
   console.log('SNAPSHOT');
   takeSnapshot(this.refs["board"], { path: PictureDir+"/foo.png" })
   .then(
-    uri => this.uploadHard(), //console.log("Image saved to", uri),
+    uri => this.uploadToStorage(uri), //console.log("Image saved to", uri),
     error => console.error("Oops, snapshot failed", error),
   ); // end .then
+  }
+
+  uploadToStorage(x){
+    console.log('uploadToStorage');
+    console.log(x);
+
+    // mediaFile = new File(x + "IMG_" + timeStamp + ".jpg");
+
+
+
+    var file = x;
+
+    // Create the file metadata
+    var metadata = {
+      contentType: 'image/jpeg'
+    };
+
+    // Firebase Storage Stuff
+    // Get a reference to the storage service, which is used to create references in your storage bucket
+    const storage = firebase.storage();
+
+    // Create a storage reference from our storage service
+    const storageRef = storage.ref();
+    const gameStorageRef = storageRef.child(`games/${this.props.gameId}`);
+
+
+
+    // Upload file and metadata to the object 'images/mountains.jpg'
+    var uploadTask = gameStorageRef.child('snapshotview/' + file.name).put(file, metadata);
+
+    // Listen for state changes, errors, and completion of the upload.
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+      function(snapshot) {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+        switch (snapshot.state) {
+          case firebase.storage.TaskState.PAUSED: // or 'paused'
+            console.log('Upload is paused');
+            break;
+          case firebase.storage.TaskState.RUNNING: // or 'running'
+            console.log('Upload is running');
+            break;
+        }
+      }, function(error) {
+
+      // A full list of error codes is available at
+      // https://firebase.google.com/docs/storage/web/handle-errors
+      switch (error.code) {
+        case 'storage/unauthorized':
+          // User doesn't have permission to access the object
+          break;
+
+        case 'storage/canceled':
+          // User canceled the upload
+          break;
+
+
+        case 'storage/unknown':
+          // Unknown error occurred, inspect error.serverResponse
+          break;
+      }
+    }, function() {
+      // Upload completed successfully, now we can get the download URL
+      var downloadURL = uploadTask.snapshot.downloadURL;
+    });
 
   }
 
-  uploadToStorage(res){
-    // console.log('uploadToStorage!!!!!');
-    // console.log(res);
-
-    // rnfirebase.storage()
-    //   .ref('/files/1234')
-    //   .putFile('res')
-    //   .then(uploadedFile => {
-    //       //success
-    //       console.log('FILE UPLOAD SUCCESS!!')
-    //   })
-    //   .catch(err => {
-    //       //Error
-    //       console.log('FILE UPLOAD ERROR :(')
-    //       console.log(err)
-    //   });
-
-  }
-
-  sendMessage = (author, insertMessage, url) => {
+  sendMessage = (author, insertMessage) => {
     console.log('sendMessage.');
     console.log('gameId: ');
         console.log(this.props.gameId);
@@ -200,42 +264,17 @@ class Home extends Component {
         author: author + ':',
         time: time,
         color: '#f6ceff',
-        url: url,
       };
 
     firebase.database().ref().update(updates);
     this.setState({ newMessage: '' });
+
   }
-
-  uploadHard = () => {
-    console.log('uploadHard');
-    // this.sendMessage('Bot', `UPLOAD!  got bingo!!`, 'hokeypokey');
-    rnfirebase.storage()
-      .ref('/images')
-      .putFile('file:///storage/emulated/0/Pictures/foo.png')
-      .then(uploadedFile => {
-          //success
-          console.log('FILE UPLOAD SUCCESS!!')
-          console.log(uploadedFile)
-          console.log('FILE UPLOAD SUCCESS!!')
-                    console.log(uploadedFile.downloadUrl)
-          console.log('FILE UPLOAD SUCCESS!!')
-          this.setState({ modalUrl: uploadedFile.downloadUrl })
-
-          this.sendMessage('Bot', `Lookout people, Here comes a snapshot!`, uploadedFile.downloadUrl);
-      })
-      .catch(err => {
-          //Error
-          console.log('FILE UPLOAD ERROR :(')
-          console.log(err)
-      });
-  }
-
 
   takePhoto = (path) => {
     console.log('takePhoto');
 
-    this.sendMessage("Bot", `Whoa, ${this.props.teamName} completed a square!`, null)
+    this.sendMessage("bing man", `Whoa, ${this.props.teamName} completed a square!`)
     const index = this.state.clickedSquareIndex;
 
     // Couldn't get spread operator ... working
@@ -262,7 +301,7 @@ class Home extends Component {
     currentColCount[colMarked]++;
     if (currentColCount[colMarked] >= 4) {
       console.log('YOU WIN!!!');
-      this.sendMessage("Bot", `Lookout! ${this.props.teamName} got bingo!!`, null)
+      this.sendMessage("bing man", `Lookout! ${this.props.teamName} got bingo!!`)
 
       // Take a snapshot of the board to send to firebase storage
       // console.log('SNAPSHOT')
@@ -285,7 +324,7 @@ class Home extends Component {
     currentRowCount[rowMarked]++;
     if (currentRowCount[rowMarked] >= 4) {
       console.log('YOU WIN!!!');
-      this.sendMessage("Bot", `Look Out, ${this.props.teamName} got bingo!!`, null)
+      this.sendMessage("bing man", `Look Out, ${this.props.teamName} got bingo!!`)
     } // end row win if
     console.log('CURRENTColCount: ' + currentRowCount);
 
@@ -301,14 +340,6 @@ class Home extends Component {
     });
   };
 
-  handlePressLook = (url) => {
-    console.log('handlePressLook');
-    console.log(url);
-    console.log('handlePressLook');
-    this.setState({ modalUrl: url });
-    this.setModalVisible(true);
-  }
-
   renderSquare(i, description, photoPath, marked) {
     return <Square index={i}
       description={description}
@@ -318,17 +349,18 @@ class Home extends Component {
     />
   }
 
-  renderRow = (mess, url) => {
-    return (<MessageItem message={mess} onPressLook={this.handlePressLook.bind(this)}/>)
+  renderRow = (mess) => {
+    return (<MessageItem message={mess} />)
   }
 
   renderModal() {
     return (<Confirm />)
   }
 
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
-  }
+  // TODO
+  // renderBoard() {
+  //   return <Board 
+  //   />
   
   render() {
     console.log('HOME.js this.state.photoUri: ' + this.state.photoUri);
@@ -351,26 +383,6 @@ class Home extends Component {
               Log Out
             </Text>        
           </View>
-
-          <View >
-            <Modal
-              animationType={"slide"}
-              transparent={false}
-              visible={this.state.modalVisible}
-              onRequestClose={() => {alert("Modal has been closed.")}}
-              >
-             <View style={{marginTop: 22}}>
-              <View>
-                <Image style={{width: 375, height: 375}} source={{uri: this.state.modalUrl}} />
-                <CardSection>
-                  <Button onPress={() => {this.setModalVisible(!this.state.modalVisible)}} >Looks Good</Button>
-                  <Button onPress={() => {this.setModalVisible(!this.state.modalVisible)}} >Something's Fishy</Button>
-                </CardSection>
-              </View>
-             </View>
-            </Modal>
-          </View>
-
           <View ref="board" style={styles.boardView}>
             <View style={styles.row}>
               {this.renderSquare(this.state.squares[0].index, this.state.squares[0].description, this.state.squares[0].photoPath, this.state.squares[0].marked)} 
@@ -404,67 +416,31 @@ class Home extends Component {
           />
           
           <CardSection style={styles.messageInput} >
-          
-            <Text onPress={this.uploadSnapshot}>Snapshot</Text>
+            <Text onPress={this.uploadSnapshot}>XO!</Text>
             <Input
               placeholder="Enter trash talk here."
-              style={{width: 300}}
+              label="Group Message"
               value={this.state.newMessage}
               onChangeText={newMessage => this.setState({ newMessage })}
             />
-            <Text onPress={()=>{this.sendMessage(this.props.teamName, this.state.newMessage, null)}}>SEND</Text>
+            <Text onPress={()=>{this.sendMessage(this.props.teamName, this.state.newMessage)}}>SEND</Text>
           </CardSection>
      
+
+         {/*} {this.renderModal()} 
+                  <Confirm
+          visible={true}
+        >
+          Are you sure you want to delete this?
+        </Confirm>
+
+       */}
         </View>
       } 
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'stretch',
-    flex: 1,
-    backgroundColor: '#dbe8ff',
-  },
-  camera: {
-    flex: 1,
-  },
-  cameraContainer: {
-    alignItems: 'stretch',
-    flex: 1,
-  },
-  boardContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    flex: 1,
-  },
-  headerView: {
-    backgroundColor: '#4e5d91',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  header: {
-    fontSize: 30,
-    padding: 4,
-    color: 'white'
-  },
-  boardView: {
-    backgroundColor: 'white',
-  },
-  row: {
-    flexDirection: 'row',
-    margin: 0,
-    padding: 0,
-  },
-  ListView: {
-    flexGrow:1, // Not sure if this is doing anything
-  },  
-  messageInput: {
-    backgroundColor: '#edf1ff'
-  },
-});
 
 const mapStateToProps = (state) => {
   const messages = _.map(state.messages, (val, uid) => {

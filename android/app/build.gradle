@@ -126,7 +126,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-firebase')
     compile project(':react-native-view-shot')
     compile project(':react-native-camera')
     compile fileTree(dir: "libs", include: ["*.jar"])
@@ -140,5 +139,3 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
-
-apply plugin: 'com.google.gms.google-services'

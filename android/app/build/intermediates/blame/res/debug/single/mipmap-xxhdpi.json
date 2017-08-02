@@ -8,6 +8,10 @@
         "source": "/Users/bobby/wdi/project4/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
     },
     {
+        "merged": "/Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/res/merged/debug/mipmap-xxhdpi/ic_launcher.png",
+        "source": "/Users/bobby/wdi/trytryagain/project4/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
         "merged": "/Users/bobby/wdi/project5/project4/android/app/build/intermediates/res/merged/debug/mipmap-xxhdpi/ic_launcher.png",
         "source": "/Users/bobby/wdi/project5/project4/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
     }

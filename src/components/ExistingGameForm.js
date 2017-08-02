@@ -6,6 +6,8 @@ import firebase from 'firebase';
 import { gameUpdate } from '../actions';
 import { Button, Card, CardSection, Input, Spinner } from './common';
 
+const styles = require('../styles/dist/sass/main.js');
+
 class ExistingGameForm extends Component {
     constructor() {
     super();
@@ -54,16 +56,16 @@ class ExistingGameForm extends Component {
           <Input
             placeholder="paste here"
             label="Enter Game Id"
-            value={this.props.gameId}
-            onChangeText={value => this.props.gameUpdate({ prop: 'gameId', value })}
+            value={this.state.gameId}
+            onChangeText={gameId => this.setState({ gameId })}
           />
         </CardSection>
 
-        {/*<CardSection>
+        <CardSection>
           <Text style={styles.errorTextStyle}>
             {this.state.error}
           </Text>
-        </CardSection>*/}
+        </CardSection>
 
         <CardSection>
           <Button onPress={()=>{ this.props.onPressJoinGame(this.state.gameId, this.state.teamName)} }>
@@ -82,18 +84,10 @@ class ExistingGameForm extends Component {
   }
 }
 
-const styles = {
-  errorTextStyle: {
-    fontSize: 20,
-    alignSelf: 'center',
-    color: 'red'
-  }
-};
-
   const mapStateToProps = (state) => {
-    const { teamName, gameId } = state.gameForm;
+    const { teamName } = state.gameForm;
     console.log(teamName);
-    return { teamName, gameId };
+    return { teamName };
   };
 
 export default connect(mapStateToProps, { gameUpdate })(ExistingGameForm);

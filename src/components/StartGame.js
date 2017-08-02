@@ -6,6 +6,8 @@ import { Button, Card, CardSection, Input, Spinner } from './common';
 import NewGameForm from './NewGameForm';
 import ExistingGameForm from './ExistingGameForm';
 
+const styles = require('../styles/dist/sass/main.js');
+
 class StartGame extends Component {
   constructor() {
     super();
@@ -41,13 +43,12 @@ class StartGame extends Component {
 
   render() {
     return (
-
       <View>
         <View style={styles.headerView}>
           <Text style={styles.header}> Townie Squares </Text><Text onPress={() => firebase.auth().signOut()}>
-              Log Out
-          </Text> 
-        </View> 
+            Log Out
+          </Text>        
+        </View>
         <Card>
           <CardSection>
             <Button onPress={this.pressedNew.bind(this)}>
@@ -58,28 +59,13 @@ class StartGame extends Component {
             </Button>          
           </CardSection>
             {this.renderForm()}
+
+
+
         </Card>
       </View>
     );
   }
 }
-
-const styles = {
-  errorTextStyle: {
-    fontSize: 20,
-    alignSelf: 'center',
-    color: 'red'
-  },
-    headerView: {
-    backgroundColor: '#4e5d91',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  header: {
-    fontSize: 30,
-    padding: 4,
-    color: 'white'
-  },
-};
 
 export default StartGame;

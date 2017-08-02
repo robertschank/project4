@@ -230,19 +230,19 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		C51194F31F0709EA0003F783 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 627E77C2E2BA4E2CACD9EE8B /* RNViewShot.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNViewShot;
+		};
 		C57DF04A1ECE740200C75F95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F68F04F363D24770A72F694C /* RCTCamera.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
 			remoteInfo = RCTCamera;
-		};
-		C5F7507E1EEFC1FA00853347 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 627E77C2E2BA4E2CACD9EE8B /* RNViewShot.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNViewShot;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -507,18 +507,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C57DF0441ECE740200C75F95 /* Products */ = {
+		C51194D61F0709EA0003F783 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C57DF04B1ECE740200C75F95 /* libRCTCamera.a */,
+				C51194F41F0709EA0003F783 /* libRNViewShot.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C5F750611EEFC1F900853347 /* Products */ = {
+		C57DF0441ECE740200C75F95 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C5F7507F1EEFC1FA00853347 /* libRNViewShot.a */,
+				C57DF04B1ECE740200C75F95 /* libRCTCamera.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -683,7 +683,7 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
-					ProductGroup = C5F750611EEFC1F900853347 /* Products */;
+					ProductGroup = C51194D61F0709EA0003F783 /* Products */;
 					ProjectRef = 627E77C2E2BA4E2CACD9EE8B /* RNViewShot.xcodeproj */;
 				},
 			);
@@ -873,18 +873,18 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C51194F41F0709EA0003F783 /* libRNViewShot.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNViewShot.a;
+			remoteRef = C51194F31F0709EA0003F783 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C57DF04B1ECE740200C75F95 /* libRCTCamera.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRCTCamera.a;
 			remoteRef = C57DF04A1ECE740200C75F95 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C5F7507F1EEFC1FA00853347 /* libRNViewShot.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNViewShot.a;
-			remoteRef = C5F7507E1EEFC1FA00853347 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
