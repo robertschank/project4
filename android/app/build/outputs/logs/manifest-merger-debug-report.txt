@@ -42,6 +42,7 @@ ADDED from /Users/bobby/wdi/trytryagain/project4/android/app/src/main/AndroidMan
 		ADDED from /Users/bobby/wdi/trytryagain/project4/android/app/src/main/AndroidManifest.xml:12:22-78
 uses-sdk
 ADDED from /Users/bobby/wdi/trytryagain/project4/android/app/src/main/AndroidManifest.xml:14:5-16:41
+MERGED from [RNCamera:react-native-fetch-blob:unspecified] /Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/RNCamera/react-native-fetch-blob/unspecified/AndroidManifest.xml:7:5-9:41
 MERGED from [RNCamera:react-native-view-shot:unspecified] /Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/RNCamera/react-native-view-shot/unspecified/AndroidManifest.xml:7:5-9:41
 MERGED from [RNCamera:react-native-camera:unspecified] /Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/RNCamera/react-native-camera/unspecified/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.42.3] /Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/AndroidManifest.xml:7:5-9:41
@@ -66,6 +67,7 @@ MERGED from [com.facebook.soloader:soloader:0.1.0] /Users/bobby/wdi/trytryagain/
 		INJECTED from /Users/bobby/wdi/trytryagain/project4/android/app/src/main/AndroidManifest.xml
 application
 ADDED from /Users/bobby/wdi/trytryagain/project4/android/app/src/main/AndroidManifest.xml:18:5-35:19
+MERGED from [RNCamera:react-native-fetch-blob:unspecified] /Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/RNCamera/react-native-fetch-blob/unspecified/AndroidManifest.xml:11:5-12:19
 MERGED from [com.facebook.react:react-native:0.42.3] /Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/AndroidManifest.xml:13:5-20
 MERGED from [com.android.support:appcompat-v7:23.0.1] /Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.4.0] /Users/bobby/wdi/trytryagain/project4/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/AndroidManifest.xml:22:5-20

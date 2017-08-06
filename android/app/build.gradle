@@ -126,6 +126,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fetch-blob')
     compile project(':react-native-view-shot')
     compile project(':react-native-camera')
     compile fileTree(dir: "libs", include: ["*.jar"])
