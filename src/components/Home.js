@@ -7,6 +7,7 @@ import {
   Image,
   KeyboardAvoidingView,
   ListView,
+  Platform,
   StatusBar,
   StyleSheet,
   Text,
@@ -49,12 +50,10 @@ class Home extends Component {
 
     // const gameId = this.props.gameId;
     console.log(this.props.gameId);
+    console.log("CUSTOMMMMMMMM");
+    console.log(this.props.custom);
     // gameId = this.props.gameId;
     // teamName = this.props.teamName;
-
-
-
-
 
     // Hard Coded Descriptions
     let descriptionsArray = [
@@ -152,8 +151,8 @@ class Home extends Component {
   componentDidMount() {
     console.log('HOME.JS componentDidMount. ');
         this.props.messagesGet(this.props.gameId);
-    this.sendMessage('TSBot', `Hey people, welcome to Townie Squares! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`);
-    this.sendMessage('TSBot', `${this.props.teamName} joined the game.`);
+    this.sendMessage('Ref', `Hey people, welcome to Townie Squares! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`);
+    this.sendMessage('Ref', `${this.props.teamName} joined the game.`);
   }
 
 
@@ -165,8 +164,6 @@ class Home extends Component {
       error => console.error("Oops, snapshot failed", error),
     ); // end .then
   }
-
-
 
   uploadImage(uri, imageName, mime = 'image/jpg'){
         const Blob = RNFetchBlob.polyfill.Blob
@@ -206,8 +203,6 @@ class Home extends Component {
 
     // mediaFile = new File(x + "IMG_" + timeStamp + ".jpg");
 
-
-
     var file = x;
 
     // Create the file metadata
@@ -222,8 +217,6 @@ class Home extends Component {
     // Create a storage reference from our storage service
     const storageRef = storage.ref();
     const gameStorageRef = storageRef.child(`games/${this.props.gameId}`);
-
-
 
     // Upload file and metadata to the object 'images/mountains.jpg'
     var uploadTask = gameStorageRef.child('snapshotview/' + file.name).put(file, metadata);
@@ -254,7 +247,6 @@ class Home extends Component {
         case 'storage/canceled':
           // User canceled the upload
           break;
-
 
         case 'storage/unknown':
           // Unknown error occurred, inspect error.serverResponse
@@ -299,7 +291,7 @@ class Home extends Component {
   takePhoto = (path) => {
     console.log('takePhoto');
 
-    this.sendMessage("bing man", `Whoa, ${this.props.teamName} completed a square!`)
+    this.sendMessage("Ref", `Whoa, ${this.props.teamName} completed a square!`)
     const index = this.state.clickedSquareIndex;
 
     // Couldn't get spread operator ... working
@@ -326,7 +318,7 @@ class Home extends Component {
     currentColCount[colMarked]++;
     if (currentColCount[colMarked] >= 4) {
       console.log('YOU WIN!!!');
-      this.sendMessage("bing man", `Lookout! ${this.props.teamName} got bingo!!`)
+      this.sendMessage("Ref", `Lookout! ${this.props.teamName} got bingo!!`)
 
       // Take a snapshot of the board to send to firebase storage
       // console.log('SNAPSHOT')
@@ -349,7 +341,7 @@ class Home extends Component {
     currentRowCount[rowMarked]++;
     if (currentRowCount[rowMarked] >= 4) {
       console.log('YOU WIN!!!');
-      this.sendMessage("bing man", `Look Out, ${this.props.teamName} got bingo!!`)
+      this.sendMessage("Ref", `Look Out, ${this.props.teamName} got bingo!!`)
     } // end row win if
     console.log('CURRENTColCount: ' + currentRowCount);
 
@@ -391,7 +383,7 @@ class Home extends Component {
     console.log('HOME.js this.state.photoUri: ' + this.state.photoUri);
     console.log('showCamera' + this.state.showCamera)
     return (
-      <View style={styles.container}>
+      <View style={styles.container} behavior="height">
       {this.state.showCamera &&
         <View style={styles.cameraContainer}>
           <View style={styles.camera}>
@@ -439,17 +431,17 @@ class Home extends Component {
             dataSource={this.dataSource}
             renderRow={this.renderRow}
           />
-          
-          <CardSection style={styles.messageInput} >
-            <Text onPress={this.uploadSnapshot}>XO!</Text>
-            <Input
-              placeholder="Enter trash talk here."
-              label="Group Message"
-              value={this.state.newMessage}
-              onChangeText={newMessage => this.setState({ newMessage })}
-            />
-            <Text onPress={()=>{this.sendMessage(this.props.teamName, this.state.newMessage)}}>SEND</Text>
-          </CardSection>
+            <CardSection style={styles.messageInput} >
+              <Text onPress={this.uploadSnapshot}>XO!</Text>
+
+              <Input
+                placeholder="Enter trash talk here."
+                label="Group Message"
+                value={this.state.newMessage}
+                onChangeText={newMessage => this.setState({ newMessage })}
+              />
+              <Text onPress={()=>{this.sendMessage(this.props.teamName, this.state.newMessage)}}>SEND</Text>
+            </CardSection>
      
 
          {/*} {this.renderModal()} 

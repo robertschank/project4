@@ -16,6 +16,10 @@ $primary-extra-light: #faf9ff;
    alignItems: stretch;
    flex: 1;
 }
+#cardHeader {
+  
+  flex: 1;
+}
 #boardContainer {
    flexDirection: column;
    justifyContent: space-between;

@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
 import Communications from 'react-native-communications';
 
 import { gameUpdate } from '../actions';
-import { Button, Card, CardSection, Input } from './common';
+import { Button, Card, CardSection, Header, Input, List, Sinput } from './common';
 
 class NewGameForm extends Component {
   constructor() {
     super();
-    this.state={}
+
+    this.state={
+      items: ['Click to remove', 'Learn React Native', 'Write Code', 'Ship App'],
+    }
   }
 
   onSubmit() {
@@ -31,8 +34,6 @@ class NewGameForm extends Component {
 
     this.props.gameUpdate({ prop: 'gameId', value: gameKey });
 
-    
-    
     console.log('createAndSetGameId gameKey: ' + gameKey);
   }
 
@@ -44,7 +45,27 @@ class NewGameForm extends Component {
     Communications.textWithoutEncoding(null, "" + this.props.gameId);
   }
 
+
+  onAddItem = (text) => {
+    const {items} = this.state
+
+    this.setState({
+      items: [text, ...items],
+    })
+  }
+
+  onRemoveItem = (index) => {
+    const {items} = this.state
+
+    this.setState({
+      items: items.filter((todo, i) => i !== index),
+    })
+  }
+
+
+
   render() {
+    const {items} = this.state
     return (
       <View>
         <CardSection>
@@ -55,6 +76,24 @@ class NewGameForm extends Component {
             onChangeText={value => this.props.gameUpdate({ prop: 'teamName', value })}
           />
         </CardSection>
+        <CardSection >
+          <Text >Custom Squares (tap to delete)</Text>
+        </CardSection>
+
+        <CardSection>
+          <View style={{flex: 1}}>
+            <Header headerText="Define your own squares" />
+            <Sinput
+              placeholder={'Add your own custom squares here!'}
+              onSubmitEditing={this.onAddItem}
+            />
+            <List
+              list={items}
+              onPressItem={this.onRemoveItem}
+            />
+          </View>
+        </CardSection>  
+
         <CardSection>
           <Input
             placeholder="Rockies Jersey"
@@ -63,13 +102,6 @@ class NewGameForm extends Component {
             onChangeText={value => this.props.gameUpdate({ prop: 'custom', value})}
           />
         </CardSection>
-
-        <CardSection>
-          <Text style={styles.errorTextStyle}>
-            {this.state.error}
-          </Text>
-        </CardSection>
-
         <CardSection>
           <Button onPress={this.onSubmit.bind(this)}>
             Submit
@@ -96,29 +128,6 @@ class NewGameForm extends Component {
     );
   }
 }
-
-/*}
-        <CardSection>
-          <Button onPress={()=>{ this.props.onPressSubmit( this.state.teamName)} }>
-            Submit Name
-          </Button>
-        </CardSection>
-
-        <CardSection>
-          <Text>For multiple team play, as the commissioner (that's you) you need to share this game's id number with the other teams. Click the button below to send an editable text to your opposing teams.  You'll have to select the recipients.</Text>
-          <Button onPress={()=>{ this.props.onPressSendText()} }>
-            Let's Text
-          </Button>
-        </CardSection>
-      */
-
-const styles = {
-  errorTextStyle: {
-    fontSize: 20,
-    alignSelf: 'center',
-    color: 'red'
-  }
-};
 
 const mapStateToProps = (state) => {
   const { teamName, gameId, custom } = state.gameForm;
