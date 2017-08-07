@@ -105,7 +105,6 @@ export default class App extends Component {
       );}
       else { return ( <StartGame 
           onPressStart={this.handlePressStart.bind(this)}
-          // onPressNewGame={this.handlePressNewGame.bind(this)}
           onPressSendText={this.handlePressSendText.bind(this)}
           onPressJoinGame={this.handlePressJoinGame.bind(this)}
           onPressSubmit={this.handlePressSubmit.bind(this)}

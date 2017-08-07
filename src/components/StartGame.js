@@ -5,6 +5,7 @@ import firebase from 'firebase';
 import { Button, Card, CardSection, Input, Spinner } from './common';
 import NewGameForm from './NewGameForm';
 import ExistingGameForm from './ExistingGameForm';
+import { landingMessage } from '../constants/Strings';
 
 const styles = require('../styles/dist/sass/main.js');
 
@@ -50,6 +51,9 @@ class StartGame extends Component {
           </Text>        
         </View>
         <Card>
+          <CardSection>
+            <Text> { landingMessage } </Text>
+          </CardSection>
           <CardSection>
             <Button onPress={this.pressedNew.bind(this)}>
               New Game
