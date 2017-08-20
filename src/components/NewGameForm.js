@@ -10,22 +10,11 @@ import { Button, Card, CardSection, Header, Input, List, Sinput } from './common
 class NewGameForm extends Component {
   constructor() {
     super();
-
-    this.state={
-      items: ['Click to remove', 'Learn React Native', 'Write Code', 'Ship App'],
-    }
   }
 
   onSubmit() {
     console.log('onSubmit');
     this.createAndSetGameId();
-    // const { teamName, custom1 } = this.props;
-
-    // let gameKey = firebase.database().ref(`games/`).push().key;
-
-    // this.props.gameUpdate({ prop: gameId, gameKey });
-    
-    // this.props.gameCreate({ teamName, custom}); //custom1: custom1 || null }); //custom will probably be an array of custom traits
   }
 
   createAndSetGameId() {
@@ -45,13 +34,9 @@ class NewGameForm extends Component {
     Communications.textWithoutEncoding(null, "" + this.props.gameId);
   }
 
-
   onAddItem = (text) => {
-    const {items} = this.state
-
-    this.setState({
-      items: [text, ...items],
-    })
+    const customSquares = this.props.customSquares;
+    this.props.gameUpdate({ prop: 'customSquares', value: [text, ...customSquares]});
   }
 
   onRemoveItem = (index) => {
@@ -62,10 +47,10 @@ class NewGameForm extends Component {
     })
   }
 
-
-
   render() {
-    const {items} = this.state
+    const items = this.props.customSquares || [];
+    console.log('RENDER METHOD ITEMS:')
+    console.log(items);
     return (
       <View>
         <CardSection>
@@ -76,13 +61,10 @@ class NewGameForm extends Component {
             onChangeText={value => this.props.gameUpdate({ prop: 'teamName', value })}
           />
         </CardSection>
-        <CardSection >
-          <Text >Custom Squares (tap to delete)</Text>
-        </CardSection>
 
         <CardSection>
           <View style={{flex: 1}}>
-            <Header headerText="Define your own squares" />
+            <Header headerText="Define your own squares (click to remove)" />
             <Sinput
               placeholder={'Add your own custom squares here!'}
               onSubmitEditing={this.onAddItem}
@@ -94,14 +76,6 @@ class NewGameForm extends Component {
           </View>
         </CardSection>  
 
-        <CardSection>
-          <Input
-            placeholder="Rockies Jersey"
-            label="Custom Square"
-            value={this.props.custom}
-            onChangeText={value => this.props.gameUpdate({ prop: 'custom', value})}
-          />
-        </CardSection>
         <CardSection>
           <Button onPress={this.onSubmit.bind(this)}>
             Submit
@@ -130,12 +104,12 @@ class NewGameForm extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { teamName, gameId, custom } = state.gameForm;
+  const { teamName, gameId, customSquares } = state.gameForm;
   console.log("NEWGAMEFORM TEAMNAME");
   console.log(teamName);
-  console.log(custom);
+  console.log(customSquares);
   console.log(gameId);
-  return { teamName, gameId, custom };
+  return { teamName, gameId, customSquares };
 };
 
 export default connect(mapStateToProps, { gameUpdate })(NewGameForm);

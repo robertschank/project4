@@ -7,7 +7,9 @@ import {
   Image,
   KeyboardAvoidingView,
   ListView,
+  Modal,
   Platform,
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -26,7 +28,7 @@ import { gameUpdate } from '../actions';
 import { Square } from './Square';
 import { MyCamera } from './MyCamera';
 import MessageItem from './MessageItem';
-import { Card, CardSection, Confirm, Input } from './common';
+import { Card, CardSection, Confirm, Input, InputModal } from './common';
 import { containerColor } from '../constants/Colors';
 
 const styles = require('../styles/dist/sass/main.js')
@@ -51,12 +53,35 @@ class Home extends Component {
     // const gameId = this.props.gameId;
     console.log(this.props.gameId);
     console.log("CUSTOMMMMMMMM");
-    console.log(this.props.custom);
+    console.log(this.props.customSquares);
     // gameId = this.props.gameId;
     // teamName = this.props.teamName;
 
-    // Hard Coded Descriptions
-    let descriptionsArray = [
+    // (Not So) Hard Coded Descriptions
+    const customSquares = this.props.customSquares;
+    console.log(customSquares);
+    // let descriptionsArray = [
+          // 'Tie Dye',
+          // 'Leather Jacket',
+    //       customSquaresArray[0],
+    //       customSquaresArray[1],
+    //       'Red Shirt',
+    //       'Hands Full',
+    //       'Balloon',
+    //       'Dog',
+    //       'Tattoo',
+    //       'Out of Place',
+    //       'Flatbrim',
+    //       'Eating on the Run',
+    //       'Jersey',
+    //       'Basic',
+    //       'Pizza!',
+    //       'Free Space',
+    //       'Suit',
+    //       'Sweatpants',
+    // ];
+
+    let pickFromDescriptions = [
           'Tie Dye',
           'Leather Jacket',
           'Red Shirt',
@@ -74,6 +99,54 @@ class Home extends Component {
           'Suit',
           'Sweatpants',
     ];
+
+    console.log('selectSquareDescriptions');
+
+    //Create blank square indices array from 0 to 15
+    let blankSquareIndices = [];
+    for (let i = 0; i < 16; i++) {
+      blankSquareIndices.push(i);
+    }
+    console.log(blankSquareIndices);
+
+    // Create a 16 element empty array to fill in with custom descriptions
+    // and randomly selected descriptions!
+    let descriptionsArray = [];
+    for (let i = 0; i < 16; i++) {
+      descriptionsArray.push(null);
+    }
+    console.log(descriptionsArray);
+    console.log(descriptionsArray);
+
+    // assign the custom squares to the randomly selected square indices.
+    for (let i = 0; i < customSquares.length; i++) {
+      //select a random index from the sortedArray
+      let randomFromIndexArray = Math.floor(Math.random()*(blankSquareIndices.length));
+      // Grab the number at that point in the array
+      let squareIndex = blankSquareIndices[randomFromIndexArray];
+      // Assign each custom description to the random index
+      descriptionsArray[squareIndex] = customSquares[i];
+      // Remove the random index from the index array so there are no repeats
+      blankSquareIndices.splice(randomFromIndexArray, 1);
+    }
+    console.log(descriptionsArray);
+
+    // Now fill in the rest of the empty elements of descriptionsArray:
+    // the array blankSquareIndices is keeping track of what squares
+    // are still blank
+
+    // For each blank square:
+    for (let i = 0; i < (blankSquareIndices.length); i++) {
+      //select a random description from pickFromDescriptions:
+      let randomDescriptionIndex = Math.floor(Math.random()*(pickFromDescriptions.length));
+      // Grab the description at that point in the array
+      let randomDescription = pickFromDescriptions[randomDescriptionIndex];
+      // Assign the random description to the blank square
+      descriptionsArray[blankSquareIndices[i]] = randomDescription;
+      // Remove the selected description from the pickFromDescriptions array so there are no repeats
+      pickFromDescriptions.splice(randomDescriptionIndex, 1);
+    }
+    console.log(descriptionsArray);
 
     // Set up some empty squares
     for (let i=0; i < 16; i++) {
@@ -109,6 +182,7 @@ class Home extends Component {
         result: "file",
         snapshotContentContainer: false,
       },
+      showInputModal: false,
     };
   } // End Constructor
 
@@ -127,14 +201,12 @@ class Home extends Component {
   componentWillMount() {
     console.log('HOME.JS componentWillMount.');
     // Get the list of messages from db
-
     this.createDataSource(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     // nextProps are the next set of props that this component will be rendered with
     // this.props is still the old set of props
-
     this.createDataSource(nextProps);
     console.log('HITTING COMPONENT WILL RECEIVE PROPS');
   }
@@ -150,8 +222,8 @@ class Home extends Component {
 
   componentDidMount() {
     console.log('HOME.JS componentDidMount. ');
-        this.props.messagesGet(this.props.gameId);
-    this.sendMessage('Ref', `Hey people, welcome to Townie Squares! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`);
+    this.props.messagesGet(this.props.gameId);
+    this.sendMessage('Ref', `Hey people, welcome to Townie Squares! This is a group message area for all teams. We'll send game updates in here too. Have fun out there!`);
     this.sendMessage('Ref', `${this.props.teamName} joined the game.`);
   }
 
@@ -166,7 +238,7 @@ class Home extends Component {
   }
 
   uploadImage(uri, imageName, mime = 'image/jpg'){
-        const Blob = RNFetchBlob.polyfill.Blob
+    const Blob = RNFetchBlob.polyfill.Blob
     const fs = RNFetchBlob.fs
     window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
     window.Blob = Blob
@@ -374,6 +446,18 @@ class Home extends Component {
     return (<Confirm />)
   }
 
+  handleChangeText() {
+    console.log('handleChangeText');
+  }
+
+  handleSubmitEditing() {
+    console.log('handleSubmitEditing');
+  }
+
+  toggleShowModal() {
+    console.log('toggleShowModal XXXXX')
+    this.setState({ showInputModal: !(this.state.showInputModal) })
+  }
   // TODO
   // renderBoard() {
   //   return <Board 
@@ -381,7 +465,8 @@ class Home extends Component {
   
   render() {
     console.log('HOME.js this.state.photoUri: ' + this.state.photoUri);
-    console.log('showCamera' + this.state.showCamera)
+    console.log('showInputModal' + this.state.showInputModal)
+
     return (
       <View style={styles.container} behavior="height">
       {this.state.showCamera &&
@@ -400,6 +485,14 @@ class Home extends Component {
               Log Out
             </Text>        
           </View>
+          <InputModal
+            visible={this.state.showInputModal}
+            onSubmitEditing = {this.handleSubmitEditing}
+            value = {this.props.newMessage}
+            handleChangeText = {value => this.props.gameUpdate ({ prop: 'newMessage', value })}
+          />
+
+
           <View ref="board" style={styles.boardView}>
             <View style={styles.row}>
               {this.renderSquare(this.state.squares[0].index, this.state.squares[0].description, this.state.squares[0].photoPath, this.state.squares[0].marked)} 
@@ -432,26 +525,18 @@ class Home extends Component {
             renderRow={this.renderRow}
           />
             <CardSection style={styles.messageInput} >
-              <Text onPress={this.uploadSnapshot}>XO!</Text>
-
-              <Input
-                placeholder="Enter trash talk here."
-                label="Group Message"
-                value={this.state.newMessage}
-                onChangeText={newMessage => this.setState({ newMessage })}
-              />
+              <Text onPress={this.uploadSnapshot}>XOX!</Text>
+              <TouchableOpacity onPress={()=>this.toggleShowModal()}>
+                <Input
+                  placeholder="Enter trash talk here."
+                  label="Group Message"
+                  value={this.state.newMessage}
+                  onChangeText={newMessage => this.setState({ newMessage })}
+                  // onFocus={() => this.setState({ showInputModal: true })}
+                />
+              </TouchableOpacity>
               <Text onPress={()=>{this.sendMessage(this.props.teamName, this.state.newMessage)}}>SEND</Text>
             </CardSection>
-     
-
-         {/*} {this.renderModal()} 
-                  <Confirm
-          visible={true}
-        >
-          Are you sure you want to delete this?
-        </Confirm>
-
-       */}
         </View>
       } 
       </View>
@@ -463,12 +548,12 @@ const mapStateToProps = (state) => {
   const messages = _.map(state.messages, (val, uid) => {
     return { ...val, uid };
   });
-  const { teamName, gameId, custom } = state.gameForm;
+  const { teamName, gameId, customSquares } = state.gameForm;
   console.log('Home mapStateToProps');
   console.log(gameId);
   console.log(teamName);
-    console.log('Home mapStateToProps');
-  return { messages, teamName, gameId, custom };
+  console.log('Home mapStateToProps');
+  return { messages, teamName, gameId, customSquares };
 };
 
 export default connect(mapStateToProps, { messagesGet, gameUpdate })(Home);

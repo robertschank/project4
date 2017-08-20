@@ -39,6 +39,9 @@
 		676A05ED0D00463FADF7AC19 /* libRNViewShot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA163B6BCB4043AC81F8F115 /* libRNViewShot.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		AACC9D56F6C54C47BC2227E7 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E57128A8988F40478E694596 /* libRCTCamera.a */; };
+		C52AC4961F3A7E0900C9B182 /* RNCamera-tvOS in Resources */ = {isa = PBXBuildFile; fileRef = C52AC4951F3A7E0900C9B182 /* RNCamera-tvOS */; };
+		C52AC4B41F3A7E4B00C9B182 /* ios in Resources */ = {isa = PBXBuildFile; fileRef = C52AC4B31F3A7E4B00C9B182 /* ios */; };
+		C52AC4B61F3A7F0A00C9B182 /* ios in Resources */ = {isa = PBXBuildFile; fileRef = C52AC4B51F3A7F0A00C9B182 /* ios */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -281,6 +284,9 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		A2365E4E28F34239AC00B179 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
+		C52AC4951F3A7E0900C9B182 /* RNCamera-tvOS */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "RNCamera-tvOS"; sourceTree = "<group>"; };
+		C52AC4B31F3A7E4B00C9B182 /* ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ios; path = "../node_modules/react-native-view-shot/ios"; sourceTree = "<group>"; };
+		C52AC4B51F3A7F0A00C9B182 /* ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ios; path = "../node_modules/react-native-view-shot/ios"; sourceTree = "<group>"; };
 		C6B052845B0441EA9506C0AE /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		CA163B6BCB4043AC81F8F115 /* libRNViewShot.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNViewShot.a; sourceTree = "<group>"; };
 		E57128A8988F40478E694596 /* libRCTCamera.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTCamera.a; sourceTree = "<group>"; };
@@ -469,6 +475,9 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C52AC4B51F3A7F0A00C9B182 /* ios */,
+				C52AC4B31F3A7E4B00C9B182 /* ios */,
+				C52AC4951F3A7E0900C9B182 /* RNCamera-tvOS */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -630,6 +639,10 @@
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = N9SH2NF3C7;
+						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -932,8 +945,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C52AC4961F3A7E0900C9B182 /* RNCamera-tvOS in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				C52AC4B41F3A7E4B00C9B182 /* ios in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				C52AC4B61F3A7F0A00C9B182 /* ios in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1113,8 +1129,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = N9SH2NF3C7;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
@@ -1128,7 +1146,9 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.robertschank.example.RNCamera;
 				PRODUCT_NAME = RNCamera;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1137,7 +1157,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N9SH2NF3C7;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
@@ -1151,7 +1173,9 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.robertschank.example.RNCamera;
 				PRODUCT_NAME = RNCamera;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
