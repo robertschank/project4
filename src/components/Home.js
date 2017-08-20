@@ -526,15 +526,16 @@ class Home extends Component {
           />
             <CardSection style={styles.messageInput} >
               <Text onPress={this.uploadSnapshot}>XOX!</Text>
-              <TouchableOpacity onPress={()=>this.toggleShowModal()}>
+                <TouchableOpacity onPress={()=>this.toggleShowModal()} style={{ flex: 1, height: 40}}>
                 <Input
+                  editable = {false}
                   placeholder="Enter trash talk here."
                   label="Group Message"
                   value={this.state.newMessage}
                   onChangeText={newMessage => this.setState({ newMessage })}
-                  // onFocus={() => this.setState({ showInputModal: true })}
+                  // onFocus={() => this.toggleShowModal()}
                 />
-              </TouchableOpacity>
+                </TouchableOpacity>
               <Text onPress={()=>{this.sendMessage(this.props.teamName, this.state.newMessage)}}>SEND</Text>
             </CardSection>
         </View>
