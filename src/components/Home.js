@@ -533,7 +533,6 @@ class Home extends Component {
                   label="Group Message"
                   value={this.state.newMessage}
                   onChangeText={newMessage => this.setState({ newMessage })}
-                  // onFocus={() => this.toggleShowModal()}
                 />
                 </TouchableOpacity>
               <Text onPress={()=>{this.sendMessage(this.props.teamName, this.state.newMessage)}}>SEND</Text>
