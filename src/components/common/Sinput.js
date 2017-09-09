@@ -7,9 +7,9 @@ class Sinput extends Component {
     text: '',
   }
 
-  onChangeText = (text) => this.setState({text})
+  onChangeText = (text) => this.setState({text: text})
 
-  onSubmitEditing = () => {
+  onSubmit = () => {
     const {onSubmitEditing} = this.props
     const {text} = this.state
 
@@ -29,7 +29,7 @@ class Sinput extends Component {
         value={text}
         placeholder={placeholder}
         onChangeText={this.onChangeText}
-        onSubmitEditing={this.onSubmitEditing}
+        onSubmitEditing={this.onSubmit}
       />
     )
   }

@@ -55,8 +55,32 @@ class Home extends Component {
     // gameId = this.props.gameId;
     // teamName = this.props.teamName;
 
-    // Hard Coded Descriptions
-    let descriptionsArray = [
+
+    // (Not So) Hard Coded Descriptions
+    const customSquares = this.props.customSquares;
+    console.log(customSquares);
+    // let descriptionsArray = [
+          // 'Tie Dye',
+          // 'Leather Jacket',
+    //       customSquaresArray[0],
+    //       customSquaresArray[1],
+    //       'Red Shirt',
+    //       'Hands Full',
+    //       'Balloon',
+    //       'Dog',
+    //       'Tattoo',
+    //       'Out of Place',
+    //       'Flatbrim',
+    //       'Eating on the Run',
+    //       'Jersey',
+    //       'Basic',
+    //       'Pizza!',
+    //       'Free Space',
+    //       'Suit',
+    //       'Sweatpants',
+    // ];
+
+    let pickFromDescriptions = [
           'Tie Dye',
           'Leather Jacket',
           'Red Shirt',
@@ -74,6 +98,53 @@ class Home extends Component {
           'Suit',
           'Sweatpants',
     ];
+
+    console.log('selectSquareDescriptions');
+
+    //Create blank square indices array from 0 to 15
+    let blankSquareIndices = [];
+    for (let i = 0; i < 16; i++) {
+      blankSquareIndices.push(i);
+    }
+    console.log(blankSquareIndices);
+
+    // Create a 16 element empty array to fill in with custom descriptions
+    // and randomly selected descriptions!
+    let descriptionsArray = [];
+    for (let i = 0; i < 16; i++) {
+      descriptionsArray.push(null);
+    }
+    console.log(descriptionsArray);
+
+    // assign the custom squares to the randomly selected square indices.
+    for (let i = 0; i < customSquares.length; i++) {
+      //select a random index from the sortedArray
+      let randomFromIndexArray = Math.floor(Math.random()*(blankSquareIndices.length));
+      // Grab the number at that point in the array
+      let squareIndex = blankSquareIndices[randomFromIndexArray];
+      // Assign each custom description to the random index
+      descriptionsArray[squareIndex] = customSquares[i];
+      // Remove the random index from the index array so there are no repeats
+      blankSquareIndices.splice(randomFromIndexArray, 1);
+    }
+    console.log(descriptionsArray);
+
+    // Now fill in the rest of the empty elements of descriptionsArray:
+    // the array blankSquareIndices is keeping track of what squares
+    // are still blank
+
+    // For each blank square:
+    for (let i = 0; i < (blankSquareIndices.length); i++) {
+      //select a random description from pickFromDescriptions:
+      let randomDescriptionIndex = Math.floor(Math.random()*(pickFromDescriptions.length));
+      // Grab the description at that point in the array
+      let randomDescription = pickFromDescriptions[randomDescriptionIndex];
+      // Assign the random description to the blank square
+      descriptionsArray[blankSquareIndices[i]] = randomDescription;
+      // Remove the selected description from the pickFromDescriptions array so there are no repeats
+      pickFromDescriptions.splice(randomDescriptionIndex, 1);
+    }
+    console.log(descriptionsArray);
 
     // Set up some empty squares
     for (let i=0; i < 16; i++) {

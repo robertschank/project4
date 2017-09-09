@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import firebase from 'firebase';
 
 import { Button, Card, CardSection, Input, Spinner } from './common';
@@ -44,7 +44,7 @@ class StartGame extends Component {
 
   render() {
     return (
-      <View>
+      <ScrollView>
         <View style={styles.headerView}>
           <Text style={styles.header}> Townie Squares </Text><Text onPress={() => firebase.auth().signOut()}>
             Log Out
@@ -64,7 +64,7 @@ class StartGame extends Component {
           </CardSection>
             {this.renderForm()}
         </Card>
-      </View>
+      </ScrollView>
     );
   }
 }
