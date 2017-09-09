@@ -46,39 +46,10 @@ function SquareObject(index, description) {
 class Home extends Component {
   constructor(props) {
     super(props);
-    console.log('BEGIN CONSTRUCTOR');
-
-    // const gameId = this.props.gameId;
-    console.log(this.props.gameId);
-    console.log("CUSTOMMMMMMMM");
-    console.log(this.props.custom);
-    // gameId = this.props.gameId;
-    // teamName = this.props.teamName;
-
 
     // (Not So) Hard Coded Descriptions
     const customSquares = this.props.customSquares;
     console.log('HOME.JS, CUSTOMSQUARES: ' + customSquares);
-    // let descriptionsArray = [
-          // 'Tie Dye',
-          // 'Leather Jacket',
-    //       customSquaresArray[0],
-    //       customSquaresArray[1],
-    //       'Red Shirt',
-    //       'Hands Full',
-    //       'Balloon',
-    //       'Dog',
-    //       'Tattoo',
-    //       'Out of Place',
-    //       'Flatbrim',
-    //       'Eating on the Run',
-    //       'Jersey',
-    //       'Basic',
-    //       'Pizza!',
-    //       'Free Space',
-    //       'Suit',
-    //       'Sweatpants',
-    // ];
 
     let pickFromDescriptions = [
           'Tie Dye',
@@ -152,18 +123,11 @@ class Home extends Component {
     }
 
     // Construct a dog square and insert into squaresArray
-    const y = 5;
-    let dogSquare = new SquareObject(y, descriptionsArray[y]);
-    dogSquare.photoPath = 'http://thedogwallpaper.com/wp-content/uploads/2013/12/jack-russell-terrier-puppy-picture-165-150x150.jpg';
-    dogSquare.marked = 'yes';
-    squaresArray[y] = dogSquare;
-
-    // Construct a basic square and insert into squaresArray
-    const z = 11;
-    let basicSquare = new SquareObject(z, descriptionsArray[z]);
-    basicSquare.photoPath = 'http://www.gannett-cdn.com/-mm-/29163e67f8d19f03377ccf0df6dd248c86ac72be/c=61-0-3684-2724&r=x383&c=540x380/local/-/media/USATODAY/None/2014/10/31/635503611903170008-AP-Earns-Starbucks.jpg';
-    basicSquare.marked = 'yes';
-    squaresArray[z] = basicSquare;
+    // const y = 5;
+    // let dogSquare = new SquareObject(y, descriptionsArray[y]);
+    // dogSquare.photoPath = 'http://thedogwallpaper.com/wp-content/uploads/2013/12/jack-russell-terrier-puppy-picture-165-150x150.jpg';
+    // dogSquare.marked = 'yes';
+    // squaresArray[y] = dogSquare;
 
     this.state = {
       squares: squaresArray,
@@ -182,18 +146,6 @@ class Home extends Component {
       },
     };
   } // End Constructor
-
-  //   state = {
-  //   previewSource: catsSource,
-  //   error: null,
-  //   res: null,
-  //   value: {
-  //     format: "png",
-  //     quality: 0.9,
-  //     result: "file",
-  //     snapshotContentContainer: false,
-  //   },
-  // };
 
   componentWillMount() {
     console.log('HOME.JS componentWillMount.');

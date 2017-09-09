@@ -1,8 +1,5 @@
 node_modules
 ios/RNCamera.xcodeproj/project.xcworkspace/xcuserdata/bobby.xcuserdatad/UserInterfaceState.xcuserstate
-# OSX
-#
-.DS_Store
 
 android/.gradle/2.14.1/taskArtifacts/cache.properties.lock
 android/.gradle/2.14.1/taskArtifacts/fileHashes.bin
@@ -11,6 +8,10 @@ android/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin
 android/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin
 
 # REACT NATIVE STOCK GITIGNORE BELOW
+
+# OSX
+#
+.DS_Store
 
 # Xcode
 #
