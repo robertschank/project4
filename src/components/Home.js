@@ -58,7 +58,7 @@ class Home extends Component {
 
     // (Not So) Hard Coded Descriptions
     const customSquares = this.props.customSquares;
-    console.log(customSquares);
+    console.log('HOME.JS, CUSTOMSQUARES: ' + customSquares);
     // let descriptionsArray = [
           // 'Tie Dye',
           // 'Leather Jacket',
@@ -534,12 +534,12 @@ const mapStateToProps = (state) => {
   const messages = _.map(state.messages, (val, uid) => {
     return { ...val, uid };
   });
-  const { teamName, gameId, custom } = state.gameForm;
+  const { teamName, gameId, customSquares } = state.gameForm;
   console.log('Home mapStateToProps');
   console.log(gameId);
   console.log(teamName);
     console.log('Home mapStateToProps');
-  return { messages, teamName, gameId, custom };
+  return { messages, teamName, gameId, customSquares };
 };
 
 export default connect(mapStateToProps, { messagesGet, gameUpdate })(Home);
