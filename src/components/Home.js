@@ -69,7 +69,6 @@ class Home extends Component {
           'Suit',
           'Sweatpants',
     ];
-
     console.log('selectSquareDescriptions');
 
     //Create blank square indices array from 0 to 15
@@ -449,32 +448,6 @@ class Home extends Component {
               {this.renderSquare(this.state.squares[15].index, this.state.squares[15].description, this.state.squares[15].photoPath, this.state.squares[15].marked)}
             </View>
           </View>
-          <ListView style={styles.ListView}
-            enableEmptySections
-            dataSource={this.dataSource}
-            renderRow={this.renderRow}
-          />
-            <CardSection style={styles.messageInput} >
-              <Text onPress={this.uploadSnapshot}>XO!</Text>
-
-              <Input
-                placeholder="Enter trash talk here."
-                label="Group Message"
-                value={this.state.newMessage}
-                onChangeText={newMessage => this.setState({ newMessage })}
-              />
-              <Text onPress={()=>{this.sendMessage(this.props.teamName, this.state.newMessage)}}>SEND</Text>
-            </CardSection>
-     
-
-         {/*} {this.renderModal()} 
-                  <Confirm
-          visible={true}
-        >
-          Are you sure you want to delete this?
-        </Confirm>
-
-       */}
         </View>
       } 
       </View>

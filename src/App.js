@@ -5,9 +5,11 @@ import { createStore, applyMiddleware } from 'redux';
 import firebase from 'firebase';
 import ReduxThunk from 'redux-thunk';
 
+import TabbedNavigator from './TabbedNavigator';
 import { Button, CardSection, Spinner } from './components/common';
 import LoginForm from './components/LoginForm';
-import StartGame from './components/StartGame'
+import StartGame from './components/StartGame';
+import Game from './components/Game';
 import Home from './components/Home';
 import reducers from './reducers';
 import Router from './Router';
@@ -36,44 +38,10 @@ export default class App extends Component {
     });
   }
 
-  // handlePressNewGame() {
-  //   console.log('handlePressNewGame');
-
-  //   const { currentUser } = firebase.auth();
-
-  //   // Create new Game ID:
-  //   let gameKey = firebase.database().ref(`games/`).push().key;
-  //   this.setState({ gameId: gameKey });
-  //   console.log(this.state.gameId);
-
-  //   var updates = {};
-
-  //   // Get the current Time:
-  //   const now = new Date();
-  //   const hours =  now.getHours();
-  //   let mins = now.getMinutes();
-  //   // if m is one digit, add a zero in front of it:
-  //   mins = mins < 10 ? "0" + mins : mins;
-  //   const time = `${hours}:${mins}`;
-
-  //   // Create New Post Key
-  //   reallyNewPostKey = firebase.database().ref(`games/${gameKey}/`).push().key;
-  //   updates[`games/${gameKey}/${reallyNewPostKey}`] = 
-  //     {
-  //       text: `Hey people, welcome to Squares Out There! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`, 
-  //       author:"Bing Man:",
-  //       time: time,
-  //       color: '#f6ceff',
-  //     };
-
-  //   firebase.database().ref().update(updates);
-  // }
-
   handlePressSubmit(teamName) {
     console.log('handlePressSubmit');
 
     this.setState({ teamName: teamName });
-
   }
 
   handlePressJoinGame(gameKey, teamName) {
@@ -98,10 +66,7 @@ export default class App extends Component {
     switch (this.state.loggedIn) {
       case true:
       if (this.state.gameReady) {return (
-          <Home 
-            gameId={this.state.gameId}
-            teamName={this.state.teamName}
-          />
+          <Game/>
       );}
       else { return ( <StartGame 
           onPressStart={this.handlePressStart.bind(this)}
@@ -133,3 +98,7 @@ export default class App extends Component {
     )
   }
 }
+          {/*<Home 
+            gameId={this.state.gameId}
+            teamName={this.state.teamName}
+          />*/}
