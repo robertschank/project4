@@ -6,7 +6,7 @@ import {
 		TouchableOpacity,
 		View,
 	} from 'react-native';
-import { squareColor1 } from '../constants/Colors';
+import { COLOR_SQUARE } from './styles/commonStyles';
 
 const styles = StyleSheet.create({
 	container: {
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
 		height: 90,
 		borderColor: 'white',
 		borderWidth: 1,
-		backgroundColor: '#5697ff',
+		backgroundColor: COLOR_SQUARE,
 	},
 	image: {
 		flex: 1,

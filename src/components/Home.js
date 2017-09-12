@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
   AppRegistry,
   Button,
+  Dimensions,
   Image,
   KeyboardAvoidingView,
   ListView,
@@ -27,9 +28,53 @@ import { Square } from './Square';
 import { MyCamera } from './MyCamera';
 import MessageItem from './MessageItem';
 import { Card, CardSection, Confirm, Input } from './common';
-import { containerColor } from '../constants/Colors';
+import { COLOR_BACKGROUND, COLOR_PRIMARY } from './styles/commonStyles';
 
-const styles = require('../styles/dist/sass/main.js')
+// const styles = require('../styles/dist/sass/main.js')
+
+const styles = StyleSheet.create({
+    "container": {
+        "alignItems": "stretch",
+        "flex": 1,
+        "backgroundColor": COLOR_BACKGROUND,
+    },
+    "camera": {
+        "flex": 1
+    },
+    "cameraContainer": {
+        "alignItems": "stretch",
+        "flex": 1
+    },
+    "boardContainer": {
+        "flexDirection": "column",
+        "justifyContent": "flex-start",
+        "flex": 1
+    },
+    "headerView": {
+        "backgroundColor": COLOR_PRIMARY,
+        "flexDirection": "row",
+        "justifyContent": "space-between"
+    },
+    "header": {
+        "fontSize": 30,
+        "paddingTop": 4,
+        "paddingBottom": 4,
+        "paddingRight": 4,
+        "paddingLeft": 4,
+        "color": "white"
+    },
+    "row": {
+        "flexDirection": "row",
+        "marginTop": 0,
+        "marginBottom": 0,
+        "marginRight": 0,
+        "marginLeft": 0,
+        "paddingTop": 0,
+        "paddingBottom": 0,
+        "paddingRight": 0,
+        "paddingLeft": 0
+    },
+});
 
 let squaresArray = [];
 
@@ -146,36 +191,11 @@ class Home extends Component {
     };
   } // End Constructor
 
-  componentWillMount() {
-    console.log('HOME.JS componentWillMount.');
-    // Get the list of messages from db
-
-    this.createDataSource(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // nextProps are the next set of props that this component will be rendered with
-    // this.props is still the old set of props
-
-    this.createDataSource(nextProps);
-    console.log('HITTING COMPONENT WILL RECEIVE PROPS');
-  }
-
-  createDataSource({ messages }) {
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
-    console.log(this.state.messages);
-
-    this.dataSource = ds.cloneWithRows(messages);
-  }
-
   componentDidMount() {
-    console.log('HOME.JS componentDidMount. ');
-        this.props.messagesGet(this.props.gameId);
-    this.sendMessage('Ref', `Hey people, welcome to Townie Squares! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`);
-    this.sendMessage('Ref', `${this.props.teamName} joined the game.`);
+    var {height, width} = Dimensions.get('window');
+    console.log('componentDidMount, width: ' + width);
   }
+
 
 
   uploadSnapshot = () => {
@@ -388,13 +408,13 @@ class Home extends Component {
     />
   }
 
-  renderRow = (mess) => {
-    return (<MessageItem message={mess} />)
-  }
+  // renderRow = (mess) => {
+  //   return (<MessageItem message={mess} />)
+  // }
 
-  renderModal() {
-    return (<Confirm />)
-  }
+  // renderModal() {
+  //   return (<Confirm />)
+  // }
 
   // TODO
   // renderBoard() {
@@ -422,7 +442,7 @@ class Home extends Component {
               Log Out
             </Text>        
           </View>
-          <View ref="board" style={styles.boardView}>
+          <View ref="board" style={{backgroundColor: 'white'}}>
             <View style={styles.row}>
               {this.renderSquare(this.state.squares[0].index, this.state.squares[0].description, this.state.squares[0].photoPath, this.state.squares[0].marked)} 
               {this.renderSquare(this.state.squares[1].index, this.state.squares[1].description, this.state.squares[1].photoPath, this.state.squares[1].marked)}

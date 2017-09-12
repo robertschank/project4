@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { 
 		ListView,
 		Text,
+		StyleSheet,
 		View,
 	} from 'react-native';
 import { connect } from 'react-redux';
@@ -12,18 +13,22 @@ import TabbedNavigator from '../TabbedNavigator';
 import { messagesGet } from '../actions';
 import { gameUpdate } from '../actions';
 import MessageItem from './MessageItem';
-import { Card, CardSection, Confirm, Input } from './common';
+import { Card, CardSection, Confirm, Header, Input } from './common';
+import { COLOR_PRIMARY_LIGHT } from './styles/commonStyles.js';
 
-const styles = require('../styles/dist/sass/main.js')
-
-// const styles = StyleSheet.create({
-// 	container: {
-// 		flex: 1,
-// 		height: 90,
-// 		borderColor: 'white',
-// 		borderWidth: 1,
-// 	}
-// });
+const styles = StyleSheet.create({
+		container: {
+			flexDirection: 'column', 
+			justifyContent: 'space-between',
+			flex: 1,
+		},
+    listView: {
+      flexGrow: 1
+    },
+    messageInput: {
+        backgroundColor: COLOR_PRIMARY_LIGHT,
+    },
+});
 
 class Chat extends Component {
 	constructor(props) {
@@ -99,23 +104,23 @@ class Chat extends Component {
 
 	render() {
 		return (
-			<View>
-          <ListView style={styles.ListView}
+			<View style={ styles.container }>
+				<Header headerText={'Group Chat'}/>
+          <ListView style={styles.listView}
             enableEmptySections
             dataSource={this.dataSource}
             renderRow={this.renderRow}
           />
-            <CardSection style={styles.messageInput} >
-              <Text onPress={this.uploadSnapshot}>XO!</Text>
-
-              <Input
+          <CardSection style={styles.messageInput} >
+            <Text onPress={this.uploadSnapshot}>XO!</Text>
+            <Input
                 placeholder="Enter trash talk here."
                 label="Group Message"
                 value={this.state.newMessage}
                 onChangeText={newMessage => this.setState({ newMessage })}
-              />
-              <Text onPress={()=>{this.sendMessage(this.props.teamName, this.state.newMessage)}}>SEND</Text>
-            </CardSection>
+            />
+            <Text onPress={()=>{this.sendMessage(this.props.teamName, this.state.newMessage)}}>SEND</Text>
+          </CardSection>
 			</View>
 		);
 	}
