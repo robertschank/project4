@@ -73,9 +73,8 @@ class NewGameForm extends Component {
 
         <CardSection>
           <View style={{flex: 1}}>
-            <Header headerText="Define your own squares (click to remove)" />
             <Sinput
-              placeholder={'Add your own custom squares here!'}
+              placeholder={'Add your own custom squares here!\n(click to remove)'}
               onSubmitEditing={this.onAddItem}
             />
             <List

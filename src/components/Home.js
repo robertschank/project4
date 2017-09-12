@@ -5,10 +5,10 @@ import {
   AppRegistry,
   Button,
   Dimensions,
+  Platform,
   Image,
   KeyboardAvoidingView,
   ListView,
-  Platform,
   StatusBar,
   StyleSheet,
   Text,
@@ -194,6 +194,7 @@ class Home extends Component {
   componentDidMount() {
     var {height, width} = Dimensions.get('window');
     console.log('componentDidMount, width: ' + width);
+    console.log('PLATFORM.OS' + Platform.OS)
   }
 
 

@@ -21,9 +21,9 @@ const styles = {
     alignItems: 'center',
     height: 60,
     paddingTop: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 27 },
-    shadowOpacity: 0.9,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 27 },
+    // shadowOpacity: 0.9,
     elevation: 2,
     position: 'relative'
   },
