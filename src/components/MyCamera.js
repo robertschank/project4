@@ -2,6 +2,7 @@
 import React from 'react';
 import {
   Image,
+  Platform,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
@@ -64,10 +65,16 @@ export default class MyCamera extends React.Component {
   constructor(props) {
     super(props);
 
+    console.log('PLATFORM.OS:::::::::: ' + Platform.OS)
+
+    if(Platform.OS == 'android') {
+      console.log('IN android');
+    } else {
+      console.log('HOPEFULLY IN IOS')
+    }
     let photoUri = '';
 
     this.camera = null;
-
     this.state = {
       camera: {
         aspect: Camera.constants.Aspect.stretch,
@@ -76,7 +83,7 @@ export default class MyCamera extends React.Component {
         orientation: Camera.constants.Orientation.portrait,
         flashMode: Camera.constants.FlashMode.off,
         // Capture Quality:
-        captureQuality: Camera.constants.CaptureQuality.medium,
+        captureQuality: Camera.constants.CaptureQuality.preview,
       },
       isRecording: false
     };

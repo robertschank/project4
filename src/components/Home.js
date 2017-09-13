@@ -94,7 +94,6 @@ class Home extends Component {
 
     // (Not So) Hard Coded Descriptions
     const customSquares = this.props.customSquares;
-    console.log('HOME.JS, CUSTOMSQUARES: ' + customSquares);
 
     let pickFromDescriptions = [
           'Tie Dye',
@@ -190,14 +189,6 @@ class Home extends Component {
       },
     };
   } // End Constructor
-
-  componentDidMount() {
-    var {height, width} = Dimensions.get('window');
-    console.log('componentDidMount, width: ' + width);
-    console.log('PLATFORM.OS' + Platform.OS)
-  }
-
-
 
   uploadSnapshot = () => {
     console.log('SNAPSHOT');
@@ -401,21 +392,14 @@ class Home extends Component {
   };
 
   renderSquare(i, description, photoPath, marked) {
-    return <Square index={i}
+    return <Square
+      index={i}
       description={description}
       photoUri={photoPath}
       marked={marked}
       onPressSquare={this.launchCamera.bind(this)}
     />
   }
-
-  // renderRow = (mess) => {
-  //   return (<MessageItem message={mess} />)
-  // }
-
-  // renderModal() {
-  //   return (<Confirm />)
-  // }
 
   // TODO
   // renderBoard() {
@@ -430,10 +414,10 @@ class Home extends Component {
       {this.state.showCamera &&
         <View style={styles.cameraContainer}>
           <View style={styles.camera}>
-              <MyCamera takePhoto={this.takePhoto.bind(this)}/>
+            <MyCamera takePhoto={this.takePhoto.bind(this)}/>
           </View>
           <View>
-              <Text title="(Teammate photobombs are encouraged)" style={{fontSize: 40}} />
+            <Text title="(Teammate photobombs are encouraged)" style={{fontSize: 40}} />
           </View>
         </View>
         ||

@@ -1,37 +1,21 @@
 import React, { Component } from 'react';
-import { 
-		Image,
-		StyleSheet,
-		Text,
-		TouchableOpacity,
-		View,
-	} from 'react-native';
+import {
+  Dimensions,
+	Image,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
+
 import { COLOR_SQUARE } from './styles/commonStyles';
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		height: 130,
-		borderColor: 'white',
-		borderWidth: 1,
-	},
-	textContainer: {
-		// flex: 1,
-		flexDirection: 'column',
-		// justifyContent: 'flex-end',
-		// alignItems: 'stretch',
-		// backgroundColor: 'rgba(0, 0, 0, 0.9)',
-		position: 'absolute',
-		alignSelf: 'stretch',
-		justifyContent: 'flex-end',
-		// width: 100,
-	},
 	yes: {
 		textAlign: 'center',
-		fontSize: 12,
+		fontSize: 13,
 		color: 'white',
 		backgroundColor: 'rgba(0, 0, 0, 0.4)',
-		// position: 'absolute',
 		alignSelf: 'stretch',
 	},
 	no: {
@@ -39,32 +23,19 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		color: 'white',
 		alignSelf: 'center',
-		// visible: false
-	},
-	descriptionView: {
-		flexDirection: 'row',
-		flex: 1,
-		// backgroundColor: 'blue',
-	},
-	description: {
-		textAlign: 'center',
-		fontSize: 20,
-		color: 'white',
 	},
 	touch: {
 		flex: 1,
 		flexDirection: 'column',
 		justifyContent: 'flex-end',
 		alignItems: 'stretch',
-		height: 100,
-		// width: 100,
 		borderColor: 'white',
 		borderWidth: .5,
 		backgroundColor: COLOR_SQUARE,
 	},
 	imageNo: {
-		flexDirection: 'column',
 		flex: 1,
+		flexDirection: 'column',
 		justifyContent: 'center',
 	},
 		imageYes: {
@@ -84,17 +55,19 @@ export default class Square extends Component {
 	}
 
 	render() {
-		const {description, onPressSquare, photoUri, marked} = this.props;
+		const { description, onPressSquare, photoUri, marked} = this.props;
 		const markedyesorno = marked;
 		let descriptionStyle = styles.no;
 		let imageStyle = styles.imageNo;
+		let {height, width} = Dimensions.get('window');
+		let squareWidth = width/4;
 		// If given square is marked, set different styling:
 		if (marked == 'yes') {
 			descriptionStyle = styles.yes;
 			imageStyle = styles.imageYes;
 		}
 		return (
-		<TouchableOpacity onPress={() => {onPressSquare(this.props.index)}} style={styles.touch} >
+		<TouchableOpacity onPress={() => {onPressSquare(this.props.index)}} style={[styles.touch,{width: squareWidth, height: squareWidth }]}>
 			<Image style={imageStyle} source={{uri: this.props.photoUri}}>
 				<Text style={descriptionStyle}>{description}</Text>
 			</Image>
