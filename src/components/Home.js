@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   AppRegistry,
-  Button,
   Dimensions,
   Platform,
   Image,
@@ -27,7 +26,7 @@ import { gameUpdate } from '../actions';
 import { Square } from './Square';
 import { MyCamera } from './MyCamera';
 import MessageItem from './MessageItem';
-import { Card, CardSection, Confirm, Input } from './common';
+import { Button, Card, CardSection, Confirm, Input } from './common';
 import { COLOR_BACKGROUND, COLOR_PRIMARY } from './styles/commonStyles';
 
 // const styles = require('../styles/dist/sass/main.js')
@@ -453,6 +452,7 @@ class Home extends Component {
               {this.renderSquare(this.state.squares[15].index, this.state.squares[15].description, this.state.squares[15].photoPath, this.state.squares[15].marked)}
             </View>
           </View>
+          <Button>Snapshot</Button>
         </View>
       } 
       </View>
