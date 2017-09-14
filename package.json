@@ -14,7 +14,6 @@
     "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
     "react-native-communications": "^2.1.4",
     "react-native-fetch-blob": "^0.10.7",
-    "react-native-router-flux": "^3.38.0",
     "react-native-view-shot": "^1.9.1",
     "react-navigation": "^1.0.0-beta.11",
     "react-redux": "^5.0.5",
@@ -24,7 +23,6 @@
   "devDependencies": {
     "babel-jest": "19.0.0",
     "babel-preset-react-native": "1.9.1",
-    "gulp-react-native-stylesheet-css": "^1.4.4",
     "jest": "19.0.2",
     "react-native-view-shot": "*",
     "react-test-renderer": "~15.4.1"

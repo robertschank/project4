@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   AppRegistry,
-  Button,
   Dimensions,
   Platform,
   Image,
@@ -27,10 +26,8 @@ import { gameUpdate } from '../actions';
 import { Square } from './Square';
 import { MyCamera } from './MyCamera';
 import MessageItem from './MessageItem';
-import { Card, CardSection, Confirm, Input } from './common';
+import { Button,Card, CardSection, Confirm, Input, MyModal } from './common';
 import { COLOR_BACKGROUND, COLOR_PRIMARY } from './styles/commonStyles';
-
-// const styles = require('../styles/dist/sass/main.js')
 
 const styles = StyleSheet.create({
     "container": {
@@ -187,14 +184,29 @@ class Home extends Component {
         result: "file",
         snapshotContentContainer: false,
       },
+      showModal: false,
     };
   } // End Constructor
 
-  uploadSnapshot = () => {
+  example = () => {}
+
+  toggleModal(){
+    this.setState({showModal: !this.state.showModal });
+  }
+
+  onAccept(){
+    this.toggleModal();
+  }
+
+  onDecline(){
+    this.toggleModal();
+  }
+
+  takeSnapshot = () => {
     console.log('SNAPSHOT');
     takeSnapshot(this.refs["board"], { path: PictureDir+"/foo.png" })
     .then(
-      uri => this.uploadImage(uri, "NAMEY"), //console.log("Image saved to", uri), //HERE IS WHERE IM IMPLEMENTING REACT-NATIVE-FETCH-BLOB
+      uri => console.log("Image saved to", uri),//this.uploadImage(uri, "NAMEY"),  //HERE IS WHERE IM IMPLEMENTING REACT-NATIVE-FETCH-BLOB
       error => console.error("Oops, snapshot failed", error),
     ); // end .then
   }
@@ -290,8 +302,7 @@ class Home extends Component {
       // Upload completed successfully, now we can get the download URL
       var downloadURL = uploadTask.snapshot.downloadURL;
     });
-
-  }
+  } // END UPLOAD TO STORAGE (NOT IN USE)
 
   sendMessage = (author, insertMessage) => {
     console.log('sendMessage.');
@@ -453,6 +464,14 @@ class Home extends Component {
               {this.renderSquare(this.state.squares[15].index, this.state.squares[15].description, this.state.squares[15].photoPath, this.state.squares[15].marked)}
             </View>
           </View>
+          <Button onPress={() => this.takeSnapshot()}>PLEASE DON'T PUSH ME</Button>
+          <MyModal
+            visible={this.state.showModal}
+            onAccept={this.onAccept.bind(this)}
+            onDecline={this.onDecline.bind(this)}
+            message={'Are you going to the mall tonight??'}
+          />
+          <Button onPress={() => this.toggleModal()}>TOGGLE</Button>
         </View>
       } 
       </View>
