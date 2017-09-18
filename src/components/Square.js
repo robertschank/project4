@@ -8,7 +8,7 @@ import {
 	View,
 } from 'react-native';
 
-import { COLOR_SQUARE } from './styles/commonStyles';
+import { COLOR_PRIMARY_MID } from './styles/commonStyles';
 
 const styles = StyleSheet.create({
 	yes: {
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 		alignItems: 'stretch',
 		borderColor: 'white',
 		borderWidth: .5,
-		backgroundColor: COLOR_SQUARE,
+		backgroundColor: COLOR_PRIMARY_MID,
 	},
 	imageNo: {
 		flex: 1,
