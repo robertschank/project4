@@ -26,10 +26,8 @@ import { gameUpdate } from '../actions';
 import { Square } from './Square';
 import { MyCamera } from './MyCamera';
 import MessageItem from './MessageItem';
-import { Button, Card, CardSection, Confirm, Input } from './common';
+import { Button,Card, CardSection, Confirm, Input, MyModal } from './common';
 import { COLOR_BACKGROUND, COLOR_PRIMARY } from './styles/commonStyles';
-
-// const styles = require('../styles/dist/sass/main.js')
 
 const styles = StyleSheet.create({
     "container": {
@@ -95,22 +93,22 @@ class Home extends Component {
     const customSquares = this.props.customSquares;
 
     let pickFromDescriptions = [
-          'Tie Dye',
-          'Leather Jacket',
-          'Red Shirt',
-          'Hands Full',
-          'Balloon',
-          'Dog',
-          'Tattoo',
-          'Out of Place',
-          'Flatbrim',
-          'Eating on the Run',
-          'Jersey',
-          'Basic',
-          'Pizza!',
-          'Free Space',
-          'Suit',
-          'Sweatpants',
+      'Tie Dye',
+      'Leather Jacket',
+      'Red Shirt',
+      'Hands Full',
+      'Balloon',
+      'Dog',
+      'Tattoo',
+      'Out of Place',
+      'Flatbrim',
+      'Eating on the Run',
+      'Jersey',
+      'Basic',
+      'Pizza!',
+      'Free Space',
+      'Suit',
+      'Sweatpants',
     ];
     console.log('selectSquareDescriptions');
 
@@ -175,8 +173,8 @@ class Home extends Component {
       squares: squaresArray,
       indexForUrl: -1,
       returnedPhotoPath: 'no photo path',
-      rowCount: [0, 1, 1, 0],
-      colCount: [0, 1, 0, 1],
+      rowCount: [0, 0, 0, 0],
+      colCount: [0, 0, 0, 0],
       // snapshotview stuff
       error: null,
       res: null,
@@ -186,20 +184,38 @@ class Home extends Component {
         result: "file",
         snapshotContentContainer: false,
       },
+      showModal: false,
+      modal: {
+
+      }
     };
   } // End Constructor
 
-  uploadSnapshot = () => {
+  example = () => {}
+
+  toggleModal(){
+    this.setState({showModal: !this.state.showModal });
+  }
+
+  onOption1(){
+    this.toggleModal();
+  }
+
+  onOption2(){
+    this.toggleModal();
+  }
+
+  takeSnapshot = () => {
     console.log('SNAPSHOT');
     takeSnapshot(this.refs["board"], { path: PictureDir+"/foo.png" })
     .then(
-      uri => this.uploadImage(uri, "NAMEY"), //console.log("Image saved to", uri), //HERE IS WHERE IM IMPLEMENTING REACT-NATIVE-FETCH-BLOB
+      uri => console.log("Image saved to", uri),//this.uploadImage(uri, "NAMEY"),  //HERE IS WHERE IM IMPLEMENTING REACT-NATIVE-FETCH-BLOB
       error => console.error("Oops, snapshot failed", error),
     ); // end .then
   }
 
   uploadImage(uri, imageName, mime = 'image/jpg'){
-        const Blob = RNFetchBlob.polyfill.Blob
+    const Blob = RNFetchBlob.polyfill.Blob
     const fs = RNFetchBlob.fs
     window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
     window.Blob = Blob
@@ -289,8 +305,7 @@ class Home extends Component {
       // Upload completed successfully, now we can get the download URL
       var downloadURL = uploadTask.snapshot.downloadURL;
     });
-
-  }
+  } // END UPLOAD TO STORAGE (NOT IN USE)
 
   sendMessage = (author, insertMessage) => {
     console.log('sendMessage.');
@@ -324,10 +339,10 @@ class Home extends Component {
   takePhoto = (path) => {
     console.log('takePhoto');
 
-    this.sendMessage("Ref", `Whoa, ${this.props.teamName} completed a square!`)
+    this.sendMessage("Ref", `${this.props.teamName} completed a square!`)
     const index = this.state.clickedSquareIndex;
 
-    // Couldn't get spread operator ... working
+    // Couldn't get spread operator (...) working
 
     // This where the completed square is added
     let newSquares = this.state.squares.slice();
@@ -383,13 +398,28 @@ class Home extends Component {
 
   }; // End takePhoto()
 
-  launchCamera = (index) => {
-    console.log('launchCamera');
-    console.log(index);
-    this.setState({
-      showCamera: true,
-      clickedSquareIndex: index,
-    });
+  handlePressSquare = (index) => {
+    console.log('Home, handlePressSquare, squares[index].marked: ' +  this.state.squares[index].marked)
+    if (this.state.squares[index].marked == 'yes') {
+      console.log('in If');
+      let modal = {
+        message: this.state.squares[index].description,
+        option1: 'Keep',
+        option2: 'Discard',
+        imagePath: this.state.squares[index].photoPath,
+      };
+      this.setState({
+        modal: modal,
+      })
+      this.toggleModal();
+    } else {
+      console.log('handlePressSquare');
+      console.log(index);
+      this.setState({
+        showCamera: true,
+        clickedSquareIndex: index,
+      }); 
+    }
   };
 
   renderSquare(i, description, photoPath, marked) {
@@ -398,7 +428,7 @@ class Home extends Component {
       description={description}
       photoUri={photoPath}
       marked={marked}
-      onPressSquare={this.launchCamera.bind(this)}
+      onPressSquare={this.handlePressSquare.bind(this)}
     />
   }
 
@@ -454,7 +484,17 @@ class Home extends Component {
               {this.renderSquare(this.state.squares[15].index, this.state.squares[15].description, this.state.squares[15].photoPath, this.state.squares[15].marked)}
             </View>
           </View>
-          <Button>Snapshot</Button>
+          <MyModal
+            visible={this.state.showModal}
+            message={this.state.modal.message}
+            imageRef={this.state.modal.imagePath}
+            option1={this.state.modal.option1}
+            onOption1={this.onOption1.bind(this)}
+            option2={this.state.modal.option2}
+            onOption2={this.onOption2.bind(this)}
+          />
+          <Button onPress={() => this.takeSnapshot()}>PLEASE DON'T PUSH ME</Button>
+          <Button onPress={() => this.toggleModal()}>TOGGLE</Button>
         </View>
       } 
       </View>
@@ -470,7 +510,7 @@ const mapStateToProps = (state) => {
   console.log('Home mapStateToProps');
   console.log(gameId);
   console.log(teamName);
-    console.log('Home mapStateToProps');
+  console.log('Home mapStateToProps');
   return { messages, teamName, gameId, customSquares };
 };
 

@@ -12,7 +12,6 @@ import StartGame from './components/StartGame';
 import Game from './components/Game';
 import Home from './components/Home';
 import reducers from './reducers';
-import Router from './Router';
 
 export default class App extends Component {
 
