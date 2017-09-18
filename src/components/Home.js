@@ -357,6 +357,8 @@ class Home extends Component {
       squares: newSquares,
     });
 
+    //TODO HARDCODE WIN CONDITION??
+
     // Check For Win:
     const colMarked = index%4;
     console.log('COLMARKED' + colMarked);
