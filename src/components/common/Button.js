@@ -7,8 +7,8 @@ import {
 const Button = ({ buttonColor, onPress, children }) => {
   const { buttonStyle, textStyle } = styles;
   return (
-    <TouchableOpacity onPress={onPress} style={[buttonStyle, {borderColor:buttonColor}]}>
-      <Text style={[textStyle, {color:buttonColor}]}>
+    <TouchableOpacity onPress={onPress} style={[buttonStyle, {borderColor:buttonColor||COLOR_PRIMARY}]}>
+      <Text style={[textStyle, {color:buttonColor||COLOR_PRIMARY},]}>
         {children}
       </Text>
     </TouchableOpacity>

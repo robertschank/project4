@@ -27,7 +27,7 @@ import { Square } from './Square';
 import { MyCamera } from './MyCamera';
 import MessageItem from './MessageItem';
 import { Button,Card, CardSection, Confirm, Input, MyModal } from './common';
-import { COLOR_BACKGROUND, COLOR_PRIMARY, COLOR_PRIMARY_MID } from './styles/commonStyles';
+import { COLOR_BACKGROUND, COLOR_PRIMARY, COLOR_PRIMARY_MID, COLOR_SECONDARY } from './styles/commonStyles';
 
 const styles = StyleSheet.create({
     "container": {
@@ -506,7 +506,7 @@ class Home extends Component {
             onOption1={this.onOption1.bind(this)}
             option2={this.state.modal.option2}
             onOption2={this.onOption2.bind(this)}
-            buttonColor={COLOR_PRIMARY_MID}
+            buttonColor={COLOR_SECONDARY}
           />
           <Button 
             onPress={() => this.takeSnapshot()} 

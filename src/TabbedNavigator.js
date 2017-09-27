@@ -3,7 +3,7 @@ import { TabNavigator } from 'react-navigation';
 import Home from './components/Home.js';
 import Chat from './components/Chat.js';
 
-import { COLOR_PRIMARY } from './components/styles/commonStyles'
+import { COLOR_PRIMARY, COLOR_SECONDARY } from './components/styles/commonStyles'
 
 const TabbedNavigator = TabNavigator({
   Home: { screen: Home },
@@ -14,7 +14,7 @@ const TabbedNavigator = TabNavigator({
   tabBarOptions: {
   	activeBackgroundColor: COLOR_PRIMARY,
   	inactiveBackgroundColor: COLOR_PRIMARY,
-    activeTintColor: 'white',
+    activeTintColor: COLOR_SECONDARY,
       style: {
     backgroundColor: COLOR_PRIMARY,
   },

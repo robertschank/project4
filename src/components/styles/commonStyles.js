@@ -5,7 +5,7 @@ export const COLOR_PRIMARY_MID = '#8582ff';
 export const COLOR_SECONDARY = '#a5ffc7';
 export const COLOR_SECONDARY_LIGHT = '#2f3d47';
 
-export const COLOR_BACKGROUND = '#2f3d47';
+export const COLOR_BACKGROUND = '#697782';
 
 export const COLOR_HEADER_TEXT = 'white';
 export const BORDER_RADIUS = 5;
