@@ -72,8 +72,8 @@ const styles = {
   imageStyle: {
     width: 300,
     height: 300,
-    borderColor: COLOR_PRIMARY_MID,
-    borderWidth: 1,
+    borderColor: 'black',
+    borderWidth: .5,
     borderRadius: 8,
     alignSelf: 'center',
   },
