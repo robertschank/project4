@@ -27,7 +27,7 @@ import { Square } from './Square';
 import { MyCamera } from './MyCamera';
 import MessageItem from './MessageItem';
 import { Button,Card, CardSection, Confirm, Input, MyModal } from './common';
-import { COLOR_BACKGROUND, COLOR_PRIMARY } from './styles/commonStyles';
+import { COLOR_BACKGROUND, COLOR_PRIMARY, COLOR_PRIMARY_MID } from './styles/commonStyles';
 
 const styles = StyleSheet.create({
     "container": {
@@ -171,6 +171,7 @@ class Home extends Component {
 
     this.state = {
       squares: squaresArray,
+      currentIndex: null,
       indexForUrl: -1,
       returnedPhotoPath: 'no photo path',
       rowCount: [0, 0, 0, 0],
@@ -186,7 +187,6 @@ class Home extends Component {
       },
       showModal: false,
       modal: {
-
       }
     };
   } // End Constructor
@@ -202,6 +202,18 @@ class Home extends Component {
   }
 
   onOption2(){
+    let newSquares = this.state.squares.slice();
+    let newSquare = newSquares[this.state.currentIndex];
+
+    let replaceSquare = newSquare;
+    replaceSquare.photoPath = '../assets/ic_camera_rear_white.png';
+    replaceSquare.marked = 'no';
+    newSquares[this.state.currentIndex] = replaceSquare;
+    this.setState({
+      // showCamera: false,
+      // returnedPhotoPath: path,
+      squares: newSquares,
+    });
     this.toggleModal();
   }
 
@@ -310,8 +322,8 @@ class Home extends Component {
   sendMessage = (author, insertMessage) => {
     console.log('sendMessage.');
     console.log('gameId: ');
-        console.log(this.props.gameId);
-            console.log('gameId');
+    console.log(this.props.gameId);
+    console.log('gameId');
     var newMessageKey = firebase.database().ref(`games/${this.props.gameId}/`).push().key;
     var updates = {};
 
@@ -379,6 +391,7 @@ class Home extends Component {
       //     error => console.error("Oops, snapshot failed", error)
       //   );
     } // end column win if
+
     console.log('CURRENTColCount: ' + currentColCount);
 
     const floorThisThing = index/4;
@@ -394,11 +407,12 @@ class Home extends Component {
       this.sendMessage("Ref", `Look Out, ${this.props.teamName} got bingo!!`)
     } // end row win if
     console.log('CURRENTColCount: ' + currentRowCount);
-
-
   }; // End takePhoto()
 
   handlePressSquare = (index) => {
+    this.setState({
+      currentIndex: index,
+    })
     console.log('Home, handlePressSquare, squares[index].marked: ' +  this.state.squares[index].marked)
     if (this.state.squares[index].marked == 'yes') {
       console.log('in If');
@@ -492,8 +506,11 @@ class Home extends Component {
             onOption1={this.onOption1.bind(this)}
             option2={this.state.modal.option2}
             onOption2={this.onOption2.bind(this)}
+            buttonColor={COLOR_PRIMARY_MID}
           />
-          <Button onPress={() => this.takeSnapshot()}>PLEASE DON'T PUSH ME</Button>
+          <Button 
+            onPress={() => this.takeSnapshot()} 
+          >PLEASE DON'T PUSH ME</Button>
           <Button onPress={() => this.toggleModal()}>TOGGLE</Button>
         </View>
       } 
