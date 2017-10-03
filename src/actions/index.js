@@ -1,2 +1,2 @@
-export * from './MessageActions';
+export * from './FirebaseDBActions';
 export * from './GameActions';
