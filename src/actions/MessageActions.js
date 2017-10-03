@@ -2,8 +2,6 @@ import firebase from 'firebase';
 
 import { MESSAGES_GET_SUCCESS } from './types';
 
-
-
 export const messagesGet = (gameId) => {
 
 	return (dispatch) => {
@@ -15,5 +13,3 @@ export const messagesGet = (gameId) => {
     });
   };
 };
-
-

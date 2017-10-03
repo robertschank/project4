@@ -7,9 +7,9 @@ import ReduxThunk from 'redux-thunk';
 
 import TabbedNavigator from './TabbedNavigator';
 import { Button, CardSection, Spinner } from './components/common';
+import Game from './components/Game';
 import LoginForm from './components/LoginForm';
 import StartGame from './components/StartGame';
-import Game from './components/Game';
 import Home from './components/Home';
 import reducers from './reducers';
 
