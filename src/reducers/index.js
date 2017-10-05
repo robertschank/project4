@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux';
+import ChatReducer from './ChatReducer';
+import FirebaseDBReducer from './FirebaseDBReducer';
 import GameFormReducer from './GameFormReducer';
-import MessageReducer from './MessageReducer';
+
 
 export default combineReducers({
-	messages: MessageReducer,
+	chats: ChatReducer,
+	firebaseDBItems: FirebaseDBReducer,
 	gameForm: GameFormReducer,
 });

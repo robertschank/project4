@@ -20,7 +20,6 @@ const TabbedNavigator = TabNavigator(
   tabBarPosition: 'bottom',
   animationEnabled: true,
   tabBarOptions: {
-    // initialRouteName: 'home',
   	activeBackgroundColor: COLOR_PRIMARY,
   	inactiveBackgroundColor: COLOR_PRIMARY,
     activeTintColor: COLOR_SECONDARY,

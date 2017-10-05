@@ -53,13 +53,13 @@ class Chat extends Component {
     console.log('HITTING COMPONENT WILL RECEIVE PROPS');
   }
 
-  createDataSource({ messages }) {
+  createDataSource({ chats }) {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
-    // console.log(this.state.messages);
+    // console.log(this.state.chats);
 
-    this.dataSource = ds.cloneWithRows(messages);
+    this.dataSource = ds.cloneWithRows(chats);
   }
 
   componentDidMount() {
@@ -74,7 +74,7 @@ class Chat extends Component {
     console.log('gameId: ');
     console.log(this.props.gameId);
     console.log('gameId');
-    var newMessageKey = firebase.database().ref(`games/${this.props.gameId}/`).push().key;
+    var newMessageKey = firebase.database().ref(`games/${this.props.gameId}/chat`).push().key;
     var updates = {};
 
     const now = new Date();
@@ -85,7 +85,7 @@ class Chat extends Component {
     const time = `${hours}:${mins}`;
     console.log(time);
 
-    updates[`games/${this.props.gameId}/` + newMessageKey] = 
+    updates[`games/${this.props.gameId}/chat/` + newMessageKey] = 
       {
         text: insertMessage, 
         author: author + ':',
@@ -127,15 +127,15 @@ class Chat extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const messages = _.map(state.messages, (val, uid) => {
+  const chats = _.map(state.chats, (val, uid) => {
     return { ...val, uid };
   });
   const { teamName, gameId, customSquares } = state.gameForm;
-  console.log('Home mapStateToProps');
+  console.log('CHATT mapStateToProps');
   console.log(gameId);
-  console.log(teamName);
-    console.log('Home mapStateToProps');
-  return { messages, teamName, gameId, customSquares };
+  console.log(chats);
+  console.log('CHATT mapStateToProps');
+  return { chats, teamName, gameId, customSquares };
 };
 
 export default connect(mapStateToProps, { messagesGet })(Chat);
