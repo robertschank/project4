@@ -83,6 +83,19 @@ class ScoreBoard extends Component {
 		return (
 			<View style={ styles.container }>
 				<Header headerText={'Leader Board'}/>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 5,}}>
+
+            <Text>
+              Team
+            </Text>
+            <Text>
+              Squares
+            </Text>
+            <Text>
+              Rows
+            </Text>
+
+          </View>
           {teamInfo}
           <Text>HELLO WORLD</Text>
 			</View>
