@@ -40,23 +40,21 @@ class ScoreBoard extends Component {
   componentDidMount() {
     console.log('ScoreBoard.JS componentDidMount. ');
     this.props.scoresGet(this.props.gameId);
-    this.updateScore();
+    // this.updateScore(); TOOK THIS FUNCTION TO HOME.JS
   }
 
-  updateScore = () => {
-    var updates = {};
-    var teamKey = firebase.database().ref(`games/${this.props.gameId}`).push().key;
+  // updateScore = () => {
+  //   var updates = {};
+  //   var teamKey = firebase.database().ref(`games/${this.props.gameId}`).push().key;
 
-    this.props.gameUpdate({ prop: 'teamId', value: teamKey });
-
-    updates[`games/${this.props.gameId}/teams/${teamKey}`] = 
-      {
-        teamName: this.props.teamName,
-        squaresCompleted: this.state.squaresCompleted,
-        rowsCompleted: this.state.rowsCompleted,
-      };
-    firebase.database().ref().update(updates);
-  }
+  //   updates[`games/${this.props.gameId}/teams/${teamKey}`] = 
+  //     {
+  //       teamName: this.props.teamName,
+  //       squaresCompleted: this.state.squaresCompleted,
+  //       rowsCompleted: this.state.rowsCompleted,
+  //     };
+  //   firebase.database().ref().update(updates);
+  // }
 
 	render() {
 
@@ -64,7 +62,6 @@ class ScoreBoard extends Component {
       return (
         <View>
           <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 5,}}>
-
             <Text>
               {team.teamName}
             </Text>
@@ -74,7 +71,6 @@ class ScoreBoard extends Component {
             <Text>
               {team.rowsCompleted}
             </Text>
-
           </View>
         </View>
       )
@@ -117,7 +113,7 @@ const mapStateToProps = (state) => {
   console.log(teamId);
   console.log(teams);  
   console.log('ScoreBoard mapStateToProps');
-  return { teams, teamId, teamName, gameId, customSquares };
+  return { teams, teamId, teamName, gameId };
 };
 
 export default connect(mapStateToProps, { gameUpdate, scoresGet })(ScoreBoard);

@@ -89,6 +89,9 @@ class Home extends Component {
   constructor(props) {
     super(props);
 
+    var teamKey = firebase.database().ref(`games/${this.props.gameId}`).push().key;
+    this.props.gameUpdate({ prop: 'teamId', value: teamKey });
+
     // (Not So) Hard Coded Descriptions
     const customSquares = this.props.customSquares;
 
@@ -171,6 +174,7 @@ class Home extends Component {
 
     this.state = {
       squares: squaresArray,
+      completedSquaresArray: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
       currentIndex: null,
       indexForUrl: -1,
       returnedPhotoPath: 'no photo path',
@@ -194,14 +198,32 @@ class Home extends Component {
   example = () => {}
 
   toggleModal(){
+    console.log('TOGGLE MODAL')
     this.setState({showModal: !this.state.showModal });
   }
 
   onOption1(){
+    let tempArray = this.state.completedSquaresArray;
+    tempArray[this.state.currentIndex] = 1;
+    this.setState({completedSquaresArray: tempArray});
+
+    console.log('IN OPTION 1 ABOUT TO CALCULATE ROW COUNT');
+    console.log(this.state.completedSquaresArray);
+
+    // this.calculateRowCount(this.state.completedSquaresArray);
+    this.props.gameUpdate({ prop: 'rowsCompleted', value: this.calculateRowCount(this.state.completedSquaresArray) });
+    let squaresCount = this.props.squaresCompleted;
+    squaresCount++;
+    this.props.gameUpdate({ prop: 'squaresCompleted', value: squaresCount})
     this.toggleModal();
+    this.updateScore();
   }
 
   onOption2(){
+    let tempArray = this.state.completedSquaresArray;
+    tempArray[this.state.currentIndex] = 0;
+    this.setState({completedSquaresArray: tempArray});
+
     let newSquares = this.state.squares.slice();
     let newSquare = newSquares[this.state.currentIndex];
 
@@ -210,16 +232,20 @@ class Home extends Component {
     replaceSquare.marked = 'no';
     newSquares[this.state.currentIndex] = replaceSquare;
     this.setState({
-      // showCamera: false,
-      // returnedPhotoPath: path,
       squares: newSquares,
     });
+    // this.calculateRowCount(this.state.completedSquaresArray);
+    this.props.gameUpdate({ prop: 'rowsCompleted', value: this.calculateRowCount(this.state.completedSquaresArray) });
+    let squaresCount = this.props.squaresCompleted;
+    squaresCount--;
+    this.props.gameUpdate({ prop: 'squaresCompleted', value: squaresCount})
     this.toggleModal();
+    this.updateScore();
   }
 
   takeSnapshot = () => {
     console.log('SNAPSHOT');
-    takeSnapshot(this.refs["board"], { path: PictureDir+"/foo.png" })
+    takeSnapshot(this.refs["board"], { path: PictureDir+"/snapshot.png" })
     .then(
       uri => console.log("Image saved to", uri),//this.uploadImage(uri, "NAMEY"),  //HERE IS WHERE IM IMPLEMENTING REACT-NATIVE-FETCH-BLOB
       error => console.error("Oops, snapshot failed", error),
@@ -236,7 +262,7 @@ class Home extends Component {
       // const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
         const uploadUri = uri;
         let uploadBlob = null
-        const imageRef = firebase.storage().ref('posts').child(imageName)
+        const imageRef = firebase.storage().ref(this.props.gameId).child(imageName)
         fs.readFile(uploadUri, 'base64')
         .then((data) => {
           return Blob.build(data, { type: `${mime};BASE64` })
@@ -342,16 +368,51 @@ class Home extends Component {
         time: time,
         color: '#f6ceff',
       };
-
     firebase.database().ref().update(updates);
     this.setState({ newMessage: '' });
+  }
 
+  calculateRowCount = (squares) => {
+    let rowCount = 0;
+    const lines = [
+      [0, 1, 2, 3],
+      [4, 5, 6, 7],
+      [8, 9, 10, 11],
+      [12, 13, 14, 15],
+      [0, 4, 8, 12],
+      [1, 5, 9, 13],
+      [2, 6, 10, 14],
+      [3, 7, 11, 15],
+      [0, 5, 10, 15],
+      [3, 6, 9, 12],
+    ];
+    for (let i = 0; i < lines.length; i++) {
+      const [a, b, c, d] = lines[i];
+      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c] && squares[a] === squares[d]) {
+        rowCount++;
+      }
+    }
+    console.log("ROW COUNT XXXXXXXX: " + rowCount)
+    return rowCount;
+  }
+
+  // Update score in firebase
+  updateScore = () => {
+    console.log('UPDATE SCORE IN FIREBASE: ')
+    console.log('this.props.gameId: ' + this.props.gameId)
+    console.log('this.props.teamId: ' + this.props.teamId)
+    var updates = {};
+    updates[`games/${this.props.gameId}/teams/${this.props.teamId}`] = 
+      {
+        teamName: this.props.teamName,
+        squaresCompleted: this.props.squaresCompleted, //this.props.squaresCompleted,
+        rowsCompleted: this.props.rowsCompleted,
+      };
+    firebase.database().ref().update(updates);    
   }
 
   takePhoto = (path) => {
     console.log('takePhoto');
-
-    this.sendMessage("Ref", `${this.props.teamName} completed a square!`)
     const index = this.state.clickedSquareIndex;
 
     // Couldn't get spread operator (...) working
@@ -363,51 +424,29 @@ class Home extends Component {
     replaceSquare.photoPath = path;
     replaceSquare.marked = 'yes';
     newSquares[index] = replaceSquare;
+    let newArray = this.state.completedSquaresArray;
+    newArray[index] = 1;
     this.setState({
       showCamera: false,
       returnedPhotoPath: path,
       squares: newSquares,
+      completedSquaresArray: newArray,
     });
 
-    //TODO HARDCODE WIN CONDITION??
-
-    // Check For Win:
-    const colMarked = index%4;
-    console.log('COLMARKED' + colMarked);
-    console.log('THIS.STATE.COLCOUNT: ' + this.state.colCount);
-    var currentColCount = this.state.colCount;
-    console.log('CURRENTCOLCOUNT: ' + currentColCount);
-    currentColCount[colMarked]++;
-    if (currentColCount[colMarked] >= 4) {
-      console.log('YOU WIN!!!');
-      this.sendMessage("Ref", `Lookout! ${this.props.teamName} got bingo!!`)
-
-      // Take a snapshot of the board to send to firebase storage
-      // console.log('SNAPSHOT')
-      // console.log('showCamera: ' + this.state.showCamera)
-      // takeSnapshot(this.refs["board"], { path: PictureDir+"/foo2.png" })
-      //   .then(
-      //     uri => console.log("Image saved to", uri),
-      //     error => console.error("Oops, snapshot failed", error)
-      //   );
-    } // end column win if
-
-    console.log('CURRENTColCount: ' + currentColCount);
-
-    const floorThisThing = index/4;
-    const rowMarked = Math.floor(floorThisThing);
-    console.log('ROWMARKED' + rowMarked);
-    // const x =  
-    console.log('THIS.STATE.ROWCOUNT: ' + this.state.rowCount);
-    var currentRowCount = this.state.rowCount;
-    console.log('CURRENTCOLCOUNT: ' + currentRowCount);
-    currentRowCount[rowMarked]++;
-    if (currentRowCount[rowMarked] >= 4) {
-      console.log('YOU WIN!!!');
-      this.sendMessage("Ref", `Look Out, ${this.props.teamName} got bingo!!`)
-    } // end row win if
-    console.log('CURRENTColCount: ' + currentRowCount);
+    // Launch Modal
+    let modal = {
+        message: this.state.squares[index].description,
+        option1: 'Keep',
+        option2: 'Discard',
+        imagePath: this.state.squares[index].photoPath,
+      };
+      this.setState({
+        modal: modal,
+      })
+      this.toggleModal()
   }; // End takePhoto()
+
+
 
   handlePressSquare = (index) => {
     this.setState({
@@ -450,7 +489,21 @@ class Home extends Component {
   // renderBoard() {
   //   return <Board 
   //   />
-  
+
+  getSquaresCompleted() {
+    firebase.database().ref(`games/${gameId}/teams/`)
+      .on('value', snapshot => {
+        return snapshot.val();
+      });  
+  }
+
+  getSquaresCompleted() {
+    firebase.database().ref(`games/${gameId}/teams`)
+      .on('value', snapshot => {
+        return snapshot.val();
+      });  
+  }
+
   render() {
     console.log('HOME.js this.state.photoUri: ' + this.state.photoUri);
     console.log('showCamera' + this.state.showCamera)
@@ -508,10 +561,30 @@ class Home extends Component {
             onOption2={this.onOption2.bind(this)}
             buttonColor={COLOR_SECONDARY}
           />
+          <View style={{
+              flexDirection: 'row', 
+              justifyContent: 'space-between', 
+              padding: 10
+            }}>
+            <Text>Squares</Text>
+            <Text>Rows</Text>
+            <Text>ASDF</Text>
+          </View>
+          <View style={{
+              flexDirection: 'row', 
+              justifyContent: 'space-between', 
+              padding: 10
+            }}>
+            <Text>{this.props.squaresCompleted}</Text>
+            <Text>{this.props.rowsCompleted}/2</Text>
+            <Text>ASDF</Text>
+          </View>
           <Button 
             onPress={() => this.takeSnapshot()} 
           >PLEASE DON'T PUSH ME</Button>
-          <Button onPress={() => this.toggleModal()}>TOGGLE</Button>
+          <Button 
+            onPress={() => this.uploadImage('file:///storage/emulated/0/Pictures/snapshot.png', this.props.teamName)} 
+          >PLEASE DON'T PUSH ME</Button>
         </View>
       } 
       </View>
@@ -523,12 +596,12 @@ const mapStateToProps = (state) => {
   const messages = _.map(state.messages, (val, uid) => {
     return { ...val, uid };
   });
-  const { teamName, gameId, customSquares } = state.gameForm;
+  const { teamName, rowsCompleted, squaresCompleted, teamId, gameId, customSquares } = state.gameForm;
   console.log('Home mapStateToProps');
   console.log(gameId);
   console.log(teamName);
   console.log('Home mapStateToProps');
-  return { messages, teamName, gameId, customSquares };
+  return { messages, rowsCompleted, squaresCompleted, teamName, teamId, gameId, customSquares };
 };
 
 export default connect(mapStateToProps, { messagesGet, gameUpdate })(Home);

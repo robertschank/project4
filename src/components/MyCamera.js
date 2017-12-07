@@ -77,7 +77,7 @@ export default class MyCamera extends React.Component {
     this.state = {
       camera: {
         aspect: Camera.constants.Aspect.stretch,
-        captureTarget: Camera.constants.CaptureTarget.disk,
+        captureTarget: Camera.constants.CaptureTarget.temp,
         type: Camera.constants.Type.back,
         orientation: Camera.constants.Orientation.portrait,
         flashMode: Camera.constants.FlashMode.off,

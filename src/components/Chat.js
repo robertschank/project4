@@ -112,7 +112,6 @@ class Chat extends Component {
             renderRow={this.renderRow}
           />
           <CardSection style={styles.messageInput} >
-            <Text onPress={this.uploadSnapshot}>XO!</Text>
             <Input
                 placeholder="Enter trash talk here."
                 label="Group Message"

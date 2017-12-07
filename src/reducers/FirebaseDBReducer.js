@@ -11,8 +11,6 @@ export default (state = INITIAL_STATE, action) => {
 		case SCORES_GET_SUCCESS:
 			console.log('SCORES_GET_SUCCESSSSSSSSSSSSSSS');
 			console.log(action);
-			// console.log(action.payload.prop);
-			// console.log(action.payload.value);
 			return action.payload;
 		default:
 			return state;
