@@ -28,11 +28,11 @@ const styles = {
     flex: 1,
     alignSelf: 'stretch',
     backgroundColor: 'rgba(0,0,0,0)',
-    borderRadius: 5,
-    borderWidth: 1,
+    borderRadius: 0,
+    borderWidth: 2,
     borderColor: COLOR_PRIMARY,
-    marginLeft: 5,
-    marginRight: 5,
+    // marginLeft: 5,
+    // marginRight: 5,
   }
 };
 

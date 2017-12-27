@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { 
+import {
+    Image,
 		ListView,
 		Text,
+    TouchableOpacity,
 		StyleSheet,
 		View,
 	} from 'react-native';
@@ -11,7 +13,7 @@ import _ from 'lodash';
 
 import TabbedNavigator from '../TabbedNavigator';
 import { scoresGet, gameUpdate } from '../actions';
-import { Card, CardSection, Confirm, Button, Header, Input } from './common';
+import { Card, CardSection, Confirm, Button, Header, Input, Modal } from './common';
 import { COLOR_PRIMARY_LIGHT } from './styles/commonStyles.js';
 
 const styles = StyleSheet.create({
@@ -41,31 +43,68 @@ class ScoreBoard extends Component {
 	}
 
   componentDidMount() {
-    console.log('ScoreBoard.JS componentDidMount. ');
     this.props.scoresGet(this.props.gameId);
   }
 
-	render() {
+  viewSnapshot() {
+    console.log('VIEWSNAPSHOTTTTTTTTTTTT');
+  }
 
-    let teamInfo = this.props.teams.map((team, index)=>{
-        console.log('XKSDJFKSJDVKSJBVKSBVKS', team.teamName)
-        console.log(team.teamName)
+	render() {
+      // icon = require('../assets/snapshotlogo.png');
+    const icon = require('../assets/ic_photo_camera_36pt.png');
+    let teamsters = [
+      {teamName: 'boring', squaresCompleted: 22, rowsCompleted: 5},
+      {teamName: 'Chill bras', squaresCompleted: 2, rowsCompleted: 0},
+      {teamName: 'Slowskies', squaresCompleted: 22, rowsCompleted: 5},
+      {teamName: 'Turnips', squaresCompleted: 22, rowsCompleted: 5},
+      {teamName: 'WWWWWW sdfkd ', squaresCompleted: 22, rowsCompleted: 5},
+    ]
+
+    // let teamInfo = this.props.teams.map((team, index)=>{
+      let teamInfo = teamsters.map((team, index) => {
+        // console.log('XKSDJFKSJDVKSJBVKSBVKS', team.teamName)
+        // console.log(team.teamName)
+        {/*<View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 5,}}>  </View>*/}
       return (
         <View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 5,}}>
-            <Text>
-              {team.teamName}
-            </Text>
-            <Text>
-              {team.squaresCompleted}
-            </Text>
-            <Text>
-              {team.rowsCompleted}
-            </Text>
-            <Button styleonPress={()=>{}}>
-              Submit
-            </Button>
-          </View>
+          <CardSection style={{justifyContent: 'space-between'}}>
+            <View style={{alignItems: 'center'}}>
+              <Text style={ styles.text }>
+                {index + 1}
+              </Text>
+            </View>
+            <TouchableOpacity 
+              style={{alignItems: 'center', padding: 5}}
+              onPress={()=>{this.viewSnapshot()}}
+            >
+              <Image
+                style={{width: 50, height: 50}}
+                source={{uri: 'https://www.icon.com.mt/wp-content/uploads/2017/04/liferaylogo.png'}}
+              />
+            </TouchableOpacity>
+            <View style={{flex:4, alignItems: 'flex-start'}}>
+              <Text style={ styles.text }>
+                {team.teamName}
+              </Text>
+            </View>
+            <View style={{flex:1, alignItems: 'center' }}>
+              <Text style={ styles.text }>
+                {team.squaresCompleted}
+              </Text>
+              <Text style={{fontSize: 14}}>
+                Squares
+              </Text>
+            </View>
+            <View style={{flex:1, alignItems: 'center' }}>
+              <Text style={ styles.text }>
+                {team.rowsCompleted}
+              </Text>
+              <Text style={{fontSize: 14}}>
+                Rows
+              </Text>
+            </View>
+          </CardSection>
         </View>
       )
     });
@@ -73,56 +112,10 @@ class ScoreBoard extends Component {
 		return (
 			<View style={ styles.container }>
 				<Header headerText={'Leader Board'}/>
-          <Card>
-            {/*<View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 5,}}>  </View>*/}
-              <CardSection style={{justifyContent: 'space-between'}}>
-                <View style={{alignItems: 'center'}}>
-                  <Text style={ styles.text }>
-                    00
-                  </Text>
-                </View>
-                <View style={{flex:3, alignItems: 'flex-start'}}>
-                  <Text style={ styles.text }>
-                    Team Red
-                  </Text>
-                </View>
-                <View style={{flex:1, alignItems: 'center' }}>
-                  <Text style={ styles.text }>
-                    13
-                  </Text>
-                  <Text style={{fontSize: 14}}>
-                    Squares
-                  </Text>
-                </View>
-                <View style={{flex:1, alignItems: 'center' }}>
-                  <Text style={ styles.text }>
-                    2
-                  </Text>
-                  <Text style={{fontSize: 14}}>
-                    Rows
-                  </Text>
-                </View>
-              </CardSection>
-
-              <CardSection style={{justifyContent: 'space-between'}}>
-                <Text style={ styles.text }>
-                  Hardy Boys
-                </Text>
-                <Text style={ styles.text }>
-                  {}
-                </Text>
-                <Text style={ styles.text }>
-                  Rows
-                </Text>
-                <Text style={ styles.text }>
-                  team
-                </Text>
-              </CardSection>
-          </Card>
+        <Card>
           {teamInfo}
+        </Card>
 			</View>
-
-
 		);
 	}
 }

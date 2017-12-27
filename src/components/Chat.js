@@ -130,10 +130,6 @@ const mapStateToProps = (state) => {
     return { ...val, uid };
   });
   const { teamName, gameId, customSquares } = state.gameForm;
-  console.log('CHATT mapStateToProps');
-  console.log(gameId);
-  console.log(chats);
-  console.log('CHATT mapStateToProps');
   return { chats, teamName, gameId, customSquares };
 };
 

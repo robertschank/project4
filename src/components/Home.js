@@ -27,7 +27,7 @@ import { Square } from './Square';
 import { MyCamera } from './MyCamera';
 import MessageItem from './MessageItem';
 import { Button,Card, CardSection, Confirm, Input, MyModal } from './common';
-import { COLOR_BACKGROUND, COLOR_PRIMARY, COLOR_PRIMARY_MID, COLOR_SECONDARY } from './styles/commonStyles';
+import { COLOR_BACKGROUND, COLOR_PRIMARY, COLOR_PRIMARY_MID, COLOR_SECONDARY_LIGHT } from './styles/commonStyles';
 
 const styles = StyleSheet.create({
     "container": {
@@ -120,7 +120,6 @@ class Home extends Component {
     for (let i = 0; i < 16; i++) {
       blankSquareIndices.push(i);
     }
-    console.log(blankSquareIndices);
 
     // Create a 16 element empty array to fill in with custom descriptions
     // and randomly selected descriptions!
@@ -128,7 +127,6 @@ class Home extends Component {
     for (let i = 0; i < 16; i++) {
       descriptionsArray.push(null);
     }
-    console.log(descriptionsArray);
 
     // assign the custom squares to the randomly selected square indices.
     for (let i = 0; i < customSquares.length; i++) {
@@ -158,7 +156,6 @@ class Home extends Component {
       // Remove the selected description from the pickFromDescriptions array so there are no repeats
       pickFromDescriptions.splice(randomDescriptionIndex, 1);
     }
-    console.log(descriptionsArray);
 
     // Set up some empty squares
     for (let i=0; i < 16; i++) {
@@ -207,9 +204,6 @@ class Home extends Component {
     tempArray[this.state.currentIndex] = 1;
     this.setState({completedSquaresArray: tempArray});
 
-    console.log('IN OPTION 1 ABOUT TO CALCULATE ROW COUNT');
-    console.log(this.state.completedSquaresArray);
-
     // this.calculateRowCount(this.state.completedSquaresArray);
     this.props.gameUpdate({ prop: 'rowsCompleted', value: this.calculateRowCount(this.state.completedSquaresArray) });
     let squaresCount = this.props.squaresCompleted;
@@ -257,7 +251,6 @@ class Home extends Component {
     const fs = RNFetchBlob.fs
     window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
     window.Blob = Blob
-    console.log('uploadImage: RIGHT BEFORE RETURN')
     return new Promise((resolve, reject) => {
       // const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
         const uploadUri = uri;
@@ -285,8 +278,6 @@ class Home extends Component {
   }
 
   uploadToStorage(x){  // CURRENTLY NOT IN USE (react-native-firebase)
-    console.log('uploadToStorage');
-    console.log(x);
 
     // mediaFile = new File(x + "IMG_" + timeStamp + ".jpg");
 
@@ -346,10 +337,6 @@ class Home extends Component {
   } // END UPLOAD TO STORAGE (NOT IN USE)
 
   sendMessage = (author, insertMessage) => {
-    console.log('sendMessage.');
-    console.log('gameId: ');
-    console.log(this.props.gameId);
-    console.log('gameId');
     var newMessageKey = firebase.database().ref(`games/${this.props.gameId}/`).push().key;
     var updates = {};
 
@@ -359,7 +346,6 @@ class Home extends Component {
     // if m is one digit, add a zero in front of it:
     mins = mins < 10 ? "0" + mins : mins;
     const time = `${hours}:${mins}`;
-    console.log(time);
 
     updates[`games/${this.props.gameId}/` + newMessageKey] = 
       {
@@ -392,15 +378,11 @@ class Home extends Component {
         rowCount++;
       }
     }
-    console.log("ROW COUNT XXXXXXXX: " + rowCount)
     return rowCount;
   }
 
   // Update score in firebase
   updateScore = () => {
-    console.log('UPDATE SCORE IN FIREBASE: ')
-    console.log('this.props.gameId: ' + this.props.gameId)
-    console.log('this.props.teamId: ' + this.props.teamId)
     var updates = {};
     updates[`games/${this.props.gameId}/teams/${this.props.teamId}`] = 
       {
@@ -412,11 +394,9 @@ class Home extends Component {
   }
 
   takePhoto = (path) => {
-    console.log('takePhoto');
     const index = this.state.clickedSquareIndex;
 
     // Couldn't get spread operator (...) working
-
     // This where the completed square is added
     let newSquares = this.state.squares.slice();
     let newSquare = newSquares[index];
@@ -452,9 +432,7 @@ class Home extends Component {
     this.setState({
       currentIndex: index,
     })
-    console.log('Home, handlePressSquare, squares[index].marked: ' +  this.state.squares[index].marked)
     if (this.state.squares[index].marked == 'yes') {
-      console.log('in If');
       let modal = {
         message: this.state.squares[index].description,
         option1: 'Keep',
@@ -466,8 +444,6 @@ class Home extends Component {
       })
       this.toggleModal();
     } else {
-      console.log('handlePressSquare');
-      console.log(index);
       this.setState({
         showCamera: true,
         clickedSquareIndex: index,
@@ -505,8 +481,9 @@ class Home extends Component {
   }
 
   render() {
-    console.log('HOME.js this.state.photoUri: ' + this.state.photoUri);
-    console.log('showCamera' + this.state.showCamera)
+    const {height, width} = Dimensions.get('window');
+    const picWidth = width*.97;
+    console.log('PIC WIDTH: ' + picWidth);
     return (
       <View style={styles.container} behavior="height">
       {this.state.showCamera &&
@@ -552,6 +529,7 @@ class Home extends Component {
             </View>
           </View>
           <MyModal
+            picWidth={picWidth}
             visible={this.state.showModal}
             message={this.state.modal.message}
             imageRef={this.state.modal.imagePath}
@@ -559,7 +537,7 @@ class Home extends Component {
             onOption1={this.onOption1.bind(this)}
             option2={this.state.modal.option2}
             onOption2={this.onOption2.bind(this)}
-            buttonColor={COLOR_SECONDARY}
+            buttonColor={COLOR_SECONDARY_LIGHT}
           />
           <View style={{
               flexDirection: 'row', 
@@ -568,7 +546,7 @@ class Home extends Component {
             }}>
             <Text>Squares</Text>
             <Text>Rows</Text>
-            <Text>ASDF</Text>
+            <Text>XX {picWidth} XX</Text>
           </View>
           <View style={{
               flexDirection: 'row', 
@@ -597,10 +575,6 @@ const mapStateToProps = (state) => {
     return { ...val, uid };
   });
   const { teamName, rowsCompleted, squaresCompleted, teamId, gameId, customSquares } = state.gameForm;
-  console.log('Home mapStateToProps');
-  console.log(gameId);
-  console.log(teamName);
-  console.log('Home mapStateToProps');
   return { messages, rowsCompleted, squaresCompleted, teamName, teamId, gameId, customSquares };
 };
 
