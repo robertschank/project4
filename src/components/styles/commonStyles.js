@@ -10,6 +10,6 @@ export const COLOR_BACKGROUND_TRANS = 'rgba(85, 77, 199, 0.57)';
 
 export const COLOR_HEADER_TEXT = 'white';
 export const BORDER_RADIUS = 5;
-export const COLOR_INPUT_BACKGROUND = '#40525E'
+export const COLOR_INPUT_BACKGROUND = '#40525E';
 export const FONT_SIZE = 20;
 export const PADDING_TOP = 15;

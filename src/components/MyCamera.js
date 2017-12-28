@@ -55,9 +55,6 @@ const styles = StyleSheet.create({
   buttonsSpace: {
     width: 10,
   },
-  photobombs: {
-    backgroundColor: 'skyblue',
-  }
 });
 
 export default class MyCamera extends React.Component {
@@ -221,9 +218,6 @@ export default class MyCamera extends React.Component {
               />
             </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.photobombs}>
-          <Text style={{ fontSize: 20, color: 'white', textAlign: 'center'}}>Teammate photobombs are encouraged.</Text>
         </View>
       </View>
     )

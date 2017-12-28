@@ -22,27 +22,25 @@ const MyModal = ({ buttonColor, children, imageRef, message, visible, option1, o
       onRequestClose={() => {}}
     >
       <View style={containerStyle}>
-        {/*<View style={modalStyle}>*/}
-          <View style={modalHeaderStyle}>
-            <Text style={textStyle}>
-              {message}
-            </Text>
+        <View style={modalHeaderStyle}>
+          <Text style={textStyle}>
+            {message}
+          </Text>
+        </View>
+        <View style={{alignSelf: 'center', width: picWidth}}>
+          <View style={imageContainerStyle}>
+            <Image
+              style={{ height: picWidth }}
+              source={{uri: imageRef}}
+            />
           </View>
-          <View style={{alignSelf: 'center', width: picWidth}}>
-            <View style={imageContainerStyle}>
-              <Image
-                style={{ height: picWidth }}
-                source={{uri: imageRef}}
-              />
-            </View>
-            <View style={buttonContainer}>
-              <Button onPress={onOption1} buttonColor={buttonColor}>{option1}</Button>
-              <View style={{width: 10}} />
-              <Button onPress={onOption2} buttonColor={buttonColor}>{option2}</Button>
-            </View>
+          <View style={buttonContainer}>
+            <Button onPress={onOption1} buttonColor={buttonColor}>{option1}</Button>
+            <View style={{width: 10}} />
+            <Button onPress={onOption2} buttonColor={buttonColor}>{option2}</Button>
           </View>
         </View>
-      {/*</View>*/}
+      </View>
     </Modal>
   );
 };

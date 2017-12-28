@@ -173,10 +173,7 @@ class Home extends Component {
       squares: squaresArray,
       completedSquaresArray: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
       currentIndex: null,
-      indexForUrl: -1,
       returnedPhotoPath: 'no photo path',
-      rowCount: [0, 0, 0, 0],
-      colCount: [0, 0, 0, 0],
       // snapshotview stuff
       error: null,
       res: null,
@@ -200,27 +197,29 @@ class Home extends Component {
   }
 
   onOption1(){
-    let tempArray = this.state.completedSquaresArray;
-    tempArray[this.state.currentIndex] = 1;
-    this.setState({completedSquaresArray: tempArray});
-
-    // this.calculateRowCount(this.state.completedSquaresArray);
-    this.props.gameUpdate({ prop: 'rowsCompleted', value: this.calculateRowCount(this.state.completedSquaresArray) });
-    let squaresCount = this.props.squaresCompleted;
-    squaresCount++;
-    this.props.gameUpdate({ prop: 'squaresCompleted', value: squaresCount})
+    if(this.state.fromCamera) {
+      let tempArray = this.state.completedSquaresArray;
+      tempArray[this.state.currentIndex] = 1;
+      this.setState({completedSquaresArray: tempArray});
+      this.props.gameUpdate({ prop: 'rowsCompleted', value: this.calculateRowCount(this.state.completedSquaresArray) });
+      this.props.gameUpdate({ prop: 'squaresCompleted', value: this.calculateSquareCount(this.state.completedSquaresArray) })
+    }
     this.toggleModal();
     this.updateScore();
   }
 
   onOption2(){
-    let tempArray = this.state.completedSquaresArray;
-    tempArray[this.state.currentIndex] = 0;
-    this.setState({completedSquaresArray: tempArray});
-
+    if (!this.state.fromCamera) {
+      let tempArray = this.state.completedSquaresArray;
+      tempArray[this.state.currentIndex] = 0;
+      this.setState({completedSquaresArray: tempArray});
+      this.props.gameUpdate({ prop: 'rowsCompleted', value: this.calculateRowCount(this.state.completedSquaresArray) });
+      let squaresCount = this.props.squaresCompleted;
+      squaresCount--;
+      this.props.gameUpdate({ prop: 'squaresCompleted', value: squaresCount})
+    }
     let newSquares = this.state.squares.slice();
     let newSquare = newSquares[this.state.currentIndex];
-
     let replaceSquare = newSquare;
     replaceSquare.photoPath = '../assets/ic_camera_rear_white.png';
     replaceSquare.marked = 'no';
@@ -228,11 +227,6 @@ class Home extends Component {
     this.setState({
       squares: newSquares,
     });
-    // this.calculateRowCount(this.state.completedSquaresArray);
-    this.props.gameUpdate({ prop: 'rowsCompleted', value: this.calculateRowCount(this.state.completedSquaresArray) });
-    let squaresCount = this.props.squaresCompleted;
-    squaresCount--;
-    this.props.gameUpdate({ prop: 'squaresCompleted', value: squaresCount})
     this.toggleModal();
     this.updateScore();
   }
@@ -278,9 +272,7 @@ class Home extends Component {
   }
 
   uploadToStorage(x){  // CURRENTLY NOT IN USE (react-native-firebase)
-
     // mediaFile = new File(x + "IMG_" + timeStamp + ".jpg");
-
     var file = x;
 
     // Create the file metadata
@@ -381,6 +373,16 @@ class Home extends Component {
     return rowCount;
   }
 
+  calculateSquareCount = (squares) => {
+    let count = 0;
+    for (let i = 0; i < squares.length; i++) {
+      if (squares[i]) {
+        count++;
+      }
+    }
+    return count;
+  }
+
   // Update score in firebase
   updateScore = () => {
     var updates = {};
@@ -411,6 +413,7 @@ class Home extends Component {
       returnedPhotoPath: path,
       squares: newSquares,
       completedSquaresArray: newArray,
+      fromCamera: true,
     });
 
     // Launch Modal
@@ -426,8 +429,6 @@ class Home extends Component {
       this.toggleModal()
   }; // End takePhoto()
 
-
-
   handlePressSquare = (index) => {
     this.setState({
       currentIndex: index,
@@ -441,6 +442,7 @@ class Home extends Component {
       };
       this.setState({
         modal: modal,
+        fromCamera: false,
       })
       this.toggleModal();
     } else {
@@ -461,23 +463,19 @@ class Home extends Component {
     />
   }
 
-  // TODO
-  // renderBoard() {
-  //   return <Board 
-  //   />
-
   getSquaresCompleted() {
     firebase.database().ref(`games/${gameId}/teams/`)
       .on('value', snapshot => {
         return snapshot.val();
-      });  
+      });
   }
 
   getSquaresCompleted() {
     firebase.database().ref(`games/${gameId}/teams`)
       .on('value', snapshot => {
         return snapshot.val();
-      });  
+      }
+    );
   }
 
   render() {
@@ -488,11 +486,14 @@ class Home extends Component {
       <View style={styles.container} behavior="height">
       {this.state.showCamera &&
         <View style={styles.cameraContainer}>
+          <View style={{backgroundColor: 'white'}}>
+            <Text style={{fontSize: 40, color: COLOR_PRIMARY, textAlign: 'center'}}>{this.state.modal.message} </Text>
+          </View>
           <View style={styles.camera}>
             <MyCamera takePhoto={this.takePhoto.bind(this)}/>
           </View>
-          <View>
-            <Text title="(Teammate photobombs are encouraged)" style={{fontSize: 40}} />
+          <View style={{backgroundColor: 'white'}}>
+            <Text style={{ fontSize: 25, color: COLOR_PRIMARY, textAlign: 'center'}}>Teammate photobombs are encouraged.</Text>
           </View>
         </View>
         ||
