@@ -11,12 +11,7 @@ const INITIAL_STATE = {
 
 export default ( state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case GAME_UPDATE:
-			console.log('GAME_UPDATE');		
-			console.log(action);
-			console.log(action.payload.prop);
-			console.log(action.payload.value);
-			console.log('GAME_UPDATE');			
+		case GAME_UPDATE:	
 			return { ...state, [action.payload.prop]: action.payload.value };
 		default:
 			return state;	

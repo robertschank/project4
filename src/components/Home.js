@@ -113,7 +113,6 @@ class Home extends Component {
       'Suit',
       'Sweatpants',
     ];
-    console.log('selectSquareDescriptions');
 
     //Create blank square indices array from 0 to 15
     let blankSquareIndices = [];
@@ -139,7 +138,6 @@ class Home extends Component {
       // Remove the random index from the index array so there are no repeats
       blankSquareIndices.splice(randomFromIndexArray, 1);
     }
-    console.log(descriptionsArray);
 
     // Now fill in the rest of the empty elements of descriptionsArray:
     // the array blankSquareIndices is keeping track of what squares
@@ -192,7 +190,6 @@ class Home extends Component {
   example = () => {}
 
   toggleModal(){
-    console.log('TOGGLE MODAL')
     this.setState({showModal: !this.state.showModal });
   }
 
@@ -201,9 +198,9 @@ class Home extends Component {
       let tempArray = this.state.completedSquaresArray;
       tempArray[this.state.currentIndex] = 1;
       this.setState({completedSquaresArray: tempArray});
-      this.props.gameUpdate({ prop: 'rowsCompleted', value: this.calculateRowCount(this.state.completedSquaresArray) });
-      this.props.gameUpdate({ prop: 'squaresCompleted', value: this.calculateSquareCount(this.state.completedSquaresArray) })
     }
+    this.props.gameUpdate({ prop: 'rowsCompleted', value: this.calculateRowCount(this.state.completedSquaresArray) });
+    this.props.gameUpdate({ prop: 'squaresCompleted', value: this.calculateSquareCount(this.state.completedSquaresArray) })
     this.toggleModal();
     this.updateScore();
   }
@@ -213,10 +210,6 @@ class Home extends Component {
       let tempArray = this.state.completedSquaresArray;
       tempArray[this.state.currentIndex] = 0;
       this.setState({completedSquaresArray: tempArray});
-      this.props.gameUpdate({ prop: 'rowsCompleted', value: this.calculateRowCount(this.state.completedSquaresArray) });
-      let squaresCount = this.props.squaresCompleted;
-      squaresCount--;
-      this.props.gameUpdate({ prop: 'squaresCompleted', value: squaresCount})
     }
     let newSquares = this.state.squares.slice();
     let newSquare = newSquares[this.state.currentIndex];
@@ -227,12 +220,13 @@ class Home extends Component {
     this.setState({
       squares: newSquares,
     });
+    this.props.gameUpdate({ prop: 'rowsCompleted', value: this.calculateRowCount(this.state.completedSquaresArray) });
+    this.props.gameUpdate({ prop: 'squaresCompleted', value: this.calculateSquareCount(this.state.completedSquaresArray)})
     this.toggleModal();
     this.updateScore();
   }
 
   takeSnapshot = () => {
-    console.log('SNAPSHOT');
     takeSnapshot(this.refs["board"], { path: PictureDir+"/snapshot.png" })
     .then(
       uri => console.log("Image saved to", uri),//this.uploadImage(uri, "NAMEY"),  //HERE IS WHERE IM IMPLEMENTING REACT-NATIVE-FETCH-BLOB
@@ -396,7 +390,7 @@ class Home extends Component {
   }
 
   takePhoto = (path) => {
-    const index = this.state.clickedSquareIndex;
+    const index = this.state.currentIndex;
 
     // Couldn't get spread operator (...) working
     // This where the completed square is added
@@ -448,7 +442,6 @@ class Home extends Component {
     } else {
       this.setState({
         showCamera: true,
-        clickedSquareIndex: index,
       }); 
     }
   };
@@ -464,13 +457,6 @@ class Home extends Component {
   }
 
   getSquaresCompleted() {
-    firebase.database().ref(`games/${gameId}/teams/`)
-      .on('value', snapshot => {
-        return snapshot.val();
-      });
-  }
-
-  getSquaresCompleted() {
     firebase.database().ref(`games/${gameId}/teams`)
       .on('value', snapshot => {
         return snapshot.val();
@@ -481,7 +467,8 @@ class Home extends Component {
   render() {
     const {height, width} = Dimensions.get('window');
     const picWidth = width*.97;
-    console.log('PIC WIDTH: ' + picWidth);
+    console.log('this.state.fromCamera: ' + this.state.fromCamera);
+    console.log('this.state.currentIndex: ' + this.state.currentIndex);
     return (
       <View style={styles.container} behavior="height">
       {this.state.showCamera &&
@@ -556,7 +543,7 @@ class Home extends Component {
             }}>
             <Text>{this.props.squaresCompleted}</Text>
             <Text>{this.props.rowsCompleted}/2</Text>
-            <Text>ASDF</Text>
+            <Text>XX {this.state.fromCamera} XX</Text>
           </View>
           <Button 
             onPress={() => this.takeSnapshot()} 

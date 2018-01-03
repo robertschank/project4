@@ -63,9 +63,6 @@ class ScoreBoard extends Component {
 
     // let teamInfo = this.props.teams.map((team, index)=>{
       let teamInfo = teamsters.map((team, index) => {
-        // console.log('XKSDJFKSJDVKSJBVKSBVKS', team.teamName)
-        // console.log(team.teamName)
-        {/*<View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 5,}}>  </View>*/}
       return (
         <View>
           <CardSection style={{justifyContent: 'space-between'}}>
@@ -123,17 +120,9 @@ class ScoreBoard extends Component {
 const mapStateToProps = (state) => {
 
   const { teamId, teamName, gameId } = state.gameForm;
-
   const teams = _.map(state.firebaseDBItems, (val, uid) => {
     return { ...val, uid };
   });
-
-  console.log('ScoreBoard mapStateToProps');
-  console.log(gameId);
-  console.log(teamName);
-  console.log(teamId);
-  console.log(teams);  
-  console.log('ScoreBoard mapStateToProps');
   return { teams, teamId, teamName, gameId };
 };
 

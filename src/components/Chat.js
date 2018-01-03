@@ -39,9 +39,7 @@ class Chat extends Component {
 	}
 
   componentWillMount() {
-    console.log('HOME.JS componentWillMount.');
     // Get the list of messages from db
-
     this.createDataSource(this.props);
   }
 
@@ -50,30 +48,23 @@ class Chat extends Component {
     // this.props is still the old set of props
 
     this.createDataSource(nextProps);
-    console.log('HITTING COMPONENT WILL RECEIVE PROPS');
   }
 
   createDataSource({ chats }) {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
-    // console.log(this.state.chats);
 
     this.dataSource = ds.cloneWithRows(chats);
   }
 
   componentDidMount() {
-    console.log('HOME.JS componentDidMount. ');
     this.props.messagesGet(this.props.gameId);
     this.sendMessage('Ref', `Hey people, welcome to Townie Squares! This is a group message area for all teams. We'll send game updates in here too. Remember, this is a game of integrity and honor. It's up to you to match your photos to the given description. Have fun out there!`);
     this.sendMessage('Ref', `${this.props.teamName} joined the game.`);
   }
 
   sendMessage = (author, insertMessage) => {
-    console.log('sendMessage.');
-    console.log('gameId: ');
-    console.log(this.props.gameId);
-    console.log('gameId');
     var newMessageKey = firebase.database().ref(`games/${this.props.gameId}/chat`).push().key;
     var updates = {};
 
@@ -83,7 +74,6 @@ class Chat extends Component {
     // if m is one digit, add a zero in front of it:
     mins = mins < 10 ? "0" + mins : mins;
     const time = `${hours}:${mins}`;
-    console.log(time);
 
     updates[`games/${this.props.gameId}/chat/` + newMessageKey] = 
       {
