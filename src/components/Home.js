@@ -199,10 +199,8 @@ class Home extends Component {
       tempArray[this.state.currentIndex] = 1;
       this.setState({completedSquaresArray: tempArray});
     }
-    this.props.gameUpdate({ prop: 'rowsCompleted', value: this.calculateRowCount(this.state.completedSquaresArray) });
-    this.props.gameUpdate({ prop: 'squaresCompleted', value: this.calculateSquareCount(this.state.completedSquaresArray) })
-    this.toggleModal();
     this.updateScore();
+    this.toggleModal();
   }
 
   onOption2(){
@@ -220,10 +218,8 @@ class Home extends Component {
     this.setState({
       squares: newSquares,
     });
-    this.props.gameUpdate({ prop: 'rowsCompleted', value: this.calculateRowCount(this.state.completedSquaresArray) });
-    this.props.gameUpdate({ prop: 'squaresCompleted', value: this.calculateSquareCount(this.state.completedSquaresArray)})
-    this.toggleModal();
     this.updateScore();
+    this.toggleModal();
   }
 
   takeSnapshot = () => {
@@ -379,12 +375,17 @@ class Home extends Component {
 
   // Update score in firebase
   updateScore = () => {
+    const newSquareCount = this.calculateSquareCount(this.state.completedSquaresArray);
+    console.log("UPDATE SCORE SWQUARE COUNT: " + newSquareCount);
+    const newRowCount = this.calculateRowCount(this.state.completedSquaresArray);
+    this.props.gameUpdate({ prop: 'squaresCompleted', value: newSquareCount });
+    this.props.gameUpdate({ prop: 'rowsCompleted', value: newRowCount });
     var updates = {};
     updates[`games/${this.props.gameId}/teams/${this.props.teamId}`] = 
       {
         teamName: this.props.teamName,
-        squaresCompleted: this.props.squaresCompleted, //this.props.squaresCompleted,
-        rowsCompleted: this.props.rowsCompleted,
+        squaresCompleted: newSquareCount,
+        rowsCompleted: newRowCount,
       };
     firebase.database().ref().update(updates);    
   }
@@ -400,13 +401,10 @@ class Home extends Component {
     replaceSquare.photoPath = path;
     replaceSquare.marked = 'yes';
     newSquares[index] = replaceSquare;
-    let newArray = this.state.completedSquaresArray;
-    newArray[index] = 1;
     this.setState({
       showCamera: false,
       returnedPhotoPath: path,
       squares: newSquares,
-      completedSquaresArray: newArray,
       fromCamera: true,
     });
 
@@ -547,7 +545,7 @@ class Home extends Component {
           </View>
           <Button 
             onPress={() => this.takeSnapshot()} 
-          >PLEASE DON'T PUSH ME</Button>
+          >PLEASE DON'T PUSH MEE!</Button>
           <Button 
             onPress={() => this.uploadImage('file:///storage/emulated/0/Pictures/snapshot.png', this.props.teamName)} 
           >PLEASE DON'T PUSH ME</Button>
@@ -563,6 +561,7 @@ const mapStateToProps = (state) => {
     return { ...val, uid };
   });
   const { teamName, rowsCompleted, squaresCompleted, teamId, gameId, customSquares } = state.gameForm;
+  console.log('mapStateToProps: ' + squaresCompleted);
   return { messages, rowsCompleted, squaresCompleted, teamName, teamId, gameId, customSquares };
 };
 
