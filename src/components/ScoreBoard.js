@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+    Dimensions,
     Image,
 		ListView,
 		Text,
@@ -13,7 +14,7 @@ import _ from 'lodash';
 
 import TabbedNavigator from '../TabbedNavigator';
 import { scoresGet, gameUpdate } from '../actions';
-import { Card, CardSection, Confirm, Button, Header, Input, Modal } from './common';
+import { Card, CardSection, Confirm, Button, Header, Input, MyModal } from './common';
 import { COLOR_PRIMARY_LIGHT } from './styles/commonStyles.js';
 
 const styles = StyleSheet.create({
@@ -36,22 +37,53 @@ const styles = StyleSheet.create({
 class ScoreBoard extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-      squaresCompleted: 0,
-      rowsCompleted: 0,
-		}
+    this.state = { showModal: false }
 	}
 
   componentDidMount() {
     this.props.scoresGet(this.props.gameId);
   }
 
+  //   picWidth={picWidth}
+  // visible={this.state.showModal}
+  // message={this.state.modal.message}
+  // imageRef={this.state.modal.imagePath}
+  // option1={this.state.modal.option1}
+  // onOption1={this.onOption1.bind(this)}
+  // option2={this.state.modal.option2}
+  // onOption2={this.onOption2.bind(this)}
+  // buttonColor={COLOR_SECONDARY_LIGHT}
+
   viewSnapshot() {
     console.log('VIEWSNAPSHOTTTTTTTTTTTT');
+    // Launch Modal
+    // let modal = {
+    //     message: this.state.squares[index].description,
+    //     option1: 'Looks Good',
+    //     option2: 'Dispute A Photo',
+    //     imagePath: this.state.squares[index].photoPath,
+    //   };
+    //   this.setState({
+    //     modal: modal,
+    //   })
+    //   this.toggleModal()
   }
 
+        //   <MyModal
+        //   picWidth={picWidth}
+        //   visible={this.state.showModal}
+        //   message={this.state.modal.message}
+        //   imageRef={this.state.modal.imagePath}
+        //   option1={this.state.modal.option1}
+        //   onOption1={this.onOption1.bind(this)}
+        //   option2={this.state.modal.option2}
+        //   onOption2={this.onOption2.bind(this)}
+        //   buttonColor={COLOR_SECONDARY_LIGHT}
+        // />
+
 	render() {
-      // icon = require('../assets/snapshotlogo.png');
+    const {height, width} = Dimensions.get('window'); // TODO use redux here?
+    const picWidth = width-5;
     const icon = require('../assets/ic_photo_camera_36pt.png');
     let teamsters = [
       {teamName: 'boring', squaresCompleted: 22, rowsCompleted: 5},
@@ -75,10 +107,10 @@ class ScoreBoard extends Component {
               style={{alignItems: 'center', padding: 5}}
               onPress={()=>{this.viewSnapshot()}}
             >
-              <Image
-                style={{width: 50, height: 50}}
-                source={{uri: 'https://www.icon.com.mt/wp-content/uploads/2017/04/liferaylogo.png'}}
-              />
+            <Image
+              style={{width: 50, height: 50}}
+              source={{uri: 'https://www.icon.com.mt/wp-content/uploads/2017/04/liferaylogo.png'}}
+            />
             </TouchableOpacity>
             <View style={{flex:4, alignItems: 'flex-start'}}>
               <Text style={ styles.text }>

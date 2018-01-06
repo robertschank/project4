@@ -160,13 +160,6 @@ class Home extends Component {
       squaresArray.push(new SquareObject(i, descriptionsArray[i]));
     }
 
-    // Construct a dog square and insert into squaresArray
-    // const y = 5;
-    // let dogSquare = new SquareObject(y, descriptionsArray[y]);
-    // dogSquare.photoPath = 'http://thedogwallpaper.com/wp-content/uploads/2013/12/jack-russell-terrier-puppy-picture-165-150x150.jpg';
-    // dogSquare.marked = 'yes';
-    // squaresArray[y] = dogSquare;
-
     this.state = {
       squares: squaresArray,
       completedSquaresArray: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -225,9 +218,9 @@ class Home extends Component {
   takeSnapshot = () => {
     takeSnapshot(this.refs["board"], { path: PictureDir+"/snapshot.png" })
     .then(
-      uri => console.log("Image saved to", uri),//this.uploadImage(uri, "NAMEY"),  //HERE IS WHERE IM IMPLEMENTING REACT-NATIVE-FETCH-BLOB
+      uri => console.log("Image saved to", uri),
       error => console.error("Oops, snapshot failed", error),
-    ); // end .then
+    );
   }
 
   uploadImage(uri, imageName, mime = 'image/jpg'){
@@ -250,10 +243,16 @@ class Home extends Component {
         })
         .then(() => {
           uploadBlob.close()
+          // console.log('IMAGEREF.       .GETDOWNLOADURL: ');
+          // console.log(imageRef.getDownloadURL());
           return imageRef.getDownloadURL()
         })
         .then((url) => {
-          resolve(url)
+          console.log(url);
+          return url
+        })
+        .then((url) => {
+          resolve(url);
         })
         .catch((error) => {
           reject(error)
@@ -261,62 +260,62 @@ class Home extends Component {
     })
   }
 
-  uploadToStorage(x){  // CURRENTLY NOT IN USE (react-native-firebase)
-    // mediaFile = new File(x + "IMG_" + timeStamp + ".jpg");
-    var file = x;
+  // uploadToStorage(x){  // CURRENTLY NOT IN USE (react-native-firebase)
+  //   // mediaFile = new File(x + "IMG_" + timeStamp + ".jpg");
+  //   var file = x;
 
-    // Create the file metadata
-    var metadata = {
-      contentType: 'image/jpeg'
-    };
+  //   // Create the file metadata
+  //   var metadata = {
+  //     contentType: 'image/jpeg'
+  //   };
 
-    // Firebase Storage Stuff
-    // Get a reference to the storage service, which is used to create references in your storage bucket
-    const storage = firebase.storage();
+  //   // Firebase Storage Stuff
+  //   // Get a reference to the storage service, which is used to create references in your storage bucket
+  //   const storage = firebase.storage();
 
-    // Create a storage reference from our storage service
-    const storageRef = storage.ref();
-    const gameStorageRef = storageRef.child(`games/${this.props.gameId}`);
+  //   // Create a storage reference from our storage service
+  //   const storageRef = storage.ref();
+  //   const gameStorageRef = storageRef.child(`games/${this.props.gameId}`);
 
-    // Upload file and metadata to the object 'images/mountains.jpg'
-    var uploadTask = gameStorageRef.child('snapshotview/' + file.name).put(file, metadata);
+  //   // Upload file and metadata to the object 'images/mountains.jpg'
+  //   var uploadTask = gameStorageRef.child('snapshotview/' + file.name).put(file, metadata);
 
-    // Listen for state changes, errors, and completion of the upload.
-    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-      function(snapshot) {
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
-        switch (snapshot.state) {
-          case firebase.storage.TaskState.PAUSED: // or 'paused'
-            console.log('Upload is paused');
-            break;
-          case firebase.storage.TaskState.RUNNING: // or 'running'
-            console.log('Upload is running');
-            break;
-        }
-      }, function(error) {
+  //   // Listen for state changes, errors, and completion of the upload.
+  //   uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+  //     function(snapshot) {
+  //       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+  //       var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //       console.log('Upload is ' + progress + '% done');
+  //       switch (snapshot.state) {
+  //         case firebase.storage.TaskState.PAUSED: // or 'paused'
+  //           console.log('Upload is paused');
+  //           break;
+  //         case firebase.storage.TaskState.RUNNING: // or 'running'
+  //           console.log('Upload is running');
+  //           break;
+  //       }
+  //     }, function(error) {
 
-      // A full list of error codes is available at
-      // https://firebase.google.com/docs/storage/web/handle-errors
-      switch (error.code) {
-        case 'storage/unauthorized':
-          // User doesn't have permission to access the object
-          break;
+  //     // A full list of error codes is available at
+  //     // https://firebase.google.com/docs/storage/web/handle-errors
+  //     switch (error.code) {
+  //       case 'storage/unauthorized':
+  //         // User doesn't have permission to access the object
+  //         break;
 
-        case 'storage/canceled':
-          // User canceled the upload
-          break;
+  //       case 'storage/canceled':
+  //         // User canceled the upload
+  //         break;
 
-        case 'storage/unknown':
-          // Unknown error occurred, inspect error.serverResponse
-          break;
-      }
-    }, function() {
-      // Upload completed successfully, now we can get the download URL
-      var downloadURL = uploadTask.snapshot.downloadURL;
-    });
-  } // END UPLOAD TO STORAGE (NOT IN USE)
+  //       case 'storage/unknown':
+  //         // Unknown error occurred, inspect error.serverResponse
+  //         break;
+  //     }
+  //   }, function() {
+  //     // Upload completed successfully, now we can get the download URL
+  //     var downloadURL = uploadTask.snapshot.downloadURL;
+  //   });
+  // } // END UPLOAD TO STORAGE (NOT IN USE)
 
   sendMessage = (author, insertMessage) => {
     var newMessageKey = firebase.database().ref(`games/${this.props.gameId}/`).push().key;
@@ -464,15 +463,13 @@ class Home extends Component {
 
   render() {
     const {height, width} = Dimensions.get('window');
-    const picWidth = width*.97;
-    console.log('this.state.fromCamera: ' + this.state.fromCamera);
-    console.log('this.state.currentIndex: ' + this.state.currentIndex);
+    const picWidth = width-5;
     return (
       <View style={styles.container} behavior="height">
       {this.state.showCamera &&
         <View style={styles.cameraContainer}>
           <View style={{backgroundColor: 'white'}}>
-            <Text style={{fontSize: 40, color: COLOR_PRIMARY, textAlign: 'center'}}>{this.state.modal.message} </Text>
+            <Text style={{fontSize: 40, color: COLOR_PRIMARY, textAlign: 'center'}}>{this.state.squares[this.state.currentIndex].description} </Text>
           </View>
           <View style={styles.camera}>
             <MyCamera takePhoto={this.takePhoto.bind(this)}/>
@@ -547,7 +544,9 @@ class Home extends Component {
             onPress={() => this.takeSnapshot()} 
           >PLEASE DON'T PUSH MEE!</Button>
           <Button 
-            onPress={() => this.uploadImage('file:///storage/emulated/0/Pictures/snapshot.png', this.props.teamName)} 
+            onPress={() => this.uploadImage('file:///storage/emulated/0/Pictures/snapshot.png', this.props.teamName)
+            // .then(url => this.setState({ myuploadURL: url }))} 
+            .then(url => console.log('URL::::::: ', url))}
           >PLEASE DON'T PUSH ME</Button>
         </View>
       } 
