@@ -12,7 +12,7 @@ export const messagesGet = (gameId) => {
   };
 };
 
-export const scoresGet = (gameId, teamName) => {
+export const scoresGet = (gameId) => {
 
 	return (dispatch) => {
 	firebase.database().ref(`games/${gameId}/teams`)

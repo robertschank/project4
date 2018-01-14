@@ -174,6 +174,7 @@ class Home extends Component {
         result: "file",
         snapshotContentContainer: false,
       },
+      snapshotStorageUrl: 'no path',
       showModal: false,
       modal: {
       }
@@ -385,6 +386,19 @@ class Home extends Component {
         teamName: this.props.teamName,
         squaresCompleted: newSquareCount,
         rowsCompleted: newRowCount,
+        snapshotStorageUrl: this.state.snapshotStorageUrl,
+      };
+    firebase.database().ref().update(updates);    
+  }
+
+  updateImageRef = () => {
+    var updates = {};
+    updates[`games/${this.props.gameId}/teams/${this.props.teamId}`] = 
+      {
+        teamName: this.props.teamName,
+        squaresCompleted: newSquareCount,
+        rowsCompleted: newRowCount,
+        snapshotStorageUrl: this.state.snapshotStorageUrl,
       };
     firebase.database().ref().update(updates);    
   }
@@ -546,7 +560,7 @@ class Home extends Component {
           <Button 
             onPress={() => this.uploadImage('file:///storage/emulated/0/Pictures/snapshot.png', this.props.teamName)
             // .then(url => this.setState({ myuploadURL: url }))} 
-            .then(url => console.log('URL::::::: ', url))}
+            .then(url => this.setState({ snapshotStorageUrl: url }))}
           >PLEASE DON'T PUSH ME</Button>
         </View>
       } 
