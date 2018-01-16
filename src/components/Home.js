@@ -181,6 +181,13 @@ class Home extends Component {
     };
   } // End Constructor
 
+  componentDidMount(){
+    console.log('COMPONENT DID MOUNT');
+    console.log(this.props.gameId);
+    console.log(this.props.teamName);
+    this.updateScore();
+  }
+
   example = () => {}
 
   toggleModal(){
@@ -219,21 +226,22 @@ class Home extends Component {
   takeSnapshot = () => {
     takeSnapshot(this.refs["board"], { path: PictureDir+"/snapshot.png" })
     .then(
-      uri => console.log("Image saved to", uri),
+      ()=>{this.uploadImage()},
+      // uri => console.log("Image saved to", uri),
       error => console.error("Oops, snapshot failed", error),
     );
   }
 
-  uploadImage(uri, imageName, mime = 'image/jpg'){
+  uploadImage(mime = 'image/jpg'){
     const Blob = RNFetchBlob.polyfill.Blob
     const fs = RNFetchBlob.fs
     window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
     window.Blob = Blob
     return new Promise((resolve, reject) => {
       // const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
-        const uploadUri = uri;
+        const uploadUri = 'file:///storage/emulated/0/Pictures/snapshot.png'
         let uploadBlob = null
-        const imageRef = firebase.storage().ref(this.props.gameId).child(imageName)
+        const imageRef = firebase.storage().ref(this.props.gameId).child(this.props.teamName)
         fs.readFile(uploadUri, 'base64')
         .then((data) => {
           return Blob.build(data, { type: `${mime};BASE64` })
@@ -244,12 +252,11 @@ class Home extends Component {
         })
         .then(() => {
           uploadBlob.close()
-          // console.log('IMAGEREF.       .GETDOWNLOADURL: ');
-          // console.log(imageRef.getDownloadURL());
           return imageRef.getDownloadURL()
         })
         .then((url) => {
-          console.log(url);
+          this.setState({ snapshotStorageUrl: url });
+          this.updateImageRef();
           return url
         })
         .then((url) => {
@@ -260,63 +267,6 @@ class Home extends Component {
         })
     })
   }
-
-  // uploadToStorage(x){  // CURRENTLY NOT IN USE (react-native-firebase)
-  //   // mediaFile = new File(x + "IMG_" + timeStamp + ".jpg");
-  //   var file = x;
-
-  //   // Create the file metadata
-  //   var metadata = {
-  //     contentType: 'image/jpeg'
-  //   };
-
-  //   // Firebase Storage Stuff
-  //   // Get a reference to the storage service, which is used to create references in your storage bucket
-  //   const storage = firebase.storage();
-
-  //   // Create a storage reference from our storage service
-  //   const storageRef = storage.ref();
-  //   const gameStorageRef = storageRef.child(`games/${this.props.gameId}`);
-
-  //   // Upload file and metadata to the object 'images/mountains.jpg'
-  //   var uploadTask = gameStorageRef.child('snapshotview/' + file.name).put(file, metadata);
-
-  //   // Listen for state changes, errors, and completion of the upload.
-  //   uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-  //     function(snapshot) {
-  //       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-  //       var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //       console.log('Upload is ' + progress + '% done');
-  //       switch (snapshot.state) {
-  //         case firebase.storage.TaskState.PAUSED: // or 'paused'
-  //           console.log('Upload is paused');
-  //           break;
-  //         case firebase.storage.TaskState.RUNNING: // or 'running'
-  //           console.log('Upload is running');
-  //           break;
-  //       }
-  //     }, function(error) {
-
-  //     // A full list of error codes is available at
-  //     // https://firebase.google.com/docs/storage/web/handle-errors
-  //     switch (error.code) {
-  //       case 'storage/unauthorized':
-  //         // User doesn't have permission to access the object
-  //         break;
-
-  //       case 'storage/canceled':
-  //         // User canceled the upload
-  //         break;
-
-  //       case 'storage/unknown':
-  //         // Unknown error occurred, inspect error.serverResponse
-  //         break;
-  //     }
-  //   }, function() {
-  //     // Upload completed successfully, now we can get the download URL
-  //     var downloadURL = uploadTask.snapshot.downloadURL;
-  //   });
-  // } // END UPLOAD TO STORAGE (NOT IN USE)
 
   sendMessage = (author, insertMessage) => {
     var newMessageKey = firebase.database().ref(`games/${this.props.gameId}/`).push().key;
@@ -376,7 +326,6 @@ class Home extends Component {
   // Update score in firebase
   updateScore = () => {
     const newSquareCount = this.calculateSquareCount(this.state.completedSquaresArray);
-    console.log("UPDATE SCORE SWQUARE COUNT: " + newSquareCount);
     const newRowCount = this.calculateRowCount(this.state.completedSquaresArray);
     this.props.gameUpdate({ prop: 'squaresCompleted', value: newSquareCount });
     this.props.gameUpdate({ prop: 'rowsCompleted', value: newRowCount });
@@ -392,12 +341,13 @@ class Home extends Component {
   }
 
   updateImageRef = () => {
+    console.log('UPDATEIMAGEREF: ' + this.state.snapshotStorageUrl);
     var updates = {};
     updates[`games/${this.props.gameId}/teams/${this.props.teamId}`] = 
       {
         teamName: this.props.teamName,
-        squaresCompleted: newSquareCount,
-        rowsCompleted: newRowCount,
+        squaresCompleted: this.props.squaresCompleted,
+        rowsCompleted: this.props.rowsCompleted,
         snapshotStorageUrl: this.state.snapshotStorageUrl,
       };
     firebase.database().ref().update(updates);    
@@ -405,7 +355,6 @@ class Home extends Component {
 
   takePhoto = (path) => {
     const index = this.state.currentIndex;
-
     // Couldn't get spread operator (...) working
     // This where the completed square is added
     let newSquares = this.state.squares.slice();
@@ -467,13 +416,14 @@ class Home extends Component {
     />
   }
 
-  getSquaresCompleted() {
-    firebase.database().ref(`games/${gameId}/teams`)
-      .on('value', snapshot => {
-        return snapshot.val();
-      }
-    );
-  }
+  // NOT IN USE
+  // getSquaresCompleted() {
+  //   firebase.database().ref(`games/${gameId}/teams`)
+  //     .on('value', snapshot => {
+  //       return snapshot.val();
+  //     }
+  //   );
+  // }
 
   render() {
     const {height, width} = Dimensions.get('window');
@@ -556,12 +506,13 @@ class Home extends Component {
           </View>
           <Button 
             onPress={() => this.takeSnapshot()} 
-          >PLEASE DON'T PUSH MEE!</Button>
+          >TAKE SNAPSHOT</Button>
           <Button 
-            onPress={() => this.uploadImage('file:///storage/emulated/0/Pictures/snapshot.png', this.props.teamName)
-            // .then(url => this.setState({ myuploadURL: url }))} 
-            .then(url => this.setState({ snapshotStorageUrl: url }))}
-          >PLEASE DON'T PUSH ME</Button>
+            onPress={() => this.uploadImage()}
+            // .then(url => this.setState({ snapshotStorageUrl: url }))}
+          >
+          UPLOAD
+          </Button>
         </View>
       } 
       </View>

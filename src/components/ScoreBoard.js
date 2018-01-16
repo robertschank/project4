@@ -96,8 +96,8 @@ class ScoreBoard extends Component {
               onPress={()=>{ this.viewSnapshot(team.teamName, team.snapshotStorageUrl) }}
             >
             <Image
-              style={{width: 50, height: 50}}
-              source={{uri: 'https://emojipedia-us.s3.amazonaws.com/thumbs/120/apple/96/spouting-whale_1f433.png'}}
+              style={{ width: 50, height: 50, borderRadius: 10 }}
+              source={{uri: team.snapshotStorageUrl}}
             />
             </TouchableOpacity>
             <View style={{flex:4, alignItems: 'flex-start'}}>
@@ -136,7 +136,7 @@ class ScoreBoard extends Component {
           onOption1={this.onOption1.bind(this)}
           option2='Dispute'
           onOption2={this.onOption2.bind(this)}
-          buttonColor='white'
+          buttonColor = {COLOR_PRIMARY_LIGHT}
         />
 				<Header headerText={'Leader Board'}/>
         <Card>
