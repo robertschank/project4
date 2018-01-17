@@ -89,7 +89,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
 
-    var teamKey = firebase.database().ref(`games/${this.props.gameId}`).push().key;
+    const teamKey = firebase.database().ref(`games/${this.props.gameId}`).push().key;
     this.props.gameUpdate({ prop: 'teamId', value: teamKey });
 
     // (Not So) Hard Coded Descriptions
@@ -179,13 +179,18 @@ class Home extends Component {
       modal: {
       }
     };
+    console.log('END CONSTRUCTOR')
+    console.log(this.props.teamId);
+    console.log(this.props.teamName);
+    const teamId = this.props.teamId;
+    this.updateScore(teamKey);
   } // End Constructor
 
   componentDidMount(){
     console.log('COMPONENT DID MOUNT');
-    console.log(this.props.gameId);
-    console.log(this.props.teamName);
-    this.updateScore();
+    // console.log(this.props.gameId);
+    // console.log(this.props.teamName);
+    // this.updateScore();
   }
 
   example = () => {}
@@ -268,27 +273,27 @@ class Home extends Component {
     })
   }
 
-  sendMessage = (author, insertMessage) => {
-    var newMessageKey = firebase.database().ref(`games/${this.props.gameId}/`).push().key;
-    var updates = {};
+  // sendMessage = (author, insertMessage) => {
+  //   var newMessageKey = firebase.database().ref(`games/${this.props.gameId}/`).push().key;
+  //   var updates = {};
 
-    const now = new Date();
-    const hours =  now.getHours();
-    let mins = now.getMinutes();
-    // if m is one digit, add a zero in front of it:
-    mins = mins < 10 ? "0" + mins : mins;
-    const time = `${hours}:${mins}`;
+  //   const now = new Date();
+  //   const hours =  now.getHours();
+  //   let mins = now.getMinutes();
+  //   // if m is one digit, add a zero in front of it:
+  //   mins = mins < 10 ? "0" + mins : mins;
+  //   const time = `${hours}:${mins}`;
 
-    updates[`games/${this.props.gameId}/` + newMessageKey] = 
-      {
-        text: insertMessage, 
-        author: author + ':',
-        time: time,
-        color: '#f6ceff',
-      };
-    firebase.database().ref().update(updates);
-    this.setState({ newMessage: '' });
-  }
+  //   updates[`games/${this.props.gameId}/` + newMessageKey] = 
+  //     {
+  //       text: insertMessage, 
+  //       author: author + ':',
+  //       time: time,
+  //       color: '#f6ceff',
+  //     };
+  //   firebase.database().ref().update(updates);
+  //   this.setState({ newMessage: '' });
+  // }
 
   calculateRowCount = (squares) => {
     let rowCount = 0;
@@ -324,13 +329,13 @@ class Home extends Component {
   }
 
   // Update score in firebase
-  updateScore = () => {
+  updateScore = (teamId = this.props.teamId) => {
     const newSquareCount = this.calculateSquareCount(this.state.completedSquaresArray);
     const newRowCount = this.calculateRowCount(this.state.completedSquaresArray);
     this.props.gameUpdate({ prop: 'squaresCompleted', value: newSquareCount });
     this.props.gameUpdate({ prop: 'rowsCompleted', value: newRowCount });
     var updates = {};
-    updates[`games/${this.props.gameId}/teams/${this.props.teamId}`] = 
+    updates[`games/${this.props.gameId}/teams/${teamId}`] = 
       {
         teamName: this.props.teamName,
         squaresCompleted: newSquareCount,
@@ -525,7 +530,6 @@ const mapStateToProps = (state) => {
     return { ...val, uid };
   });
   const { teamName, rowsCompleted, squaresCompleted, teamId, gameId, customSquares } = state.gameForm;
-  console.log('mapStateToProps: ' + squaresCompleted);
   return { messages, rowsCompleted, squaresCompleted, teamName, teamId, gameId, customSquares };
 };
 

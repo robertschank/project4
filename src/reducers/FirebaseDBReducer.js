@@ -4,7 +4,6 @@ import {
 
 const INITIAL_STATE = {
 };
-console.log('Start FirebaseDB Reducer');
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {

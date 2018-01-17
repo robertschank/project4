@@ -84,7 +84,7 @@ class ScoreBoard extends Component {
     let teamInfo = this.props.teams.map((team, index)=>{
       // let teamInfo = teamsters.map((team, index) => {
       return (
-        <View>
+        <View key={index} >
           <CardSection style={{justifyContent: 'space-between'}}>
             <View style={{alignItems: 'center'}}>
               <Text style={ styles.text }>
@@ -100,7 +100,7 @@ class ScoreBoard extends Component {
               source={{uri: team.snapshotStorageUrl}}
             />
             </TouchableOpacity>
-            <View style={{flex:4, alignItems: 'flex-start'}}>
+            <View style={{flex:3, alignItems: 'flex-start'}}>
               <Text style={ styles.text }>
                 {team.teamName}
               </Text>
@@ -153,8 +153,6 @@ const mapStateToProps = (state) => {
   const teams = _.map(state.firebaseDBItems, (val, uid) => {
     return { ...val, uid };
   });
-  console.log('scoreboard teams')
-  console.log(teams);
   return { teams, teamId, teamName, gameId };
 };
 
