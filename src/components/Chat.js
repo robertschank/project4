@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     },
     messageInput: {
         backgroundColor: COLOR_PRIMARY_LIGHT,
+        height: 60,
     },
 });
 
@@ -101,7 +102,7 @@ class Chat extends Component {
             dataSource={this.dataSource}
             renderRow={this.renderRow}
           />
-          <CardSection style={styles.messageInput} >
+          <CardSection style={styles.messageInput}>
             <Input
                 placeholder="Enter trash talk here."
                 label="Group Message"

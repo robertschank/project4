@@ -8,6 +8,7 @@ class List extends Component {
 
     return (
       <TouchableOpacity
+        key={i}
         style={styles.item}
         onPress={() => onPressItem(i)}
       >
