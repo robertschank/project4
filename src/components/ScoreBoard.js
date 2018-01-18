@@ -139,9 +139,9 @@ class ScoreBoard extends Component {
           buttonColor = {COLOR_PRIMARY_LIGHT}
         />
 				<Header headerText={'Leader Board'}/>
-        <Card>
+        <View>
           {teamInfo}
-        </Card>
+        </View>
 			</View>
 		);
 	}

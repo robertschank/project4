@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+// import { Provider } from 'react-redux';
+// import { createStore, applyMiddleware } from 'redux';
 import firebase from 'firebase';
-import ReduxThunk from 'redux-thunk';
+// import ReduxThunk from 'redux-thunk';
 
 import TabbedNavigator from './TabbedNavigator';
 import { Button, CardSection, Spinner } from './components/common';
@@ -11,7 +11,7 @@ import Game from './components/Game';
 import LoginForm from './components/LoginForm';
 import StartGame from './components/StartGame';
 import Home from './components/Home';
-import reducers from './reducers';
+// import reducers from './reducers';
 
 export default class App extends Component {
 
@@ -84,16 +84,14 @@ export default class App extends Component {
   }
 
   render() {
-    const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+    // const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     return (
-      <Provider store={store}>
-        <View style={{alignItems: 'stretch',
-                      flex: 1,
-                      backgroundColor: '#faf9ff'}}>
-          {this.renderContent()}
-        </View>
-      </Provider>
-      //<Router />
+      <View style={{alignItems: 'stretch',
+                    flex: 1,
+                    backgroundColor: '#faf9ff'}}>
+        {this.renderContent()}
+      </View>
+    //<Router />
     )
   }
 }
