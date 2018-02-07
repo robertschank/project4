@@ -179,9 +179,6 @@ class Home extends Component {
       modal: {
       }
     };
-    console.log('END CONSTRUCTOR')
-    console.log(this.props.teamId);
-    console.log(this.props.teamName);
     const teamId = this.props.teamId;
     this.updateScore(teamKey);
   } // End Constructor
@@ -272,28 +269,6 @@ class Home extends Component {
         })
     })
   }
-
-  // sendMessage = (author, insertMessage) => {
-  //   var newMessageKey = firebase.database().ref(`games/${this.props.gameId}/`).push().key;
-  //   var updates = {};
-
-  //   const now = new Date();
-  //   const hours =  now.getHours();
-  //   let mins = now.getMinutes();
-  //   // if m is one digit, add a zero in front of it:
-  //   mins = mins < 10 ? "0" + mins : mins;
-  //   const time = `${hours}:${mins}`;
-
-  //   updates[`games/${this.props.gameId}/` + newMessageKey] = 
-  //     {
-  //       text: insertMessage, 
-  //       author: author + ':',
-  //       time: time,
-  //       color: '#f6ceff',
-  //     };
-  //   firebase.database().ref().update(updates);
-  //   this.setState({ newMessage: '' });
-  // }
 
   calculateRowCount = (squares) => {
     let rowCount = 0;
@@ -512,12 +487,6 @@ class Home extends Component {
           <Button 
             onPress={() => this.takeSnapshot()} 
           >TAKE SNAPSHOT</Button>
-          <Button 
-            onPress={() => this.uploadImage()}
-            // .then(url => this.setState({ snapshotStorageUrl: url }))}
-          >
-          UPLOAD
-          </Button>
         </View>
       } 
       </View>

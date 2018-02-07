@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import App from './src/App';
+import AppProvider from './src/AppProvider';
 
-AppRegistry.registerComponent('RNCamera', () => App);
+AppRegistry.registerComponent('RNCamera', () => AppProvider);
